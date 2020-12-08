@@ -1,0 +1,51 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: rgb(80, 80, 80);
+    color: white;
+    margin: 0;
+}
+
+.panel {
+    background-color: rgb(40, 40, 40);
+}
+
+.side-panel {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+}
+
+header {
+    height: 50px;
+}
+
+#left-panel {
+    left: 0;
+}
+
+#right-panel {
+    right: 0;
+}
+
+
+#logo {
+    display: inline-block;
+    width: 200px;
+}
+
+.menu-item {
+    font-size: 35px;
+    margin-right: 20px;
+}
+
+.menu-item:hover {
+    color: red;
+}
+
+#user-panel {
+    position: fixed;
+    float: right;
+    right: 0;
+    width: 400px;
+}

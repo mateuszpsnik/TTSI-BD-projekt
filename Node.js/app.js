@@ -3,6 +3,8 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+
+/*
 const mysql = require("mysql");
 
 const connection = mysql.createConnection({ 
@@ -22,6 +24,9 @@ connection.connect((err) => {
         console.log(result[0].str);
     });
 });
+*/
+
+require("./connection");
 
 app.set("view engine", "ejs");
 

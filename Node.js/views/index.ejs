@@ -1,18 +1,29 @@
 <!DOCTYPE html>
 
+<html>
+
 <%- include("./partials/head.ejs") %>
 
 <body>
-    <header class="panel">
-        <span id="logo"><a>LOGO</a></span>
-        <span id="menu">
-            <a class="menu-item">Muzyka</a>
-            <a class="menu-item">Filmy</a>
-            <a class="menu-item">Rankingi</a>
-        </span>
-        <span id="user-panel"></span>
-    </header>
-    <div class="panel side-panel" id="left-panel"></div>
-    <div class="panel side-panel" id="right-panel"></div>
-    <footer></footer>
+    <%- include("./partials/topPanel.ejs") %> 
+    <%- include("./partials/leftPanel.ejs") %> 
+    <%- include("./partials/rightPanel.ejs") %> 
+
+    <div id="main">
+        <% if(articles.length > 0) { %>
+            <% articles.forEach(article => { %>
+                <a class="article-item" href="/articles/<%= article.id %>">
+                    <h3 class="title"><%= article.title %></h3>
+                    <p class="introduction"><%= article.introduction %> </p>
+                </a>
+            <% }) %>
+        <% } else { %>
+            <p>Nie ma artykułów</p>
+        <% } %>
+    </div>
+
+    <%- include("./partials/footer.ejs") %> 
+    
 </body>
+
+</html>

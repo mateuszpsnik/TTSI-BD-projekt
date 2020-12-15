@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html>
+
+<%- include("./partials/head.ejs") %>
+
+<body>
+    <%- include("./partials/topPanel.ejs") %> 
+    <%- include("./partials/leftPanel.ejs") %> 
+    <%- include("./partials/rightPanel.ejs") %>
+
+    <div id="main">
+        <h2><%= article.title %></h2>
+        <div class="article">
+            <p class="article-introduction"><%= article.introduction %></p>
+            <p class="article-body"><%= article.content %></p>
+        </div>
+    </div>
+
+    <%- include("./partials/footer.ejs") %> 
+
+</body>
+
+</html>

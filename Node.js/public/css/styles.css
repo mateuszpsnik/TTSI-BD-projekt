@@ -16,6 +16,13 @@ body {
     z-index: 1;
 }
 
+#main {
+    margin-left: 200px;
+    margin-right: 200px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
 header {
     height: 50px;
 }
@@ -48,4 +55,9 @@ header {
     float: right;
     right: 0;
     width: 400px;
+}
+
+.article-item {
+    color: white;
+    text-decoration: none;
 }

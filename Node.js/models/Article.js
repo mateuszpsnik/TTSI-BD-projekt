@@ -1,8 +1,9 @@
 /*jshint esversion:6*/
 
 const Sequelize = require("sequelize");
+require("../connection");
 
-module.exports = sequelize.define("Article", {
+const Article = sequelize.define("Article", {
     id: {
         type: Sequelize.INTEGER(11),
         allowNull: false,
@@ -20,3 +21,5 @@ module.exports = sequelize.define("Article", {
     content: Sequelize.TEXT,
     image: Sequelize.BLOB
 });
+
+module.exports = Article;

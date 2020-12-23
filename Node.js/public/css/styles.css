@@ -44,6 +44,8 @@ header {
 .menu-item {
     font-size: 35px;
     margin-right: 20px;
+    text-decoration: none;
+    color: white;
 }
 
 .menu-item:hover {
@@ -51,10 +53,22 @@ header {
 }
 
 #user-panel {
-    position: fixed;
     float: right;
     right: 0;
     width: 400px;
+    padding: 10px;
+}
+
+.logging-panel-item {
+    float: right;
+    margin-right: 20px;
+    text-decoration: none;
+    color: white;
+    
+}
+
+.logging-panel-item:hover {
+    color: red;
 }
 
 .article-item {

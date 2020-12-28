@@ -7,7 +7,34 @@
 <body>
     <%- include("./partials/topPanel.ejs") %> 
     
-    <h1>sign up</h1>
+    <form>
+        <h2>Zarejestruj się</h2>
+        <label for="username">Nazwa użytkownika</label>
+        <input type="text" name="username" required>
+        <div class="username error"></div>
+        <label for="email">Email</label>
+        <input type="text" name="email" required>
+        <div class="email error"></div>
+        <label for="password">Hasło</label>
+        <input type="password" name="password" required>
+        <div class="password error"></div>
+        <button>Zarejestruj się</button>
+    </form>
+
+    <script>
+        const form = document.querySelector("form");
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            // get the values
+            const username = form.username.value;
+            const email = form.email.value;
+            const password = form.password.value;
+
+            
+        });
+    </script>
 
     <%- include("./partials/footer.ejs") %> 
     

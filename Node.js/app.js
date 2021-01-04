@@ -7,8 +7,10 @@ const app = express();
 const path = require("path");
 const articlesRoutes = require("./routes/articlesRoutes");
 const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
 const Article = require("./models/Article");
 const cookieParser = require("cookie-parser");
+const { checkUser } = require("./middleware/authMiddleware");
 
 // connection with the database
 require("./connection");
@@ -21,6 +23,7 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(cookieParser());
 
+app.get("*", checkUser); // "*" means "apply to every get request"
 app.get("/", (req, res) => { 
     Article.findAll()
     .then((result) => {
@@ -34,16 +37,5 @@ app.get("/", (req, res) => {
 // routes
 app.use(authRoutes);
 app.use("/articles", articlesRoutes);
-
-//cookies
-app.get("/set-cookies", (req, res) => {
-    res.cookie("new user", false);
-
-    res.send("you got the cookies!"); 
-});
-
-app.get("/read-cookies", (req, res) => {
-    const cookies = req.cookies;
-
-    res.json(cookies);
-});
+app.use("/users", userRoutes);
+app.use("/admin", adminRoutes);

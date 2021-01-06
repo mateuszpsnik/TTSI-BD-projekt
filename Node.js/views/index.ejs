@@ -12,10 +12,17 @@
     <div id="main">
         <% if(articles.length > 0) { %>
             <% articles.forEach(article => { %>
-                <a class="article-item" href="/articles/<%= article.id %>">
-                    <h3 class="title"><%= article.title %></h3>
-                    <p class="introduction"><%= article.introduction %> </p>
-                </a>
+                <div class="article-boxes">
+                    <a class="article-item" href="/articles/<%= article.id %>">
+                        <div class="article-box">
+                            <img src="<%= article.image %>" alt="Zdjęcie artykułu" width="150px" height="150px">
+                        </div>
+                        <div class="article-box">
+                            <h3 class="title"><%= article.title %></h3>
+                            <p class="introduction"><%= article.introduction %> </p>
+                        </div>
+                    </a>
+                </div>
             <% }) %>
         <% } else { %>
             <p>Nie ma artykułów</p>

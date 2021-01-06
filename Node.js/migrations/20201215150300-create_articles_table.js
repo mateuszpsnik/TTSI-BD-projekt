@@ -21,7 +21,7 @@ module.exports = {
         allowNull: false
     },
     content: Sequelize.TEXT,
-    image: Sequelize.BLOB,
+    image: Sequelize.STRING,
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE
     });

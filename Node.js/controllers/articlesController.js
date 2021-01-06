@@ -23,7 +23,26 @@ const article_details = (req, res) => {
     });
 };
 
+const article_create = (req, res) => {
+    const { title, introduction, content } = req.body;
+    const imagePath = "images/articles/" + req.file.filename;
+    console.log(imagePath);
+
+    try {
+        const article = Article.create({ title: title, introduction: introduction, 
+            content: content, image: imagePath
+        });
+
+        res.status(201).json({ article: article.id });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(400).json({ err });
+    }
+};
+
 module.exports = {
     articles_index,
-    article_details
+    article_details,
+    article_create
 };

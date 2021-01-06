@@ -20,7 +20,7 @@ const Article = sequelize.define("Article", {
         allowNull: false
     },
     content: Sequelize.TEXT,
-    image: Sequelize.BLOB
+    image: Sequelize.STRING
 });
 
 module.exports = Article;

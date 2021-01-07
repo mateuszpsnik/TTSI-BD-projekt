@@ -11,16 +11,26 @@ namespace ServerApp.Controllers
 {
     public class HomeController : Controller
     {
+        private DataContext context;
+
         private readonly ILogger<HomeController> _logger;
 
+        public HomeController(DataContext ctx)
+        {
+            context = ctx;
+        }
+
+        /*
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
+         */
+
 
         public IActionResult Index()
         {
-            return View("Placeholder");
+            return View(context.Albums.First());
         }
 
         public IActionResult Privacy()

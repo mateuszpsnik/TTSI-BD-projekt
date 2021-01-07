@@ -50,8 +50,7 @@ const User = sequelize.define("User", {
             user.password = await bcrypt.hash(user.password, salt);
         }
     }
-}
-);
+});
 
 // static method to login user
 User.login = async (email, password) => {

@@ -1,5 +1,8 @@
-<% if (user) { %>
-    Witaj ponownie, <%= user[0].username %>
+<% if (admin) { %>
+    Witaj ponownie, administratorze
+    <a href="/admin/logout" class="logging-panel-item">Wyloguj się</a>
+<% } else if (user) { %>
+    Witaj ponownie, <%= user.username %>
     <a href="/logout" class="logging-panel-item">Wyloguj się</a>
 <% } else { %>
     <a href="/signup" class="logging-panel-item">Zarejestruj się</a>

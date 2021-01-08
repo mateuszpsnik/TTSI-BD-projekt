@@ -20,6 +20,7 @@ const upload = multer({ storage: storage });
 router.get("/", articlesController.articles_index);
 
 router.post("/create", upload.single("image"), articlesController.article_create);
+router.delete("/:id", articlesController.article_delete);
 
 router.get("/:id", articlesController.article_details);
 

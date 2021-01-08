@@ -55,25 +55,30 @@ header {
 #user-panel {
     float: right;
     right: 0;
-    width: 400px;
+    width: 250px;
     padding: 10px;
 }
 
-.logging-panel-item {
-    float: right;
-    margin-right: 20px;
+a {
     text-decoration: none;
     color: white;
-    
 }
 
-.logging-panel-item:hover {
+a:hover {
     color: red;
+}
+
+.logging-panel-item {
+    margin-right: 20px; 
 }
 
 .article-item {
     color: white;
     text-decoration: none;
+}
+
+.article-item:hover {
+    color: white;
 }
 
 form {
@@ -109,6 +114,15 @@ button {
     font-size: 1.5em;
 }
 
+.submit {
+    margin: 20px;
+    margin-left: 0;
+    background-color: white;
+    color: black;
+    border: 0;
+    font-size: 1.5em;
+}
+
 .article-boxes {
     content: "";
     display: table;
@@ -118,4 +132,8 @@ button {
 .article-box {
     float: left;
     margin: 20px;
+}
+
+#edit-delete {
+    margin: 50px;
 }

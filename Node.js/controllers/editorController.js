@@ -3,7 +3,7 @@
 const Article = require("../models/Article");
 
 const editor_index = (req, res) => {
-    res.render("editor", { title: "Panel redaktorski" });
+    res.render("editor/index", { title: "Panel redaktorski" });
 };
 
 module.exports = {

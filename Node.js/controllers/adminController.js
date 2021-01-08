@@ -1,7 +1,9 @@
 /*jshint esversion: 8*/
 
 const Admin = require("../models/Admin");
+const Article = require("../models/Article");
 const jwt = require("jsonwebtoken");
+const fs = require("fs");
 
 const handleErrors = (err) => {
     if (err.message === "incorrect password") {
@@ -22,7 +24,59 @@ const createToken = (id) => {
 };
 
 module.exports.admin_index = (req, res) => {
-    res.render("adminIndex", { title: "Panel administracyjny" });
+    res.render("admin/index", { title: "Panel administracyjny" });
+};
+
+module.exports.articles_index = (req, res) => {
+    Article.findAll()
+    .then((result) => {
+        res.render("admin/articlesIndex", { title: "Wszystkie artykuły", articles: result });
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+};
+
+module.exports.articles_edit = (req, res) => {
+    const id = req.params.id;
+    Article.findAll({ where: { id: id } })
+    .then(result => {
+        res.render("admin/articlesEdit", { title: result[0].title, article: result[0] });
+    })
+    .catch(err => {
+        console.log(err);
+    });
+};
+
+module.exports.article_update = async (req, res) => {
+    const { id, title, introduction, content } = req.body;
+    const imagePath = "/images/articles/" + req.file.filename;
+    console.log(imagePath);
+
+    const articles = await Article.findAll({ where: { id: id }});
+        const articleToBeUpdated = articles[0];
+        fs.unlinkSync("public" + articleToBeUpdated.image, (err) => {
+            if (err) {
+                throw Error(err);
+            }
+        });
+
+    try {
+
+        const article = Article.update({ 
+            title: title,
+            introduction: introduction,
+            content: content,
+            image: imagePath
+        }, {
+            where: { id: id }
+        });
+        res.status(201).json({ article: article.id });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(400).json({ err });
+    }
 };
 
 module.exports.signup_post = async (req, res) => {
@@ -41,11 +95,11 @@ module.exports.signup_post = async (req, res) => {
 };
 
 module.exports.signup_get = (req, res) => {
-    res.render("adminSignup", { title: "Zarejestruj admina" });
+    res.render("admin/signup", { title: "Zarejestruj admina" });
 };
 
 module.exports.login_get = (req, res) => {
-    res.render("adminLogin", { title: "Zaloguj się"});
+    res.render("admin/login", { title: "Zaloguj się"});
 };
 
 module.exports.login_post = async (req, res) => {

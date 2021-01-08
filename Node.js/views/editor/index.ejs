@@ -2,12 +2,12 @@
 
 <html>
 
-<%- include("./partials/head.ejs") %>
+<%- include("../partials/head.ejs") %>
 
 <body>
-    <%- include("./partials/topPanel.ejs") %> 
-    <%- include("./partials/leftPanel.ejs") %> 
-    <%- include("./partials/rightPanel.ejs") %> 
+    <%- include("../partials/topPanel.ejs") %> 
+    <%- include("../partials/leftPanel.ejs") %> 
+    <%- include("../partials/rightPanel.ejs") %> 
 
     <form id="myForm" name="myForm" enctype="multipart/form-data">
         <label for="title">Tytuł</label>
@@ -18,7 +18,7 @@
         <input type="text" name="content" id="content" required>
         <label for="image">Zdjęcie</label>
         <input type="file" accept="image/*" name="image" required>
-        <input type="submit" value="Wyślij">
+        <input type="submit" value="Wyślij" class="submit">
     </form>
 
     <script>
@@ -50,7 +50,7 @@
 
     </script>
 
-    <%- include("./partials/footer.ejs") %> 
+    <%- include("../partials/footer.ejs") %> 
     
 </body>
 

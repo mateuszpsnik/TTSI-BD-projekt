@@ -25,7 +25,7 @@ const article_details = (req, res) => {
 
 const article_create = (req, res) => {
     const { title, introduction, content } = req.body;
-    const imagePath = "images/articles/" + req.file.filename;
+    const imagePath = "/images/articles/" + req.file.filename;
     console.log(imagePath);
 
     try {
@@ -41,8 +41,21 @@ const article_create = (req, res) => {
     }
 };
 
+const article_delete = (req, res) => {
+    const id = req.params.id;
+
+    Article.destroy({ 
+        where: { id: id }
+    })
+    .then(result => {
+        res.json({ redirect: "/articles" });
+    })
+    .catch(err => { console.log(err); });
+};
+
 module.exports = {
     articles_index,
     article_details,
-    article_create
+    article_create,
+    article_delete
 };

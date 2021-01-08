@@ -6,7 +6,7 @@ module.exports.user_details = (req, res) => {
     const id = req.params.id;
     User.findAll({ where: { id: id } })
     .then(result => {
-        res.render("user", { title: result[0].title, user: result[0] });
+        res.render("user/details", { title: result[0].title, user: result[0] });
     })
     .catch(err => {
         console.log(err);

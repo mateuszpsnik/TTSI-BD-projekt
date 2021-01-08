@@ -2,16 +2,15 @@
 
 <html>
 
-<%- include("./partials/head.ejs") %>
+<%- include("../partials/head.ejs") %>
 
 <body>
-    <%- include("./partials/topPanel.ejs") %> 
     
     <form>
-        <h2>Zaloguj się</h2>
+        <label for="password">Hasło</label>
         <input type="password" name="password" required>
         <div class="password error"></div>
-        <button>Zaloguj się</button>
+        <button>Zarejestruj się</button>
     </form>
 
     <script>
@@ -27,8 +26,9 @@
             // get the values
             const password = form.password.value;
 
+
             try {
-                const res = await fetch("login", {
+                const res = await fetch("signup", {
                     method: "POST",
                     body: JSON.stringify({ password }),
                     headers: { "Content-Type": "application/json" }
@@ -36,8 +36,8 @@
                 const data = await res.json();
                 console.log(data);
 
-                if (data.errors) {
-                    passwordError.textContent = data.errors;
+                if (data.error) {
+                    passwordError.textContent = data.error;
                 }
                 else {
                     location.assign("/admin");
@@ -49,7 +49,7 @@
         });
     </script>
 
-    <%- include("./partials/footer.ejs") %> 
+    <%- include("../partials/footer.ejs") %> 
     
 </body>
 

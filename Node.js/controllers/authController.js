@@ -4,7 +4,7 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
 // handle errors
-const handleErrors = (err) => {
+module.exports.handleErrors = (err) => {
     let errors = { username: "", email: "", password: "" }; 
 
     // incorrect email

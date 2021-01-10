@@ -1,6 +1,7 @@
 /*jshint esversion: 8*/
 
 const Article = require("../models/Article");
+const fs = require("fs");
 
 const articles_index = (req, res) => {
     Article.findAll()
@@ -41,6 +42,37 @@ const article_create = (req, res) => {
     }
 };
 
+article_update = async (req, res) => {
+    const { id, title, introduction, content } = req.body;
+    const imagePath = "/images/articles/" + req.file.filename;
+    console.log(imagePath);
+
+    const articles = await Article.findAll({ where: { id: id }});
+        const articleToBeUpdated = articles[0];
+        fs.unlinkSync("public" + articleToBeUpdated.image, (err) => {
+            if (err) {
+                throw Error(err);
+            }
+        });
+
+    try {
+
+        const article = Article.update({ 
+            title: title,
+            introduction: introduction,
+            content: content,
+            image: imagePath
+        }, {
+            where: { id: id }
+        });
+        res.status(201).json({ article: article.id });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(400).json({ err });
+    }
+};
+
 const article_delete = (req, res) => {
     const id = req.params.id;
 
@@ -57,5 +89,6 @@ module.exports = {
     articles_index,
     article_details,
     article_create,
+    article_update,
     article_delete
 };

@@ -1,6 +1,9 @@
 <% if (admin) { %>
     Witaj ponownie, administratorze
     <a href="/admin/logout" class="logging-panel-item">Wyloguj się</a>
+<% } else if (editor) { %>
+    Witaj ponownie, <%= editor.name %>
+    <a href="/editor/logout" class="logging-panel-item">Wyloguj się</a>
 <% } else if (user) { %>
     Witaj ponownie, <%= user.username %>
     <a href="/logout" class="logging-panel-item">Wyloguj się</a>

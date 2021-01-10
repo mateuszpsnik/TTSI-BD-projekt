@@ -2,7 +2,6 @@
 
 const { Router } = require ("express");
 const adminController = require("../controllers/adminController");
-const { requireAuth } = require("../middleware/authMiddleware");
 const router = Router();
 const { requireAdminAuth } = require("../middleware/authMiddleware");
 const multer = require("multer");
@@ -22,7 +21,6 @@ router.get("/", requireAdminAuth, adminController.admin_index);
 
 router.get("/articles", requireAdminAuth, adminController.articles_index);
 router.get("/articles/:id", requireAdminAuth, adminController.articles_edit);
-router.put("/articles/:id", requireAdminAuth, upload.single("image"), adminController.article_update);
 
 router.get("/signup", adminController.signup_get);
 router.post("/signup", adminController.signup_post);

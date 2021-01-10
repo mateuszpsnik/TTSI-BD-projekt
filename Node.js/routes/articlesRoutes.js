@@ -3,6 +3,8 @@
 const express = require("express");
 const router = express.Router();
 const articlesController = require("../controllers/articlesController");
+const { requireAdminAuth, requireAdminOrEditorAuth, requireEditorAuth } 
+    = require("../middleware/authMiddleware");
 const multer = require("multer");
 const path = require("path");
 
@@ -19,8 +21,9 @@ const upload = multer({ storage: storage });
 
 router.get("/", articlesController.articles_index);
 
-router.post("/create", upload.single("image"), articlesController.article_create);
-router.delete("/:id", articlesController.article_delete);
+router.post("/create", requireEditorAuth, upload.single("image"), articlesController.article_create);
+router.put("/:id", requireAdminOrEditorAuth, upload.single("image"), articlesController.article_update);
+router.delete("/:id", requireAdminAuth, articlesController.article_delete);
 
 router.get("/:id", articlesController.article_details);
 

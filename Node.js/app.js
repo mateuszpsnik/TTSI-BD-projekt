@@ -12,7 +12,7 @@ const adminRoutes = require("./routes/adminRoutes");
 const editorRoutes = require("./routes/editorRoutes");
 const Article = require("./models/Article");
 const cookieParser = require("cookie-parser");
-const { checkUser, checkAdmin } = require("./middleware/authMiddleware");
+const { checkUser, checkAdmin, checkEditor } = require("./middleware/authMiddleware");
 
 // connection with the database
 require("./connection");
@@ -26,6 +26,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.get("*", checkUser); // "*" means "apply to every get request"
+app.get("*", checkEditor);
 app.get("*", checkAdmin);
 app.get("/", (req, res) => { 
     Article.findAll()

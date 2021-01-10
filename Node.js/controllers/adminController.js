@@ -3,7 +3,6 @@
 const Admin = require("../models/Admin");
 const Article = require("../models/Article");
 const jwt = require("jsonwebtoken");
-const fs = require("fs");
 
 const handleErrors = (err) => {
     if (err.message === "incorrect password") {
@@ -46,37 +45,6 @@ module.exports.articles_edit = (req, res) => {
     .catch(err => {
         console.log(err);
     });
-};
-
-module.exports.article_update = async (req, res) => {
-    const { id, title, introduction, content } = req.body;
-    const imagePath = "/images/articles/" + req.file.filename;
-    console.log(imagePath);
-
-    const articles = await Article.findAll({ where: { id: id }});
-        const articleToBeUpdated = articles[0];
-        fs.unlinkSync("public" + articleToBeUpdated.image, (err) => {
-            if (err) {
-                throw Error(err);
-            }
-        });
-
-    try {
-
-        const article = Article.update({ 
-            title: title,
-            introduction: introduction,
-            content: content,
-            image: imagePath
-        }, {
-            where: { id: id }
-        });
-        res.status(201).json({ article: article.id });
-    }
-    catch (err) {
-        console.log(err);
-        res.status(400).json({ err });
-    }
 };
 
 module.exports.signup_post = async (req, res) => {

@@ -4,32 +4,26 @@ const Sequelize = require("sequelize");
 const sequelize = require("../connection");
 const Editor = require("./Editor");
 
-const Article = sequelize.define("Article", {
+const MovieReview = sequelize.define("MovieReview", {
     id: {
         type: Sequelize.INTEGER(11),
         allowNull: false,
         autoIncrement: true,
         primaryKey: true
     },
-    category: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    title: {
-        type: Sequelize.STRING(50),
-        allowNull: false,
-        unique: true
-    },
+    movieId: Sequelize.INTEGER(11),
     introduction: {
         type: Sequelize.TEXT,
         allowNull: false
     },
     content: Sequelize.TEXT,
-    image: Sequelize.STRING,
+    points: Sequelize.INTEGER,
     editorId: Sequelize.INTEGER(11)
 });
 
-Editor.hasMany(Article, { foreignKey: "editorId" });
-Article.belongsTo(Editor, { foreignKey: "editorId" });
+Editor.hasMany(MovieReview, { foreignKey: "editorId" });
+MovieReview.belongsTo(Editor, { foreignKey: "editorId" });
+Movie.hasMany(MovieReview, { foreignKey: "movieId" });
+MovieReview.belongsTo(Movie, { foreignKey: "movieId" });
 
-module.exports = Article;
+module.exports = MovieReview;

@@ -4,7 +4,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    queryInterface.createTable("users", {
+    await queryInterface.createTable("users", {
       id: {
         type: Sequelize.INTEGER(11),
         allowNull: false,
@@ -41,13 +41,13 @@ module.exports = {
             } 
         }
     },
-    image: Sequelize.BLOB,
+    image: Sequelize.STRING,
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    queryInterface.dropTable("users");
+    await queryInterface.dropTable("users");
   }
 };

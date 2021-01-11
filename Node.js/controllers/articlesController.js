@@ -25,13 +25,13 @@ const article_details = (req, res) => {
 };
 
 const article_create = (req, res) => {
-    const { title, introduction, content } = req.body;
+    const { title, introduction, content, editorId } = req.body;
     const imagePath = "/images/articles/" + req.file.filename;
     console.log(imagePath);
 
     try {
         const article = Article.create({ title: title, introduction: introduction, 
-            content: content, image: imagePath
+            content: content, image: imagePath, editorId: editorId
         });
 
         res.status(201).json({ article: article.id });

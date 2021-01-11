@@ -4,15 +4,17 @@ const Sequelize = require("sequelize");
 require("../connection");
 const { len, isEmail, notEmpty } = require("validator");
 const bcrypt = require("bcrypt");
+const sequelize = require("../connection");
+const Article = require("./Article");
 
-const User = sequelize.define("User", {
+const Editor = sequelize.define("Editor", {
     id: {
         type: Sequelize.INTEGER(11),
         allowNull: false,
         autoIncrement: true,
         primaryKey: true
     },
-    username: {
+    name: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
@@ -45,32 +47,30 @@ const User = sequelize.define("User", {
     image: Sequelize.STRING
 }, {
     hooks: {
-        afterValidate: async (user, options) => {
+        afterValidate: async (editor, options) => {
             const salt = await bcrypt.genSalt();
-            user.password = await bcrypt.hash(user.password, salt);
+            editor.password = await bcrypt.hash(editor.password, salt);
         }
     }
 });
 
-// static method to login user
-User.login = async (email, password) => {
-    const user = await User.findAll({ 
+Editor.login = async (email, password) => {
+    const editorsEmail = await Editor.findAll({
         where: {
             email: email
         }
     });
 
-    if (user[0]) {
-        const auth = await bcrypt.compare(password, user[0].password);
+    const editor = editorsEmail[0];
 
-        if (auth) {
-            return user[0];
-        }
-
+    if (editor) {
+        const auth = await bcrypt.compare(password, editor.password);
+        if (auth)
+            return editor;
+        
         throw Error("incorrect password");
     }
-
     throw Error("incorrect email");
 };
 
-module.exports = User;
+module.exports = Editor;

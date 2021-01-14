@@ -25,12 +25,14 @@ const article_details = (req, res) => {
 };
 
 const article_create = (req, res) => {
-    const { title, introduction, content, editorId } = req.body;
+    console.log(req.body);
+    const { musicMovieRadio, title, introduction, content, editorId } = req.body;
     const imagePath = "/images/articles/" + req.file.filename;
     console.log(imagePath);
 
     try {
-        const article = Article.create({ title: title, introduction: introduction, 
+        const article = Article.create({ category: musicMovieRadio,
+            title: title, introduction: introduction, 
             content: content, image: imagePath, editorId: editorId
         });
 
@@ -43,28 +45,47 @@ const article_create = (req, res) => {
 };
 
 article_update = async (req, res) => {
-    const { id, title, introduction, content } = req.body;
-    const imagePath = "/images/articles/" + req.file.filename;
-    console.log(imagePath);
+    const { id, musicMovieRadio, title, introduction, content } = req.body;
 
     const articles = await Article.findAll({ where: { id: id }});
-        const articleToBeUpdated = articles[0];
+    const articleToBeUpdated = articles[0];
+
+    console.log(req.file);
+
+    const imagePath = "/images/articles/" + req.file.filename;
+    if (req.file) {
+        console.log(imagePath);
         fs.unlinkSync("public" + articleToBeUpdated.image, (err) => {
             if (err) {
                 throw Error(err);
             }
         });
+    }
+    
 
     try {
-
-        const article = Article.update({ 
-            title: title,
-            introduction: introduction,
-            content: content,
-            image: imagePath
-        }, {
-            where: { id: id }
-        });
+        let article;
+        if (req.file) {
+            article = Article.update({ 
+                category: musicMovieRadio,
+                title: title,
+                introduction: introduction,
+                content: content,
+                image: imagePath
+            }, {
+                where: { id: id }
+            });
+        } else {
+            article = Article.update({ 
+                category: musicMovieRadio,
+                title: title,
+                introduction: introduction,
+                content: content
+            }, {
+                where: { id: id }
+            });
+        }
+        
         res.status(201).json({ article: article.id });
     }
     catch (err) {
@@ -80,7 +101,7 @@ const article_delete = (req, res) => {
         where: { id: id }
     })
     .then(result => {
-        res.json({ redirect: "/articles" });
+        res.json({ redirect: "/admin/articles" });
     })
     .catch(err => { console.log(err); });
 };

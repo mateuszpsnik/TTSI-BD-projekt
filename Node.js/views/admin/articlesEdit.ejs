@@ -13,8 +13,14 @@
             <input type="text" name="introduction" id="introduction" required>
             <label for="content">Treść</label>
             <input type="text" name="content" id="content" required>
+            <label for="radioMusic">Muzyka</label>
+            <input type="radio" name="musicMovieRadio" id="radioMusic" value="music">
+            <label for="radioMovies">Filmy</label>
+            <input type="radio" name="musicMovieRadio" id="radioMovies" value="movies">
+            <label for="checkbox">Czy chcesz zmienić zdjęcie?</label>
+            <input type="checkbox" name="checkbox" id="checkbox">
             <label for="image">Zdjęcie</label>
-            <input type="file" accept="image/*" name="image" id="image" required>
+            <input type="file" accept="image/*" name="image" id="image">
             <input type="submit" value="Wyślij" class="submit">
         </form>
     
@@ -23,7 +29,23 @@
             const title = document.querySelector("#title");
             const introduction = document.querySelector("#introduction");
             const content = document.querySelector("#content");
+            const radioMusic = document.querySelector("#radioMusic");
+            const radioMovies = document.querySelector("#radioMovies");
+            const checkbox = document.querySelector("#checkbox");
             const image = document.querySelector("#image");
+
+            if (checkbox.checked) {
+                image.required = true;
+            }
+
+            if ("<%= article.category %>" == "music") {
+                radioMusic.checked = true;
+            }
+
+            if ("<%= article.category %>" == "movies") {
+                radioMovies.checked = true;
+            }
+
 
             title.value = "<%= article.title %>";
             introduction.value = "<%= article.introduction %>";
@@ -50,7 +72,7 @@
                     const data = await response.json();
                     console.log(data);
                     
-                    //location.assign("/admin/articles");
+                    location.assign("/admin/articles");
                 }
                 catch (err) {
                     console.log(err);

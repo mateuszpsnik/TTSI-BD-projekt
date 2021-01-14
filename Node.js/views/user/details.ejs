@@ -6,12 +6,19 @@
 
 <body>
     <%- include("../partials/topPanel.ejs") %> 
-    <%- include("../partials/leftPanel.ejs") %> 
-    <%- include("../partials/rightPanel.ejs") %>
 
     <div id="main">
-        <h2><%= user.username %></h2>
-        
+        <div class="boxes">
+            <div class="box">
+                <img src="<%= user.image %>" alt="Zdjęcie profilowe użytkownika" width="200">
+            </div>
+            <div class="box">
+                <h4>Nazwa użytkownika:</h4>
+                <h1><%= user.username %></h1>
+            </div>
+        </div>
+        <div class="box">oceny</div>
+        <div class="box">Recenzje</div>
     </div>
 
     <%- include("../partials/footer.ejs") %> 

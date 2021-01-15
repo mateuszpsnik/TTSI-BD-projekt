@@ -26,6 +26,7 @@ module.exports = {
       },
       year: Sequelize.INTEGER,
       cover: Sequelize.STRING,
+      accepted: Sequelize.BOOLEAN,
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE
     });

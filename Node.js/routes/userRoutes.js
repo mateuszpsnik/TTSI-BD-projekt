@@ -20,6 +20,11 @@ const upload = multer({ storage: storage });
 
 router.get("/edit", requireUserAuth, userController.user_edit);
 router.put("/edit", requireUserAuth, upload.single("image"), userController.user_update);
+
+router.get("/delete", requireUserAuth, userController.user_get_delete);
+
+
 router.get("/:id", userController.user_details);
+router.delete("/:id", requireUserAuth, userController.user_delete);
 
 module.exports = router;

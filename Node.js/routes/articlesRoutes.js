@@ -22,9 +22,9 @@ const upload = multer({ storage: storage });
 router.get("/", articlesController.articles_index);
 
 router.post("/create", requireEditorAuth, upload.single("image"), articlesController.article_create);
-router.put("/:id", requireAdminOrEditorAuth, upload.single("image"), articlesController.article_update);
-router.delete("/:id", requireAdminAuth, articlesController.article_delete);
 
 router.get("/:id", articlesController.article_details);
+router.put("/:id", requireAdminOrEditorAuth, upload.single("image"), articlesController.article_update);
+router.delete("/:id", requireAdminAuth, articlesController.article_delete);
 
 module.exports = router;

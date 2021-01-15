@@ -19,6 +19,11 @@ const upload = multer({ storage: storage });
 
 router.get("/", requireAdminAuth, adminController.admin_index);
 
+router.get("/users", requireAdminAuth, adminController.admin_users);
+
+router.get("/albums", requireAdminAuth, adminController.albums_index);
+router.get("/albums/:id", requireAdminAuth, adminController.album_edit);
+
 router.get("/articles", requireAdminAuth, adminController.articles_index);
 router.get("/articles/:id", requireAdminAuth, adminController.articles_edit);
 

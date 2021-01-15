@@ -24,7 +24,8 @@ const Movie = sequelize.define("Movie", {
         allowNull: false
     },
     year: Sequelize.INTEGER,
-    poster: Sequelize.STRING
+    poster: Sequelize.STRING,
+    accepted: Sequelize.BOOLEAN
 });
 
 module.exports = Movie;

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <%- include("../partials/head.ejs") %>
+    <body>
+        <%- include("../partials/adminTopPanel.ejs") %> 
+
+        <div id="main">
+            <% if(users.length > 0) { %>
+                <% users.forEach(user => { %>
+                    <div class="boxes">
+                            <div class="box">
+                                <a class="item" href="/users/<%= user.id %>">
+                                    <img src="<%= user.image %>" alt="Zdjęcie artykułu" width="150px" height="150px">
+                                </a>
+                            </div>
+                            <div class="box">
+                                <h3 class="title"><%= user.username %></h3>
+                            </div>
+                            <div class="box" id="edit-delete">                                
+                                <a href="#" data-doc="<%= user.id %>" class="delete">Usuń</a></li>                               
+                            </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>Nie ma użytkowników</p>
+            <% } %>
+        </div>
+
+        <script>
+            const deleteAnchor = document.querySelector("a.delete");
+
+            deleteAnchor.addEventListener("click", (e) => {
+                e.preventDefault();
+                const endpoint = `/users/${deleteAnchor.dataset.doc}/`;
+                console.log(endpoint);
+
+                fetch(endpoint, {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ admin: true })
+                })
+                .then((response) => response.json())
+                .then((data) => window.location.href = data.redirect)
+                .catch(err => console.log(err));
+            });
+        </script>
+    </body>
+</html>

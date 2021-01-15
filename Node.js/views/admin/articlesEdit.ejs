@@ -17,8 +17,6 @@
             <input type="radio" name="musicMovieRadio" id="radioMusic" value="music">
             <label for="radioMovies">Filmy</label>
             <input type="radio" name="musicMovieRadio" id="radioMovies" value="movies">
-            <label for="checkbox">Czy chcesz zmienić zdjęcie?</label>
-            <input type="checkbox" name="checkbox" id="checkbox">
             <label for="image">Zdjęcie</label>
             <input type="file" accept="image/*" name="image" id="image">
             <input type="submit" value="Wyślij" class="submit">
@@ -34,10 +32,7 @@
             const checkbox = document.querySelector("#checkbox");
             const image = document.querySelector("#image");
 
-            if (checkbox.checked) {
-                image.required = true;
-            }
-
+            
             if ("<%= article.category %>" == "music") {
                 radioMusic.checked = true;
             }
@@ -45,7 +40,6 @@
             if ("<%= article.category %>" == "movies") {
                 radioMovies.checked = true;
             }
-
 
             title.value = "<%= article.title %>";
             introduction.value = "<%= article.introduction %>";

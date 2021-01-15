@@ -24,7 +24,8 @@ const Album = sequelize.define("Album", {
         allowNull: false
     },
     year: Sequelize.INTEGER,
-    cover: Sequelize.STRING
+    cover: Sequelize.STRING,
+    accepted: Sequelize.BOOLEAN
 });
 
 module.exports = Album;

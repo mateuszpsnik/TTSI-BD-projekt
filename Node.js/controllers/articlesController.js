@@ -52,8 +52,9 @@ article_update = async (req, res) => {
 
     console.log(req.file);
 
-    const imagePath = "/images/articles/" + req.file.filename;
+    let imagePath; 
     if (req.file) {
+        imagePath = "/images/articles/" + req.file.filename;
         console.log(imagePath);
         fs.unlinkSync("public" + articleToBeUpdated.image, (err) => {
             if (err) {
@@ -66,6 +67,7 @@ article_update = async (req, res) => {
     try {
         let article;
         if (req.file) {
+            imagePath = "/images/articles/" + req.file.filename;
             article = Article.update({ 
                 category: musicMovieRadio,
                 title: title,

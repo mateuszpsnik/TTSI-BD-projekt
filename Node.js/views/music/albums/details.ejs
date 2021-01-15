@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html>
+
+<%- include("../../partials/head.ejs") %>
+
+<body>
+    <%- include("../../partials/topPanel.ejs") %> 
+
+    <div id="main">
+        <div class="boxes">
+            <div class="box">
+                <img src="<%= album.cover %>" alt="Zdjęcie profilowe użytkownika" width="300">
+            </div>
+            <div class="box">
+                <h1><%= album.title %></h1>
+                <h2><%= album.artist %></h2>
+                <h4><%= album.genre %></h4>
+                <h4><%= album.year %></h4>
+            </div>
+        </div>
+        <div class="box">
+            Oceń<br>
+            Recenzje
+        </div>
+    </div>
+
+    <%- include("../../partials/footer.ejs") %> 
+
+</body>
+
+</html>

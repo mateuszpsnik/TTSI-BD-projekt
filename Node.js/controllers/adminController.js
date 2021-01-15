@@ -2,7 +2,9 @@
 
 const Admin = require("../models/Admin");
 const Article = require("../models/Article");
+const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+const Album = require("../models/Album");
 
 const handleErrors = (err) => {
     if (err.message === "incorrect password") {
@@ -26,8 +28,35 @@ module.exports.admin_index = (req, res) => {
     res.render("admin/index", { title: "Panel administracyjny" });
 };
 
-module.exports.articles_index = (req, res) => {
-    Article.findAll()
+module.exports.admin_users = async (req, res) => {
+    await User.findAll()
+    .then((result) => {
+        res.render("admin/usersIndex", { title: "Użytkownicy", users: result });
+    })
+    .catch(err => {
+        console.log(err);
+    });
+};
+
+module.exports.albums_index = async (req, res) => {
+    await Album.findAll()
+    .then((result) => {
+        res.render("admin/albumsIndex", { title: "Albumy", albums: result });
+    })
+    .catch(err => console.log(err));
+};
+
+module.exports.album_edit = async (req, res) => {
+    const id = req.params.id;
+    await Album.findAll({ where: { id: id } })
+    .then(result => {
+        res.render("admin/albumEdit", { title: "Edytuj album", album: result[0] });
+    })
+    .catch(err => console.log(err));
+};
+
+module.exports.articles_index = async (req, res) => {
+    await Article.findAll()
     .then((result) => {
         res.render("admin/articlesIndex", { title: "Wszystkie artykuły", articles: result });
     })
@@ -36,9 +65,9 @@ module.exports.articles_index = (req, res) => {
     });
 };
 
-module.exports.articles_edit = (req, res) => {
+module.exports.articles_edit = async (req, res) => {
     const id = req.params.id;
-    Article.findAll({ where: { id: id } })
+    await Article.findAll({ where: { id: id } })
     .then(result => {
         res.render("admin/articlesEdit", { title: result[0].title, article: result[0] });
     })

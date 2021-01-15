@@ -91,8 +91,49 @@ const user_update = async (req, res) => {
     }
 };
 
+const user_get_delete = async (req, res) => {
+    res.render("user/delete", { title: "Usuń konto" });
+};
+
+const user_delete = async (req, res) => {
+    const { id } = req.params;
+    const { admin, password } = req.body;
+
+    const users = await User.findAll({ where: { id: id } });
+
+    try {
+        if (!admin) {
+            const auth = await bcrypt.compare(password, users[0].password);
+
+            if (!auth) {
+                throw Error("incorrect password");
+            }
+        }
+        
+        await User.destroy({
+            where: { id: id }
+        });
+
+        if (admin) {
+            res.status(200).json({ redirect: "/admin/users" });
+        }
+        else {
+            res.status(200).json({ redirect: "/" });
+        }  
+    }
+    catch (err) {
+        console.log(err);
+        res.status(400).json({ err });
+    }
+    
+
+
+};
+
 module.exports = {
     user_details,
     user_edit,
-    user_update
+    user_update,
+    user_get_delete,
+    user_delete
 };

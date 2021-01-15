@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <%- include("../partials/head.ejs") %>
+    <body>
+        <%- include("../partials/adminTopPanel.ejs") %> 
+
+        <div id="main">
+            <% if(albums.length > 0) { %>
+                <% albums.forEach(album => { %>
+                    <div class="boxes">
+                            <div class="box">
+                                <a class="item" href="/music/albums/<%= album.id %>">
+                                    <img src="<%= album.cover %>" alt="Zdjęcie artykułu" width="150px" height="150px">
+                                </a>
+                            </div>
+                            <div class="box">
+                                <h2 class="title"><%= album.title %></h2>
+                                <h3><%= album.artist%></h3>
+                                <h4>zaakceptowany: 
+                                    <% if (album.accepted) { %>
+                                        tak
+                                    <% } else { %>
+                                        nie
+                                    <% } %>
+                                </h4>
+                            </div>
+                            <div class="box" id="edit-delete">
+                                <a href="#" data-doc="<%= album.id %>" class="accept">Akceptuj</a>
+                                <a href="albums/<%= album.id %>">Edytuj</a></li>                                        
+                                <a href="#" data-doc="<%= album.id %>" class="delete">Usuń</a></li>                               
+                            </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>Nie ma użytkowników</p>
+            <% } %>
+        </div>
+
+        <script>
+            const deleteAnchor = document.querySelector("a.delete");
+            const acceptAnchor = document.querySelector("a.accept");
+
+            acceptAnchor.addEventListener("click", (e) => {
+                e.preventDefault();
+                const endpoint = `/music/albums/${acceptAnchor.dataset.doc}`;
+                console.log(endpoint);
+
+                fetch(endpoint, { 
+                    method: "PATCH"
+                })
+                .then((response) => response.json())
+                .then((data) => window.location.href = data.redirect)
+                .catch(err => console.log(err));
+            });
+
+            deleteAnchor.addEventListener("click", (e) => {
+                e.preventDefault();
+                const endpoint = `/music/albums/${deleteAnchor.dataset.doc}/`;
+                console.log(endpoint);
+
+                fetch(endpoint, {
+                    method: "DELETE"
+                })
+                .then((response) => response.json())
+                .then((data) => window.location.href = data.redirect)
+                .catch(err => console.log(err));
+            });
+        </script>
+    </body>
+</html>

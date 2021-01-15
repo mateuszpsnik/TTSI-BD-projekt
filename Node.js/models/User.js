@@ -42,7 +42,7 @@ const User = sequelize.define("User", {
             } 
         }
     },
-    image: Sequelize.BLOB
+    image: Sequelize.STRING
 }, {
     hooks: {
         afterValidate: async (user, options) => {

@@ -3,16 +3,123 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const Admin = require("../models/Admin");
+const Editor = require("../models/Editor");
 
-const requireAuth = (req, res, next) => {
+const requireUserAuth = (req, res, next) => {
     const token = req.cookies.jwt;
-    const tokenAdmin = req.cookies.jwtAdmin;
 
     if (token) {
         jwt.verify(token, "some example secret", (err, decodedToken) => {
             if (err) {
                 console.log(err.message);
                 res.redirect("/login");
+            }
+            else {
+                console.log(decodedToken);
+                next();
+            }
+        });
+    }
+    else {
+        res.redirect("/login");
+    }
+};
+
+const requireEditorAuth = (req, res, next) => {
+    const token = req.cookies.jwtEditor;
+
+    if (token) {
+        jwt.verify(token, "some editor secret", (err, decodedToken) => {
+            if (err) {
+                console.log(err.message);
+                res.redirect("/editor/login");
+            }
+            else {
+                console.log(decodedToken);
+                next();
+            }
+        });
+    }
+    else {
+        res.redirect("/editor/login");
+    }
+};
+
+const requireAdminAuth = (req, res, next) => {
+    const token = req.cookies.jwtAdmin;
+
+    if (token) {
+        jwt.verify(token, "some admin secret", (err, decodedToken) => {
+            if (err) {
+                console.log(err.message);
+                res.redirect("/admin/login");
+            }
+            else {
+                console.log(decodedToken);
+                next();
+            }
+        });
+    }
+    else {
+        res.redirect("/admin/login");
+    }
+};
+
+const requireAdminOrEditorAuth = (req, res, next) => {
+    const tokenEditor = req.cookies.jwtEditor;
+    const tokenAdmin = req.cookies.jwtAdmin;
+
+    if (tokenEditor) {
+        jwt.verify(tokenEditor, "some editor secret", (err, decodedToken) => {
+            if (err) {
+                console.log(err.message);
+                res.redirect("/editor/login");
+            }
+            else {
+                console.log(decodedToken);
+                next();
+            }
+        });
+    }
+    else if (tokenAdmin) {
+        jwt.verify(tokenAdmin, "some admin secret", (err, decodedToken) => {
+            if (err) {
+                console.log(err.message);
+                res.redirect("/admin/login");
+            }
+            else {
+                console.log(decodedToken);
+                next();
+            }
+        });
+    }
+    else {
+        res.redirect("/editor/login");
+    }
+};
+
+const requireAnyAuth = (req, res, next) => {
+    const tokenUser = req.cookies.jwt;
+    const tokenEditor = req.cookies.jwtEditor;
+    const tokenAdmin = req.cookies.jwtAdmin;
+
+    if (tokenUser) {
+        jwt.verify(tokenUser, "some example secret", (err, decodedToken) => {
+            if (err) {
+                console.log(err.message);
+                res.redirect("/login");
+            }
+            else {
+                console.log(decodedToken);
+                next();
+            }
+        });
+    }
+    else if (tokenEditor) {
+        jwt.verify(tokenEditor, "some editor secret", (err, decodedToken) => {
+            if (err) {
+                console.log(err.message);
+                res.redirect("/editor/login");
             }
             else {
                 console.log(decodedToken);
@@ -34,26 +141,6 @@ const requireAuth = (req, res, next) => {
     }
     else {
         res.redirect("/login");
-    }
-};
-
-const requireAdminAuth = (req, res, next) => {
-    const token = req.cookies.jwtAdmin;
-
-    if (token) {
-        jwt.verify(token, "some admin secret", (err, decodedToken) => {
-            if (err) {
-                console.log(err.message);
-                res.redirect("/admin/login");
-            }
-            else {
-                console.log(decodedToken);
-                next();
-            }
-        });
-    }
-    else {
-        res.redirect("/admin/login");
     }
 };
 
@@ -80,6 +167,32 @@ const checkUser = (req, res, next) => {
     }
     else {
         res.locals.user = null;
+        next();
+    }
+};
+
+const checkEditor = (req, res, next) => {
+    const token = req.cookies.jwtEditor;
+
+    if (token) {
+        jwt.verify(token, "some editor secret", async (err, decodedToken) => {
+            if (err) {
+                console.log(err.message);
+                res.locals.editor = null;
+                next();
+            }
+            else {
+                console.log(decodedToken);
+                let editor = await Editor.findAll({ 
+                    where: { id: decodedToken.id } 
+                });
+                res.locals.editor = editor[0];
+                next();
+            }
+        });
+    }
+    else {
+        res.locals.editor = null;
         next();
     }
 };
@@ -111,8 +224,12 @@ const checkAdmin = (req, res, next) => {
 };
 
 module.exports = { 
-    requireAuth, 
-    requireAdminAuth, 
+    requireUserAuth, 
+    requireEditorAuth,
+    requireAdminAuth,
+    requireAdminOrEditorAuth, 
+    requireAnyAuth,
     checkUser,
+    checkEditor,
     checkAdmin 
 };

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html>
+
+<%- include("../partials/head.ejs") %>
+
+<body>
+    <%- include("../partials/topPanel.ejs") %> 
+    <%- include("../partials/leftPanel.ejs") %> 
+    <%- include("../partials/rightPanel.ejs") %> 
+
+    <form id="myForm" name="myForm" enctype="multipart/form-data">
+        <label for="title">Tytuł</label>
+        <input type="text" name="title" id="title" required>
+        <label for="introduction">Wstęp</label>
+        <input type="text" name="introduction" id="introduction" required>
+        <label for="content">Treść</label>
+        <input type="text" name="content" id="content" required>
+        <label for="radioMusic">Muzyka</label>
+        <input type="radio" name="musicMovieRadio" id="radioMusic" value="music">
+        <label for="radioMovies">Filmy</label>
+        <input type="radio" name="musicMovieRadio" id="radioMovies" value="movies">
+        <label for="image">Zdjęcie</label>
+        <input type="file" accept="image/*" name="image" required>
+        <input type="submit" value="Wyślij" class="submit">
+    </form>
+
+    <script>
+        const myForm = document.querySelector("#myForm");
+
+        myForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(myForm);
+
+            console.log("<%= editor.id %>");
+            formData.append("editorId", "<%= editor.id %>");
+
+            for (let [key, value] of formData.entries()) {
+                console.log(key, value);
+            }
+            
+            try {
+                const response = await fetch("/articles/create", {
+                    method: "POST",
+                    body: formData
+                });
+                const data = await response.json();
+                console.log(data);
+                
+                myForm.reset();
+            }
+            catch (err) {
+                console.log(err);
+            }
+        });
+
+    </script>
+
+    <%- include("../partials/footer.ejs") %> 
+    
+</body>
+
+</html>

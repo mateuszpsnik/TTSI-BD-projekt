@@ -1,7 +1,8 @@
 /*jshint esversion:6*/
 
 const Sequelize = require("sequelize");
-require("../connection");
+const sequelize = require("../connection");
+const Editor = require("./Editor");
 
 const Article = sequelize.define("Article", {
     id: {
@@ -9,6 +10,10 @@ const Article = sequelize.define("Article", {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true
+    },
+    category: {
+        type: Sequelize.STRING,
+        allowNull: false
     },
     title: {
         type: Sequelize.STRING(50),
@@ -20,7 +25,11 @@ const Article = sequelize.define("Article", {
         allowNull: false
     },
     content: Sequelize.TEXT,
-    image: Sequelize.STRING
+    image: Sequelize.STRING,
+    editorId: Sequelize.INTEGER(11)
 });
+
+Editor.hasMany(Article, { foreignKey: "editorId" });
+Article.belongsTo(Editor, { foreignKey: "editorId" });
 
 module.exports = Article;

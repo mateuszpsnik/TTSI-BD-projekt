@@ -38,19 +38,23 @@ const createToken = (id) => {
     });
 };
 
-module.exports.signup_get = (req, res) => {
+const signup_get = (req, res) => {
     res.render("signup", { title: "Zarejestruj się" });
 };
 
-module.exports.login_get = (req, res) => {
+const login_get = (req, res) => {
     res.render("login", { title: "Zaloguj się" });
 };
 
-module.exports.signup_post = async (req, res) => {
+const signup_post = async (req, res) => {
     const { username, email, password } = req.body;
+    console.log(username, email, password);
+    const imagePath = "/images/users/" + req.file.filename;
+    console.log(imagePath);
     
     try {
-        const user = await User.create({ username, email, password });
+        const user = await User.create({ username, email, password, 
+            image: imagePath });
         const token = createToken(user.id);
         res.cookie("jwt", token, { httpOnly: true, maxAge: maxExpirationTime * 1000 });
         res.status(201).json({ user: user.id });
@@ -61,7 +65,7 @@ module.exports.signup_post = async (req, res) => {
     }
 };
 
-module.exports.login_post = async (req, res) => {
+const login_post = async (req, res) => {
     const { email, password } = req.body;
     
     try {
@@ -76,8 +80,17 @@ module.exports.login_post = async (req, res) => {
     }
 };
 
-module.exports.logout_get = (req, res) => {
+const logout_get = (req, res) => {
     res.cookie("jwt", "", { maxAge: 1 });
 
     res.redirect("/");
+};
+
+module.exports = {
+    handleErrors,
+    signup_get,
+    login_get,
+    signup_post,
+    login_post,
+    logout_get
 };

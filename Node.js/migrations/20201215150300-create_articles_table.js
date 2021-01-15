@@ -11,6 +11,10 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true
     },
+    category: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
     title: {
         type: Sequelize.STRING(50),
         allowNull: false,
@@ -22,12 +26,13 @@ module.exports = {
     },
     content: Sequelize.TEXT,
     image: Sequelize.STRING,
-      createdAt: Sequelize.DATE,
-      updatedAt: Sequelize.DATE
+    editorId: Sequelize.INTEGER(11),
+    createdAt: Sequelize.DATE,
+    updatedAt: Sequelize.DATE
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-     await queryInterface.dropTable("articles");
+    await queryInterface.dropTable("articles");
   }
 };

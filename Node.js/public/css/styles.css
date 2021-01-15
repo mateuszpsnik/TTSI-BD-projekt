@@ -13,14 +13,25 @@ body {
     height: 100%;
     width: 200px;
     position: fixed;
+    display: block;
+    z-index: 2;
+    text-align: center;
+}
+
+.side-panel-collapsed {
+    width: 50px;
+    height: 50px;
+    position: fixed;
     z-index: 1;
 }
 
 #main {
     margin-left: 200px;
     margin-right: 200px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 50px;
+    position: absolute;
 }
 
 header {
@@ -35,6 +46,9 @@ header {
     right: 0;
 }
 
+#right-panel-collapsed {
+    right: 0;
+}
 
 #logo {
     display: inline-block;
@@ -55,25 +69,29 @@ header {
 #user-panel {
     float: right;
     right: 0;
-    width: 400px;
-    padding: 10px;
+    width: 250px;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+a:hover {
+    color: red;
 }
 
 .logging-panel-item {
-    float: right;
-    margin-right: 20px;
-    text-decoration: none;
-    color: white;
-    
-}
-
-.logging-panel-item:hover {
-    color: red;
+    margin-right: 20px; 
 }
 
 .article-item {
     color: white;
     text-decoration: none;
+}
+
+.article-item:hover {
+    color: white;
 }
 
 form {
@@ -109,13 +127,75 @@ button {
     font-size: 1.5em;
 }
 
-.article-boxes {
+.submit {
+    margin: 20px;
+    margin-left: 0;
+    background-color: white;
+    color: black;
+    border: 0;
+    font-size: 1.5em;
+}
+
+.boxes {
     content: "";
     display: table;
     clear: both;
 }
 
-.article-box {
+.box {
     float: left;
     margin: 20px;
+}
+
+#edit-delete {
+    margin: 50px;
+}
+
+.side-panel-close-button {
+    cursor: pointer;
+    font-size: 70px;
+}
+
+.side-panel-open-button {
+    cursor: pointer;
+    font-size: 35px;
+    margin-left: 10px;
+}
+
+.side-panel-element {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+#user-logged-in-panel {
+    float: right;
+    width: 50px;
+    height: 50px;
+    right: 0;
+}
+
+#user-logged-in-panel img {
+    width: 50px;
+    height: 50px;
+    position: relative;
+}
+
+#user-logged-in-panel img:hover {
+    cursor: pointer;
+}
+
+.user-menu {
+    float: right;
+    width: 250px;
+    height: 300px;
+    background-color: rgb(20, 20, 20);
+    position: relative;
+    z-index: 100;
+    opacity: 0.9;
+}
+
+.user-menu-item {
+    font-size: 20px;
+    margin-top: 20px;
+    margin-left: 20px;
 }

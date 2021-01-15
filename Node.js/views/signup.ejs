@@ -18,6 +18,8 @@
         <label for="password">Hasło</label>
         <input type="password" name="password" required>
         <div class="password error"></div>
+        <label for="image">Zdjęcie profilowe</label>
+        <input type="file" accept="image/*" name="image" id="image" required>
         <button>Zarejestruj się</button>
     </form>
 
@@ -29,6 +31,12 @@
 
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
+
+            const formData = new FormData(form);
+
+            for (let [key, value] of formData.entries()) {
+                console.log(key, value);
+            }
 
             // reset errors
             usernameError.textContent = "";
@@ -43,8 +51,7 @@
             try {
                 const res = await fetch("/signup", {
                     method: "POST",
-                    body: JSON.stringify({ username, email, password }),
-                    headers: { "Content-Type": "application/json" }
+                    body: formData
                 });
                 const data = await res.json();
                 console.log(data);

@@ -1,10 +1,41 @@
 <% if (admin) { %>
-    Witaj ponownie, administratorze
-    <a href="/admin/logout" class="logging-panel-item">Wyloguj się</a>
+    <span id="admin-logged-in-panel">
+        Witaj ponownie, administratorze
+        <a href="/admin/logout" class="logging-panel-item">Wyloguj się</a>
+    </span>
+<% } else if (editor) { %>
+    <span id="editor-logged-in-panel">
+        Witaj ponownie, <%= editor.name %>
+        <a href="/editor/logout" class="logging-panel-item">Wyloguj się</a>
+    </span>
 <% } else if (user) { %>
-    Witaj ponownie, <%= user.username %>
-    <a href="/logout" class="logging-panel-item">Wyloguj się</a>
+    <span id="user-logged-in-panel">
+        <img id="user-image" src="<%= user.image %> " alt="Zdjęcie profilowe użytkownika"> 
+    </span>
+    <div class="user-menu">
+        <div class="user-menu-item">
+            <a href="/users/<%= user.id %>">Twój profil</a>
+        </div>
+        <div class="user-menu-item">
+            <a href="#">Twoje oceny</a>
+        </div>
+        <div class="user-menu-item">
+            <a href="#">Twoje recencje</a>
+        </div>
+        <div class="user-menu-item">
+            <a href="/users/edit">Edytuj profil</a>
+        </div>
+        <div class="user-menu-item">
+            <a href="/logout" class="logging-panel-item">Wyloguj się</a>
+        </div>
+        <div class="user-menu-item">
+            <a href="users/delete">Usuń konto</a>
+        </div>
+    <script src="/scripts/userLoggedInPanel.js"></script>
 <% } else { %>
-    <a href="/signup" class="logging-panel-item">Zarejestruj się</a>
-    <a href="/login" class="logging-panel-item">Zaloguj się</a>
+    <span id="log-in-panel">
+        <a href="/signup" class="logging-panel-item">Zarejestruj się</a>
+        <a href="/login" class="logging-panel-item">Zaloguj się</a>
+    </span>
 <% } %>
+

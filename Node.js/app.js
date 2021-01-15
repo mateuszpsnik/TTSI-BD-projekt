@@ -10,9 +10,14 @@ const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const editorRoutes = require("./routes/editorRoutes");
+const musicRoutes = require("./routes/musicRoutes");
+const moviesRoutes = require("./routes/moviesRoutes");
 const Article = require("./models/Article");
 const cookieParser = require("cookie-parser");
-const { checkUser, checkAdmin } = require("./middleware/authMiddleware");
+const { checkUser, checkAdmin, checkEditor } = require("./middleware/authMiddleware");
+
+
+const Editor = require("./models/Editor");
 
 // connection with the database
 require("./connection");
@@ -26,8 +31,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.get("*", checkUser); // "*" means "apply to every get request"
+app.get("*", checkEditor);
 app.get("*", checkAdmin);
-app.get("/", (req, res) => { 
+app.get("/", async (req, res) => { 
     Article.findAll()
     .then((result) => {
         res.render("index", { title: "Muzyka i film - Strona główna", articles: result });
@@ -43,3 +49,10 @@ app.use("/articles", articlesRoutes);
 app.use("/users", userRoutes);
 app.use("/admin", adminRoutes);
 app.use("/editor", editorRoutes);
+app.use("/music", musicRoutes);
+app.use("/movies", moviesRoutes);
+
+// 404
+app.use((req, res) => {
+    res.render("404", { title: "Strona nie istnieje" });
+});

@@ -5,19 +5,19 @@
         <%- include("../partials/adminTopPanel.ejs") %> 
 
         <div id="main">
-            <% if(albums.length > 0) { %>
-                <% albums.forEach(album => { %>
+            <% if(movies.length > 0) { %>
+                <% movies.forEach(movie => { %>
                     <div class="boxes">
                             <div class="box">
-                                <a class="item" href="/music/albums/<%= album.id %>">
-                                    <img src="<%= album.cover %>" alt="Okładka albumu" width="150px" height="150px">
+                                <a class="item" href="/movies/<%= movie.id %>">
+                                    <img src="<%= movie.poster %>" alt="Plakat filmu" width="150px" height="150px">
                                 </a>
                             </div>
                             <div class="box">
-                                <h2 class="title"><%= album.title %></h2>
-                                <h3><%= album.artist%></h3>
+                                <h2 class="title"><%= movie.title %></h2>
+                                <h3><%= movie.director%></h3>
                                 <h4>zaakceptowany: 
-                                    <% if (album.accepted) { %>
+                                    <% if (movie.accepted) { %>
                                         tak
                                     <% } else { %>
                                         nie
@@ -25,14 +25,14 @@
                                 </h4>
                             </div>
                             <div class="box" id="edit-delete">
-                                <a href="#" data-doc="<%= album.id %>" class="accept">Akceptuj</a>
-                                <a href="albums/<%= album.id %>">Edytuj</a></li>                                        
-                                <a href="#" data-doc="<%= album.id %>" class="delete">Usuń</a></li>                               
+                                <a href="#" data-doc="<%= movie.id %>" class="accept">Akceptuj</a>
+                                <a href="movies/<%= movie.id %>">Edytuj</a></li>                                        
+                                <a href="#" data-doc="<%= movie.id %>" class="delete">Usuń</a></li>                               
                             </div>
                     </div>
                 <% }) %>
             <% } else { %>
-                <p>Nie ma albumów</p>
+                <p>Nie ma filmów</p>
             <% } %>
         </div>
 
@@ -42,7 +42,7 @@
 
             acceptAnchor.addEventListener("click", (e) => {
                 e.preventDefault();
-                const endpoint = `/music/albums/${acceptAnchor.dataset.doc}`;
+                const endpoint = `/movies/${acceptAnchor.dataset.doc}`;
                 console.log(endpoint);
 
                 fetch(endpoint, { 
@@ -55,7 +55,7 @@
 
             deleteAnchor.addEventListener("click", (e) => {
                 e.preventDefault();
-                const endpoint = `/music/albums/${deleteAnchor.dataset.doc}/`;
+                const endpoint = `/movies/${deleteAnchor.dataset.doc}/`;
                 console.log(endpoint);
 
                 fetch(endpoint, {

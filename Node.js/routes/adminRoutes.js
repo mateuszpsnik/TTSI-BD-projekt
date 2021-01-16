@@ -24,6 +24,9 @@ router.get("/users", requireAdminAuth, adminController.admin_users);
 router.get("/albums", requireAdminAuth, adminController.albums_index);
 router.get("/albums/:id", requireAdminAuth, adminController.album_edit);
 
+router.get("/movies", requireAdminAuth,  adminController.movies_index);
+router.get("/movies/:id",  requireAdminAuth, adminController.movie_edit);
+
 router.get("/articles", requireAdminAuth, adminController.articles_index);
 router.get("/articles/:id", requireAdminAuth, adminController.articles_edit);
 

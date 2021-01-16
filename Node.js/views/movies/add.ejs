@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+
+<%- include("../partials/head.ejs") %>
+
+<body>
+    <%- include("../partials/topPanel.ejs") %> 
+
+    <form id="myForm" name="myForm" enctype="multipart/form-data">
+        <label for="title">Tytuł</label>
+        <input type="text" name="title" id="title" required>
+        <label for="director">Reżyser</label>
+        <input type="text" name="director" id="director" required>
+        <label for="genre">Gatunek</label>
+        <input type="text" name="genre" id="genre" required>
+        <label for="year">Rok wydania</label>
+        <input type="number" name="year" id="year" required>
+        <label for="poster">Plakat</label>
+        <input type="file" accept="image/*" name="poster" required>
+        <input type="submit" value="Wyślij" class="submit">
+    </form>
+
+    <script>
+        const myForm = document.querySelector("#myForm");
+
+        myForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(myForm);
+
+            for (let [key, value] of formData.entries()) {
+                console.log(key, value);
+            }
+            
+            try {
+                const response = await fetch("/movies/add", {
+                    method: "POST",
+                    body: formData
+                });
+                const data = await response.text();
+                console.log(data);
+                
+                myForm.reset();
+            }
+            catch (err) {
+                console.log(err);
+            }
+        });
+
+    </script>
+
+    <%- include("../partials/footer.ejs") %> 
+    
+</body>
+
+</html>

@@ -5,6 +5,7 @@ const Article = require("../models/Article");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const Album = require("../models/Album");
+const Movie = require("../models/Movie");
 
 const handleErrors = (err) => {
     if (err.message === "incorrect password") {
@@ -51,6 +52,23 @@ module.exports.album_edit = async (req, res) => {
     await Album.findAll({ where: { id: id } })
     .then(result => {
         res.render("admin/albumEdit", { title: "Edytuj album", album: result[0] });
+    })
+    .catch(err => console.log(err));
+};
+
+module.exports.movies_index = async (req, res) => {
+    await Movie.findAll()
+    .then((result) => {
+        res.render("admin/moviesIndex", { title: "Filmy", movies: result });
+    })
+    .catch(err => console.log(err));
+};
+
+module.exports.movie_edit = async (req, res) => {
+    const id = req.params.id;
+    await Movie.findAll({ where: { id: id } })
+    .then(result => {
+        res.render("admin/movieEdit", { title: "Edytuj film", movie: result[0] });
     })
     .catch(err => console.log(err));
 };

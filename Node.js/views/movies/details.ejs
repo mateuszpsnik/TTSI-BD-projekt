@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html>
+
+<%- include("../partials/head.ejs") %>
+
+<body>
+    <%- include("../partials/topPanel.ejs") %> 
+
+    <div id="main">
+        <div class="boxes">
+            <div class="box">
+                <img src="<%= movie.poster %>" alt="Plakat filmu" width="300">
+            </div>
+            <div class="box">
+                <h1><%= movie.title %></h1>
+                <h2><%= movie.director %></h2>
+                <h4><%= movie.genre %></h4>
+                <h4><%= movie.year %></h4>
+            </div>
+        </div>
+        <div class="box">
+            Oceń<br>
+            Recenzje
+        </div>
+    </div>
+
+    <%- include("../partials/footer.ejs") %> 
+
+</body>
+
+</html>

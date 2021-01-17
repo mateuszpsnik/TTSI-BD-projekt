@@ -18,12 +18,50 @@
                 <h4><%= album.genre %></h4>
                 <h4><%= album.year %></h4>
             </div>
+            <div class="box">
+                <form class="rating">
+                    <% if (rating) { %>
+                        
+                        Twoja ocena: <%= rating.points %>
+                    <% } else { %>
+                    <label for="rating">Oceń album</label>
+                    <input type="number" name="rating" id="rating"
+                        min="1" max="10" required>
+                    <button>Wyślij</button>
+                    <% } %>
+                </form>
+            </div>
         </div>
+        
         <div class="box">
-            Oceń<br>
             Recenzje
         </div>
     </div>
+
+    <script>
+        const form = document.querySelector("form");
+        const albumId = "<%= album.id %>";
+        console.log(albumId);   
+
+        form.addEventListener("submit", e => {
+            e.preventDefault();
+
+            const data = {
+                rating: form.rating.value,
+                albumId: albumId,
+                userId: "<%= user.id %>"
+            };
+
+            fetch(`/music/albums/${albumId}/rate`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => alert(data))
+            .catch(err => console.log(err));
+        });
+    </script>
 
     <%- include("../../partials/footer.ejs") %> 
 

@@ -27,5 +27,6 @@ router.get("/:id", moviesController.movie_details);
 router.patch("/:id", requireAdminAuth, moviesController.movie_accept);
 router.put("/:id", requireAdminAuth, upload.single("poster"), moviesController.movie_update);
 router.delete("/:id", requireAdminAuth, moviesController.movie_delete);
+router.post("/:id/rate", moviesController.add_rating);
 
 module.exports = router;

@@ -2,6 +2,8 @@
 
 const Movie = require("../models/Movie");
 const fs = require("fs");
+const { getUserId } = require("./musicController");
+const MovieRating = require("../models/MovieRating");
 
 const add_movie_get = (req, res) => {
     res.render("movies/add", { title: "Dodaj Movies" });
@@ -34,18 +36,41 @@ const movie_details = async (req, res) => {
     const id = req.params.id;
     console.log(id);
 
-    await Movie.findAll({ where: 
-        { 
-            id: id,
-            accepted: true
-        } 
-    })
-    .then(result => {
-        res.render("movies/details", { title: result[0].title, movie: result[0] });
-    })
-    .catch(err => {
+    try {
+        const movies = await Movie.findAll({ where: 
+            { 
+                id: id,
+                accepted: true
+            } 
+        });
+
+        const userId = getUserId(req);
+        let ratings;
+
+        if (userId) {
+            ratings = await MovieRating.findAll({ where:
+                {
+                    movieId: id,
+                    userId: userId 
+                }
+            });
+        }
+
+        if (movies && ratings) {
+            res.render("movies/details", { title: movies[0].title, movie: movies[0],
+                rating: ratings[0]});
+        }
+        else if (movies[0]) {
+            res.render("movies/details", { title: movies[0].title, movie: movies[0],
+                rating: false});
+        }
+        else {
+            res.render("404", { title: "Strona nie istnieje" });
+        }
+    }
+    catch (err) {
         console.log(err);
-    });
+    }
 };
 
 const movie_accept = async (req, res) => {
@@ -125,11 +150,30 @@ const movie_delete = async (req, res) => {
     .catch(err => console.log(err));
 };
 
+const add_rating = async (req, res) => {
+    const { rating, movieId, userId } = req.body;
+    
+    try {
+        const movieRating = await MovieRating.create({
+            points: rating,
+            movieId: movieId,
+            userId: userId
+        });
+
+        res.status(201).json({ rating: movieRating });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(400).json({ error: err });
+    }
+};
+
 module.exports = {
     add_movie_get,
     add_movie_post,
     movie_details,
     movie_accept,
     movie_update,
-    movie_delete
+    movie_delete,
+    add_rating
 };

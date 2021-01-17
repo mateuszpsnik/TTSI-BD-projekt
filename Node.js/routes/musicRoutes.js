@@ -27,5 +27,6 @@ router.get("/albums/:id", musicController.album_details);
 router.patch("/albums/:id", requireAdminAuth, musicController.album_accept);
 router.put("/albums/:id", requireAdminAuth, upload.single("cover"), musicController.album_update);
 router.delete("/albums/:id", requireAdminAuth, musicController.album_delete);
+router.post("/albums/:id/rate", musicController.add_rating);
 
 module.exports = router;

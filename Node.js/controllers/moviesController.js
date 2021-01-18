@@ -2,7 +2,7 @@
 
 const Movie = require("../models/Movie");
 const fs = require("fs");
-const { getUserId } = require("./musicController");
+const { getUserId } = require("./userController");
 const MovieRating = require("../models/MovieRating");
 
 const add_movie_get = (req, res) => {

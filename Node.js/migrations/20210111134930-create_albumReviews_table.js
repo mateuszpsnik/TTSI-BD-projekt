@@ -19,6 +19,8 @@ module.exports = {
       content: Sequelize.TEXT,
       points: Sequelize.INTEGER,
       editorId: Sequelize.INTEGER(11),
+      userId: Sequelize.INTEGER(11),
+      accepted: Sequelize.BOOLEAN,
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE
     });

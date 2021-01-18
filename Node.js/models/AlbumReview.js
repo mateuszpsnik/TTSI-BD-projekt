@@ -3,6 +3,7 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../connection");
 const Editor = require("./Editor");
+const Album = require("./Album");
 
 const AlbumReview = sequelize.define("AlbumReview", {
     id: {
@@ -18,7 +19,9 @@ const AlbumReview = sequelize.define("AlbumReview", {
     },
     content: Sequelize.TEXT,
     points: Sequelize.INTEGER,
-    editorId: Sequelize.INTEGER(11)
+    editorId: Sequelize.INTEGER(11),
+    userId: Sequelize.INTEGER(11),
+    accepted: Sequelize.BOOLEAN
 });
 
 Editor.hasMany(AlbumReview, { foreignKey: "editorId" });

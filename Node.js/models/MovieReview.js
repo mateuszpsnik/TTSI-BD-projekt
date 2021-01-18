@@ -3,6 +3,7 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../connection");
 const Editor = require("./Editor");
+const Movie = require("./Movie");
 
 const MovieReview = sequelize.define("MovieReview", {
     id: {

@@ -21,7 +21,6 @@
             <div class="box">
                 <form class="rating">
                     <% if (rating) { %>
-                        
                         Twoja ocena: <%= rating.points %>
                     <% } else { %>
                     <label for="rating">Oceń album</label>
@@ -32,9 +31,22 @@
                 </form>
             </div>
         </div>
-        
         <div class="box">
-            Recenzje
+            <h2>Recenzja:</h2>
+            <% if(review) { %>
+                <div class="boxes">
+                    <a class="article-item" href="/music/albums/reviews/<%= review.id %>">
+                        <div class="box">
+                            <h3 class="title"><%= review.title %></h3>
+                            <p class="introduction"><%= review.introduction %> </p>
+                            <p><%= review.content %> </p>
+                            <h3>Ocena: <%= review.points %></h3>
+                        </div>
+                    </a>
+                </div>
+            <% } else { %> 
+            <a href="/music/albums/<%= album.id %>/review">Napisz recenzję</a>
+            <% } %>
         </div>
     </div>
 
@@ -48,8 +60,7 @@
 
             const data = {
                 rating: form.rating.value,
-                albumId: albumId,
-                userId: "<%= user.id %>"
+                albumId: albumId
             };
 
             fetch(`/music/albums/${albumId}/rate`, {

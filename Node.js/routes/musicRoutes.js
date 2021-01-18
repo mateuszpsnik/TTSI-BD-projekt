@@ -3,7 +3,7 @@
 const { Router } = require ("express");
 const musicController = require("../controllers/musicController");
 const router = Router();
-const { requireAdminAuth } = require("../middleware/authMiddleware");
+const { requireAdminAuth, requireAnyAuth } = require("../middleware/authMiddleware");
 
 const multer = require("multer");
 const path = require("path");
@@ -27,6 +27,8 @@ router.get("/albums/:id", musicController.album_details);
 router.patch("/albums/:id", requireAdminAuth, musicController.album_accept);
 router.put("/albums/:id", requireAdminAuth, upload.single("cover"), musicController.album_update);
 router.delete("/albums/:id", requireAdminAuth, musicController.album_delete);
-router.post("/albums/:id/rate", musicController.add_rating);
+router.post("/albums/:id/rate", requireAnyAuth, musicController.add_rating);
+router.get("/albums/:id/review", requireAnyAuth, musicController.add_review_get);
+router.post("/albums/:id/review", requireAnyAuth, musicController.add_review_post);
 
 module.exports = router;

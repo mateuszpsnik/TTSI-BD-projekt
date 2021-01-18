@@ -103,7 +103,7 @@ const article_delete = (req, res) => {
         where: { id: id }
     })
     .then(result => {
-        res.json({ redirect: "/admin/articles" });
+        res.json({ redirect: "/" });
     })
     .catch(err => { console.log(err); });
 };

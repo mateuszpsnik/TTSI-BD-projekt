@@ -5,26 +5,9 @@ const fs = require("fs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const AlbumRating = require("../models/AlbumRating");
-
-const getUserId = (req) => {
-    const token = req.cookies.jwt;
-    let userId;
-
-        if (token) {
-            jwt.verify(token, "some example secret", async (err, decodedToken) => {
-                if (err) {
-                    console.log(err.message);
-                }
-                else {
-                    console.log("token", decodedToken);
-                    userId = decodedToken.id;
-                    console.log("userId", userId);
-                }
-            });
-        }
-
-    return userId;
-};
+const { getUserId } = require("./userController");
+const { getEditorId } = require("./editorController");
+const AlbumReview = require("../models/AlbumReview");
 
 const add_album_get = (req, res) => {
     res.render("music/albums/add", { title: "Dodaj album" });
@@ -66,7 +49,8 @@ const album_details = async (req, res) => {
         });
 
         const userId = getUserId(req);
-        let ratings;
+        let ratings = [ false ];
+        let reviews = [ false ];
 
         if (userId) {
             ratings = await AlbumRating.findAll({ where:
@@ -77,13 +61,14 @@ const album_details = async (req, res) => {
             });
         }
 
-        if (albums && ratings) {
+        reviews = await AlbumReview.findAll({
+            where: { albumId: id }
+        });
+
+
+        if (albums) {
             res.render("music/albums/details", { title: albums[0].title, album: albums[0],
-                rating: ratings[0]});
-        }
-        else if (albums[0]) {
-            res.render("music/albums/details", { title: albums[0].title, album: albums[0],
-                rating: false});
+                rating: ratings[0], review: reviews[0]});
         }
         else {
             res.render("404", { title: "Strona nie istnieje" });
@@ -172,7 +157,8 @@ const album_delete = async (req, res) => {
 };
 
 const add_rating = async (req, res) => {
-    const { rating, albumId, userId } = req.body;
+    const { rating, albumId } = req.body;
+    const userId = getUserId(req);
     
     try {
         const albumRating = await AlbumRating.create({
@@ -189,6 +175,55 @@ const add_rating = async (req, res) => {
     }
 };
 
+const add_review_get = (req, res) => {
+    const albumId = req.params.id;
+
+    res.render("music/albums/addReview.ejs", { title: "Dodaj recenzję", albumId: albumId });
+};
+
+const add_review_post = async (req, res) => {
+    const { introduction, content, rating, albumId } = req.body;
+    const userId = getUserId(req);
+    const editorId = getEditorId(req);
+
+    try {
+        let albumReview;
+        if (editorId) {
+            console.log("editor");
+            albumReview = await AlbumReview.create({
+                albumId: albumId,
+                introduction: introduction,
+                content: content,
+                points: rating,
+                editorId: editorId,
+                userId: 0,
+                accepted: true
+            });
+        }
+        else if (userId) {
+            console.log("user");
+            albumReview = await AlbumReview.create({
+                albumId: albumId,
+                introduction: introduction,
+                content: content,
+                points: rating,
+                editorId: 0,
+                userId: userId,
+                accepted: false
+            });
+        }
+        else {
+            throw Error("no editor or user");
+        }
+
+        res.status(201).json({ review: albumReview });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(400).json({ error: err });
+    }
+};
+
 module.exports = {
     getUserId,
     add_album_get,
@@ -197,5 +232,7 @@ module.exports = {
     album_accept,
     album_update,
     album_delete,
-    add_rating
+    add_rating,
+    add_review_get,
+    add_review_post
 };

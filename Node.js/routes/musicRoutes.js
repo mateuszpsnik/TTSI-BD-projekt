@@ -30,5 +30,7 @@ router.delete("/albums/:id", requireAdminAuth, musicController.album_delete);
 router.post("/albums/:id/rate", requireAnyAuth, musicController.add_rating);
 router.get("/albums/:id/review", requireAnyAuth, musicController.add_review_get);
 router.post("/albums/:id/review", requireAnyAuth, musicController.add_review_post);
+router.patch("/albums/:id/accept-review", requireAdminAuth, musicController.accept_review);
+router.delete("/albums/:id/review", requireAdminAuth, musicController.delete_review);
 
 module.exports = router;

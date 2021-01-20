@@ -224,6 +224,32 @@ const add_review_post = async (req, res) => {
     }
 };
 
+const accept_review = async (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+
+    await AlbumReview.update({
+        accepted: true
+    },{
+        where: { id: id }
+    })
+    .then(result => {
+        res.status(201).json({ redirect: "/admin/reviews" });
+    })
+    .catch(err => console.log(err));
+};
+
+const delete_review = async (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+
+    await AlbumReview.destroy({
+        where: { id: id }
+    })
+    .then(result => res.json({ redirect: "/" }))
+    .catch(err => console.log(err));
+};
+
 module.exports = {
     getUserId,
     add_album_get,
@@ -234,5 +260,7 @@ module.exports = {
     album_delete,
     add_rating,
     add_review_get,
-    add_review_post
+    add_review_post,
+    accept_review,
+    delete_review
 };

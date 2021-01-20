@@ -33,7 +33,7 @@
         </div>
         <div class="box">
             <h2>Recenzja:</h2>
-            <% if(review) { %>
+            <% if(review && review.accepted) { %>
                 <div class="boxes">
                     <a class="article-item" href="/music/albums/reviews/<%= review.id %>">
                         <div class="box">

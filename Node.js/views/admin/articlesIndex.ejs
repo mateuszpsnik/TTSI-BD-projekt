@@ -9,16 +9,16 @@
         <div id="main">
             <% if(articles.length > 0) { %>
                 <% articles.forEach(article => { %>
-                    <div class="article-boxes">
+                    <div class="boxes">
                         <a class="article-item" href="/articles/<%= article.id %>">
-                            <div class="article-box">
+                            <div class="box">
                                 <img src="<%= article.image %>" alt="Zdjęcie artykułu" width="150px" height="150px">
                             </div>
-                            <div class="article-box">
+                            <div class="box">
                                 <h3 class="title"><%= article.title %></h3>
                                 <p class="introduction"><%= article.introduction %> </p>
                             </div>
-                            <div class="article-box" id="edit-delete">                                
+                            <div class="box" id="edit-delete">                                
                                 <a href="articles/<%= article.id %>">Edytuj</a></li>
                                 <a href="#" data-doc="<%= article.id %>" class="delete">Usuń</a></li>                               
                             </div>

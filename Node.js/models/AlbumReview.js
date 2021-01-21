@@ -3,6 +3,7 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../connection");
 const Editor = require("./Editor");
+const User = require("./User");
 const Album = require("./Album");
 
 const AlbumReview = sequelize.define("AlbumReview", {
@@ -26,6 +27,8 @@ const AlbumReview = sequelize.define("AlbumReview", {
 
 Editor.hasMany(AlbumReview, { foreignKey: "editorId" });
 AlbumReview.belongsTo(Editor, { foreignKey: "editorId" });
+User.hasMany(AlbumReview, { foreignKey: "userId" });
+AlbumReview.belongsTo(User, { foreignKey: "userId" });
 Album.hasMany(AlbumReview, { foreignKey: "albumId" });
 AlbumReview.belongsTo(Album, { foreignKey: "albumId" });
 

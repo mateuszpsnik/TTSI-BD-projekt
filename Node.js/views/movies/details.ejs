@@ -31,9 +31,20 @@
                 </form>
             </div>
         </div>
-        
         <div class="box">
-            Recenzje
+            <h2>Recenzja:</h2>
+            <% if(review && review.accepted) { %>
+                <div class="boxes">
+                    <div class="box">
+                        <h3 class="title"><%= review.title %></h3>
+                        <p class="introduction"><%= review.introduction %> </p>
+                        <p><%= review.content %> </p>
+                        <h3>Ocena: <%= review.points %></h3>
+                    </div>
+                </div>
+            <% } else { %> 
+            <a href="/movies/<%= movie.id %>/review">Napisz recenzję</a>
+            <% } %>
         </div>
     </div>
 
@@ -47,8 +58,7 @@
 
             const data = {
                 rating: form.rating.value,
-                movieId: movieId,
-                userId: "<%= user.id %>"
+                movieId: movieId
             };
 
             fetch(`/movies/${movieId}/rate`, {

@@ -3,7 +3,7 @@
 const { Router } = require ("express");
 const moviesController = require("../controllers/moviesController");
 const router = Router();
-const { requireAdminAuth } = require("../middleware/authMiddleware");
+const { requireAdminAuth, requireAnyAuth } = require("../middleware/authMiddleware");
 
 const multer = require("multer");
 const path = require("path");
@@ -28,5 +28,9 @@ router.patch("/:id", requireAdminAuth, moviesController.movie_accept);
 router.put("/:id", requireAdminAuth, upload.single("poster"), moviesController.movie_update);
 router.delete("/:id", requireAdminAuth, moviesController.movie_delete);
 router.post("/:id/rate", moviesController.add_rating);
+router.get("/:id/review", requireAnyAuth, moviesController.add_review_get);
+router.post("/:id/review", requireAnyAuth, moviesController.add_review_post);
+router.patch("/:id/accept-review", requireAdminAuth, moviesController.accept_review);
+router.delete("/:id/review", requireAdminAuth, moviesController.delete_review);
 
 module.exports = router;

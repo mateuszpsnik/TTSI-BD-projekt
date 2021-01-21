@@ -35,14 +35,12 @@
             <h2>Recenzja:</h2>
             <% if(review && review.accepted) { %>
                 <div class="boxes">
-                    <a class="article-item" href="/music/albums/reviews/<%= review.id %>">
-                        <div class="box">
-                            <h3 class="title"><%= review.title %></h3>
-                            <p class="introduction"><%= review.introduction %> </p>
-                            <p><%= review.content %> </p>
-                            <h3>Ocena: <%= review.points %></h3>
-                        </div>
-                    </a>
+                    <div class="box">
+                        <h3 class="title"><%= review.title %></h3>
+                        <p class="introduction"><%= review.introduction %> </p>
+                        <p><%= review.content %> </p>
+                        <h3>Ocena: <%= review.points %></h3>
+                    </div>
                 </div>
             <% } else { %> 
             <a href="/music/albums/<%= album.id %>/review">Napisz recenzję</a>

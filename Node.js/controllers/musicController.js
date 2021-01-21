@@ -68,7 +68,7 @@ const album_details = async (req, res) => {
 
         if (albums) {
             res.render("music/albums/details", { title: albums[0].title, album: albums[0],
-                rating: ratings[0], review: reviews[0]});
+                rating: ratings[0], review: reviews[0] });
         }
         else {
             res.render("404", { title: "Strona nie istnieje" });
@@ -251,7 +251,6 @@ const delete_review = async (req, res) => {
 };
 
 module.exports = {
-    getUserId,
     add_album_get,
     add_album_post,
     album_details,

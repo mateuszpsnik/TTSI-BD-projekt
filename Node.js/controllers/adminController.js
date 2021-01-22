@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const Album = require("../models/Album");
 const Movie = require("../models/Movie");
 const AlbumReview = require("../models/AlbumReview");
+const MovieReview = require("../models/MovieReview");
 
 const handleErrors = (err) => {
     if (err.message === "incorrect password") {
@@ -96,14 +97,21 @@ module.exports.articles_edit = async (req, res) => {
 };
 
 module.exports.reviews_index = async(req, res) => {
-    await AlbumReview.findAll()
-    .then(result => {
-        res.render("admin/reviewsIndex", { title: "Recenzje", albumReviews: result });
-    })
-    .catch(err => console.log(err));
+    try {
+        let albumReviews = false;
+        let movieReviews = false;
+        albumReviews = await AlbumReview.findAll();
+        movieReviews = await MovieReview.findAll();
+
+        res.render("admin/reviewsIndex", { title: "Recenzje", 
+            albumReviews: albumReviews, movieReviews: movieReviews });
+    }
+    catch (err) {
+        console.log(err);
+    }
 };
 
-module.exports.accept_album_review = async(req, res) => {
+module.exports.accept_album_review = async (req, res) => {
     // SELECT `AlbumReview`.`id`, `AlbumReview`.`albumId`, `AlbumReview`.`introduction`, `AlbumReview`.`content`, 
     // `AlbumReview`.`points`, `AlbumReview`.`editorId`, `AlbumReview`.`userId`, `AlbumReview`.`accepted`, `AlbumReview`.`createdAt`,
     // `AlbumReview`.`updatedAt`, `Album`.`id` AS `Album.id`, `Album`.`title` AS `Album.title`, `Album`.`artist` AS `Album.artist`,
@@ -118,6 +126,19 @@ module.exports.accept_album_review = async(req, res) => {
     .then(reviews => {
         res.render("admin/acceptAlbumReview", { title: "Zaakceptuj recenzję",
         review: reviews[0], album: reviews[0].Album });
+    })
+    .catch(err => console.log(err));
+};
+
+module.exports.accept_movie_review = async (req, res) => {
+    const id = req.params.id;
+    await MovieReview.findAll({
+        where: { id: id },
+        include: [{ model: Movie }]
+    })
+    .then(reviews => {
+        res.render("admin/AcceptMovieReview", { title: "Zaakceptuj recenzję",
+        review: reviews[0], movie: reviews[0].Movie });
     })
     .catch(err => console.log(err));
 };

@@ -240,7 +240,7 @@ const delete_review = async (req, res) => {
     const id = req.params.id;
     console.log(id);
 
-    await movieReview.destroy({
+    await MovieReview.destroy({
         where: { id: id }
     })
     .then(result => res.json({ redirect: "/" }))

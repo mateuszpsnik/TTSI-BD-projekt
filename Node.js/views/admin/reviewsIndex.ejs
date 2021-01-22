@@ -4,9 +4,9 @@
     <body>
         <%- include("../partials/adminTopPanel.ejs") %> 
 
-        <h2>Albumy:</h2>
         <div id="main">
             <% if(albumReviews.length > 0) { %>
+                <h2>Albumy:</h2>
                 <% albumReviews.forEach(albumReview => { %>
                     <div class="boxes">
                         <a class="article-item" href="/admin/reviews/albums/<%= albumReview.id %>">
@@ -29,15 +29,40 @@
                         </a>
                     </div>
                 <% }) %>
-            <% } else { %>
-                <p>Nie ma recenzji</p>
+            <% } %>
+
+            <% if(movieReviews.length > 0) { %>
+                <h2>Filmy:</h2>
+                <% movieReviews.forEach(movieReview => { %>
+                    <div class="boxes">
+                        <a class="article-item" href="/admin/reviews/movies/<%= movieReview.id %>">
+                            <div class="box">
+                                <h3 class="title"><%= movieReview.title %></h3>
+                                <p class="introduction"><%= movieReview.introduction %> </p>
+                            </div>
+                            <div class="box">
+                                <h4>zaakceptowany: 
+                                    <% if (movieReview.accepted) { %>
+                                        tak
+                                    <% } else { %>
+                                        nie
+                                    <% } %>
+                                </h4>
+                            </div>
+                            <div class="box" id="edit-delete">                                
+                                <a href="#" data-doc="<%= movieReview.id %>" class="movie-delete">Usuń</a></li>                               
+                            </div>
+                        </a>
+                    </div>
+                <% }) %>
             <% } %>
         </div>
 
         <script>
             const deleteAlbumAnchor = document.querySelector("a.album-delete");
 
-            deleteAlbumAnchor.addEventListener("click", (e) => {
+            if (deleteAlbumAnchor) {
+                deleteAlbumAnchor.addEventListener("click", (e) => {
                 const endpoint = `/music/albums/${deleteAlbumAnchor.dataset.doc}/review`;
 
                 fetch(endpoint, {
@@ -47,6 +72,22 @@
                 .then((data) => window.location.href = data.redirect)
                 .catch(err => console.log(err));
             });
+            }
+
+            const deleteMovieAnchor = document.querySelector("a.movie-delete");
+
+            if (deleteMovieAnchor) {
+                deleteMovieAnchor.addEventListener("click", (e) => {
+                const endpoint = `/movies/${deleteMovieAnchor.dataset.doc}/review`;
+
+                fetch(endpoint, {
+                    method: "DELETE"
+                })
+                .then((response) => response.json())
+                .then((data) => window.location.href = data.redirect)
+                .catch(err => console.log(err));
+            });
+            }
         </script>
     </body>
 </html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html>
+
+<%- include("../partials/head.ejs") %>
+
+<body>
+    <%- include("../partials/adminTopPanel.ejs") %> 
+
+    <div id="main">
+        <div class="boxes">
+            <div class="box">
+                <img src="<%= movie.poster %>" alt="Okładka filmu" width="300">
+            </div>
+            <div class="box">
+                <h1><%= movie.title %></h1>
+                <a href="#" class="accept"><h3>Akceptuj</h3></a>
+            </div>
+        </div>
+        <div class="article box">
+            <p class="article-introduction"><%= review.introduction %></p>
+            <p class="article-body"><%= review.content %></p>
+            <h2>Ocena: <%= review.points %></h2>
+        </div>
+    </div>
+
+    <script>
+        const acceptAnchor = document.querySelector("a.accept");
+
+        acceptAnchor.addEventListener("click", (e) => {
+            e.preventDefault();
+            const endpoint = "/movies/<%= review.id %>/accept-review";
+            console.log(endpoint);
+
+            fetch(endpoint, { 
+                method: "PATCH"
+            })
+            .then((response) => response.json())
+            .then((data) => window.location.href = data.redirect)
+            .catch(err => console.log(err));
+        });
+    </script>
+
+    <%- include("../partials/footer.ejs") %> 
+
+</body>
+
+</html>

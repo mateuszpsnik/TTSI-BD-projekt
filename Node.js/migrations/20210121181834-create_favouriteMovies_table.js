@@ -3,19 +3,15 @@
 'use strict';
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("albumratings", {
+  up: async (queryInterface, Sequelize) => {   
+    await queryInterface.createTable("favouritemovies", { 
       id: {
         type: Sequelize.INTEGER(11),
         allowNull: false,
         autoIncrement: true,
         primaryKey: true
       },
-      points: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
-      albumId: Sequelize.INTEGER(11),
+      movieId: Sequelize.INTEGER(11),
       userId: Sequelize.INTEGER(11),
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE
@@ -23,6 +19,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("albumratings");
+    await queryInterface.dropTable("favouritemovies");
   }
 };

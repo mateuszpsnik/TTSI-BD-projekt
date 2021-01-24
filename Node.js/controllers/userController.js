@@ -4,6 +4,27 @@ const User = require("../models/User");
 const fs = require("fs");
 const { handleErrors } = require("./authController");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+const getUserId = (req) => {
+    const token = req.cookies.jwt;
+    let userId;
+
+        if (token) {
+            jwt.verify(token, "some example secret", async (err, decodedToken) => {
+                if (err) {
+                    console.log(err.message);
+                }
+                else {
+                    console.log("token", decodedToken);
+                    userId = decodedToken.id;
+                    console.log("userId", userId);
+                }
+            });
+        }
+
+    return userId;
+};
 
 const user_details = (req, res) => {
     const id = req.params.id;
@@ -131,6 +152,7 @@ const user_delete = async (req, res) => {
 };
 
 module.exports = {
+    getUserId,
     user_details,
     user_edit,
     user_update,

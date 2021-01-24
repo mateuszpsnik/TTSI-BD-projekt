@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <%- include("../partials/head.ejs") %>
+    <body>
+        <%- include("../partials/editorTopPanel.ejs") %> 
+
+        Nie zapomnij wczytać odpowiedniego obrazka.
+
+        <form id="myForm" name="myForm" enctype="multipart/form-data">
+            <label for="title">Tytuł</label>
+            <input type="text" name="title" id="title" required>
+            <label for="introduction">Wstęp</label>
+            <input type="text" name="introduction" id="introduction" required>
+            <label for="content">Treść</label>
+            <input type="text" name="content" id="content" required>
+            <label for="radioMusic">Muzyka</label>
+            <input type="radio" name="musicMovieRadio" id="radioMusic" value="music">
+            <label for="radioMovies">Filmy</label>
+            <input type="radio" name="musicMovieRadio" id="radioMovies" value="movies">
+            <label for="image">Zdjęcie</label>
+            <input type="file" accept="image/*" name="image" id="image">
+            <input type="submit" value="Wyślij" class="submit">
+        </form>
+    
+        <script>
+            const myForm = document.querySelector("#myForm");
+            const title = document.querySelector("#title");
+            const introduction = document.querySelector("#introduction");
+            const content = document.querySelector("#content");
+            const radioMusic = document.querySelector("#radioMusic");
+            const radioMovies = document.querySelector("#radioMovies");
+            const checkbox = document.querySelector("#checkbox");
+            const image = document.querySelector("#image");
+
+            
+            if ("<%= article.category %>" == "music") {
+                radioMusic.checked = true;
+            }
+
+            if ("<%= article.category %>" == "movies") {
+                radioMovies.checked = true;
+            }
+
+            title.value = "<%= article.title %>";
+            introduction.value = "<%= article.introduction %>";
+            content.value = "<%= article.content %>";
+            
+            myForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+
+                const formData = new FormData(myForm);
+                formData.append("id", "<%= article.id %>");
+
+                for (let [key, value] of formData.entries()) {
+                    console.log(key, value);
+                }
+                
+                const path = location;
+                console.log("/articles/" + "<%= article.id %>");
+
+                try {
+                    const response = await fetch("/articles/" + "<%= article.id %>", {
+                        method: "PUT",
+                        body: formData
+                    });
+                    const data = await response.json();
+                    console.log(data);
+                    
+                    location.assign("/editor/articles");
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            });
+
+        </script>
+
+    </body>
+</html>

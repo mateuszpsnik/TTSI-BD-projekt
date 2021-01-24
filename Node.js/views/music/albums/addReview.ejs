@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html>
+
+<%- include("../../partials/head.ejs") %>
+
+<body>
+    <%- include("../../partials/topPanel.ejs") %> 
+    <%- include("../../partials/leftPanel.ejs") %> 
+    <%- include("../../partials/rightPanel.ejs") %> 
+
+    <form id="myForm" name="myForm" enctype="multipart/form-data">
+        <label for="introduction">Wstęp</label>
+        <input type="text" name="introduction" id="introduction" required>
+        <label for="content">Pozostała treść</label>
+        <input type="text" name="content" id="content" required>
+        <label for="rating">Ocena</label>
+        <input type="number" name="rating" id="rating"
+                        min="1" max="10" required>
+        <input type="submit" value="Wyślij" class="submit">
+    </form>
+
+    <script>
+        const myForm = document.querySelector("#myForm");
+
+        myForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const albumId = "<%= albumId %>";
+            const introduction = document.querySelector("#introduction").value;
+            const content = document.querySelector("#content").value;
+            const rating = document.querySelector("#rating").value;
+
+            console.log(albumId);
+            console.log(introduction);
+            console.log(content);
+            console.log(rating);
+
+            const data = {
+                introduction: introduction,
+                content: content,
+                rating: rating,
+                albumId: albumId
+            };
+            
+            fetch(`/music/albums/${albumId}/review`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => alert(data))
+            .catch(err => console.log(err));
+            
+            myForm.reset();
+        });
+
+    </script>
+
+    <%- include("../../partials/footer.ejs") %> 
+    
+</body>
+
+</html>

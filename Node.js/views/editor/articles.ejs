@@ -2,23 +2,23 @@
 <html>
     <%- include("../partials/head.ejs") %>
     <body>
-        <%- include("../partials/adminTopPanel.ejs") %> 
+        <%- include("../partials/editorTopPanel.ejs") %> 
 
         <a href="/editor">Dodaj nowy artykuł</a>
 
         <div id="main">
             <% if(articles.length > 0) { %>
                 <% articles.forEach(article => { %>
-                    <div class="boxes">
+                    <div class="article-boxes">
                         <a class="article-item" href="/articles/<%= article.id %>">
-                            <div class="box">
+                            <div class="article-box">
                                 <img src="<%= article.image %>" alt="Zdjęcie artykułu" width="150px" height="150px">
                             </div>
-                            <div class="box">
+                            <div class="article-box">
                                 <h3 class="title"><%= article.title %></h3>
                                 <p class="introduction"><%= article.introduction %> </p>
                             </div>
-                            <div class="box" id="edit-delete">                                
+                            <div class="article-box" id="edit-delete">                                
                                 <a href="articles/<%= article.id %>">Edytuj</a></li>
                                 <a href="#" data-doc="<%= article.id %>" class="delete">Usuń</a></li>                               
                             </div>
@@ -36,10 +36,12 @@
             deleteAnchor.addEventListener("click", (e) => {
                 const endpoint = `/articles/${deleteAnchor.dataset.doc}`;
 
+                console.log(endpoint);
+
                 fetch(endpoint, {
                     method: "DELETE"
                 })
-                .then((response) => response.json())
+                .then((response) => response.text())
                 .then((data) => window.location.href = data.redirect)
                 .catch(err => console.log(err));
             });

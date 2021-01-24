@@ -2,28 +2,28 @@
 
 <html>
 
-<%- include("../../partials/head.ejs") %>
+<%- include("../partials/head.ejs") %>
 
 <body>
-    <%- include("../../partials/topPanel.ejs") %> 
+    <%- include("../partials/topPanel.ejs") %> 
 
     <div id="main">
         <div class="boxes">
             <div class="box">
-                <img src="<%= album.cover %>" alt="Okładka albumu" width="300">
+                <img src="<%= movie.poster %>" alt="Plakat filmu" width="300">
             </div>
             <div class="box">
-                <h1><%= album.title %></h1>
-                <h2><%= album.artist %></h2>
-                <h4><%= album.genre %></h4>
-                <h4><%= album.year %></h4>
+                <h1><%= movie.title %></h1>
+                <h2><%= movie.director %></h2>
+                <h4><%= movie.genre %></h4>
+                <h4><%= movie.year %></h4>
             </div>
             <div class="box">
                 <form class="rating">
                     <% if (rating) { %>
                         Twoja ocena: <%= rating.points %>
                     <% } else { %>
-                    <label for="rating">Oceń album</label>
+                    <label for="rating">Oceń film</label>
                     <input type="number" name="rating" id="rating"
                         min="1" max="10" required>
                     <button>Wyślij</button>
@@ -43,25 +43,25 @@
                     </div>
                 </div>
             <% } else { %> 
-            <a href="/music/albums/<%= album.id %>/review">Napisz recenzję</a>
+            <a href="/movies/<%= movie.id %>/review">Napisz recenzję</a>
             <% } %>
         </div>
     </div>
 
     <script>
         const form = document.querySelector("form");
-        const albumId = "<%= album.id %>";
-        console.log(albumId);   
+        const movieId = "<%= movie.id %>";
+        console.log(movieId);   
 
         form.addEventListener("submit", e => {
             e.preventDefault();
 
             const data = {
                 rating: form.rating.value,
-                albumId: albumId
+                movieId: movieId
             };
 
-            fetch(`/music/albums/${albumId}/rate`, {
+            fetch(`/movies/${movieId}/rate`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
@@ -72,7 +72,7 @@
         });
     </script>
 
-    <%- include("../../partials/footer.ejs") %> 
+    <%- include("../partials/footer.ejs") %> 
 
 </body>
 

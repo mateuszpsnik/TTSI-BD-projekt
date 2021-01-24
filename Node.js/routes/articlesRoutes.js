@@ -25,6 +25,6 @@ router.post("/create", requireEditorAuth, upload.single("image"), articlesContro
 
 router.get("/:id", articlesController.article_details);
 router.put("/:id", requireAdminOrEditorAuth, upload.single("image"), articlesController.article_update);
-router.delete("/:id", requireAdminAuth, articlesController.article_delete);
+router.delete("/:id", requireAdminOrEditorAuth, articlesController.article_delete);
 
 module.exports = router;

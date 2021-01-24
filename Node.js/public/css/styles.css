@@ -105,6 +105,11 @@ form {
     border-radius: 10px;
 }
 
+form.rating {
+    width: 200px;
+    margin: 10px auto;
+}
+
 input {
     padding: 10px;
     border-radius: 2px;

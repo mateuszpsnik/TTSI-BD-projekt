@@ -3,8 +3,8 @@
 'use strict';
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("albumreviews", {
+  up: async (queryInterface, Sequelize) => {   
+    await queryInterface.createTable("favouritealbums", { 
       id: {
         type: Sequelize.INTEGER(11),
         allowNull: false,
@@ -12,21 +12,13 @@ module.exports = {
         primaryKey: true
       },
       albumId: Sequelize.INTEGER(11),
-      introduction: {
-        type: Sequelize.TEXT,
-        allowNull: false
-      },
-      content: Sequelize.TEXT,
-      points: Sequelize.INTEGER,
-      editorId: Sequelize.INTEGER(11),
       userId: Sequelize.INTEGER(11),
-      accepted: Sequelize.BOOLEAN,
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("albumreviews");
+    await queryInterface.dropTable("favouritealbums");
   }
 };

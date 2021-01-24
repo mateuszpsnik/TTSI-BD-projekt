@@ -3,6 +3,8 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../connection");
 const Editor = require("./Editor");
+const User = require("./User");
+const Movie = require("./Movie");
 
 const MovieReview = sequelize.define("MovieReview", {
     id: {
@@ -18,11 +20,15 @@ const MovieReview = sequelize.define("MovieReview", {
     },
     content: Sequelize.TEXT,
     points: Sequelize.INTEGER,
-    editorId: Sequelize.INTEGER(11)
+    editorId: Sequelize.INTEGER(11),
+    userId: Sequelize.INTEGER(11),
+    accepted: Sequelize.BOOLEAN
 });
 
 Editor.hasMany(MovieReview, { foreignKey: "editorId" });
 MovieReview.belongsTo(Editor, { foreignKey: "editorId" });
+User.hasMany(MovieReview, { foreignKey: "userId" });
+MovieReview.belongsTo(User, { foreignKey: "userId" });
 Movie.hasMany(MovieReview, { foreignKey: "movieId" });
 MovieReview.belongsTo(Movie, { foreignKey: "movieId" });
 

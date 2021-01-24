@@ -1,6 +1,9 @@
 /*jshint esversion: 8*/
 
 const Editor = require("../models/Editor");
+const Article = require("../models/Article");
+const AlbumReview = require("../models/AlbumReview");
+const MovieReview = require("../models/MovieReview");
 const { handleErrors } = require("./authController");
 const jwt = require("jsonwebtoken");
 
@@ -12,8 +15,61 @@ const createToken = (id) => {
     });
 };
 
+const getEditorId = (req) => {
+    const token = req.cookies.jwtEditor;
+    let editorId;
+
+        if (token) {
+            jwt.verify(token, "some editor secret", async (err, decodedToken) => {
+                if (err) {
+                    console.log(err.message);
+                }
+                else {
+                    console.log("token", decodedToken);
+                    editorId = decodedToken.id;
+                    console.log("userId", editorId);
+                }
+            });
+        }
+
+    return editorId;
+};
+
 const editor_index = (req, res) => {
     res.render("editor/index", { title: "Panel redaktorski" });
+};
+
+const editor_articles = async (req, res) => {
+    const editorId = getEditorId(req);
+
+    await Article.findAll(
+        {
+            where: { editorId: editorId }
+        }
+    )
+    .then((result) => {
+        res.render("editor/articles", { title: "Wszystkie artykuły", articles: result });
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+};
+
+const edit_articles = async (req, res) => {
+    const id = req.params.id;
+    await Article.findAll({ where: { id: id } })
+    .then(result => {
+        res.render("editor/editArticle", { title: "Edytuj album", article: result[0] });
+    })
+    .catch(err => console.log(err));
+};
+
+const editor_reviews = (req, res) => {
+    
+};
+
+const edit_reviews = async (req, res) => {
+
 };
 
 const signup_post = async (req, res) => {
@@ -57,7 +113,12 @@ const logout_get = async (req, res) => {
 };
 
 module.exports = {
+    getEditorId,
     editor_index,
+    editor_articles,
+    edit_articles,
+    editor_reviews,
+    edit_reviews,
     signup_post,
     login_get,
     login_post,

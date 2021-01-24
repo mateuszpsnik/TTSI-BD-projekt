@@ -34,7 +34,9 @@ app.get("*", checkUser); // "*" means "apply to every get request"
 app.get("*", checkEditor);
 app.get("*", checkAdmin);
 app.get("/", async (req, res) => { 
-    Article.findAll()
+    Article.findAll({
+        limit: 3
+    })
     .then((result) => {
         res.render("index", { title: "Muzyka i film - Strona główna", articles: result });
     })

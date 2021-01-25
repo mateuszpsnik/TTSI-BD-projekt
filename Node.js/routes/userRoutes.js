@@ -25,6 +25,8 @@ router.get("/delete", requireUserAuth, userController.user_get_delete);
 
 
 router.get("/:id", userController.user_details);
+router.get("/:id/ratings", userController.user_ratings);
+router.get("/:id/reviews", userController.user_reviews);
 router.delete("/:id", requireUserAuth, userController.user_delete);
 
 module.exports = router;

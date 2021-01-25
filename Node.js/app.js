@@ -34,7 +34,9 @@ app.get("*", checkUser); // "*" means "apply to every get request"
 app.get("*", checkEditor);
 app.get("*", checkAdmin);
 app.get("/", async (req, res) => { 
+    // SELECT `image`, `title`, `introduction` FROM `Articles` AS `Article` LIMIT 3;
     Article.findAll({
+        attributes: [ "image", "title", "introduction" ],
         limit: 3
     })
     .then((result) => {

@@ -43,6 +43,14 @@ const user_details = (req, res) => {
     });
 };
 
+const user_ratings = (req, res) => {
+    
+};
+
+const user_reviews = (req, res) => {
+
+};
+
 const user_edit = (req, res) => {
     res.render("user/edit", { title: "Edytuj profil" });
 };
@@ -143,6 +151,8 @@ const user_delete = async (req, res) => {
 module.exports = {
     getUserId,
     user_details,
+    user_ratings,
+    user_reviews,
     user_edit,
     user_update,
     user_get_delete,

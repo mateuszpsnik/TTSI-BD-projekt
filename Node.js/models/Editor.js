@@ -55,7 +55,9 @@ const Editor = sequelize.define("Editor", {
 });
 
 Editor.login = async (email, password) => {
+    // SELECT `email`, `password` FROM `Editors` AS `Editor` WHERE `Editor`.`email` = 'mateuszpsnik@gmail.com';
     const editorsEmail = await Editor.findAll({
+        attributes: [ "id", "email", "password" ],
         where: {
             email: email
         }

@@ -18,6 +18,8 @@ const add_movie_post = async (req, res) => {
     console.log(posterPath);
 
     try {
+        // INSERT INTO `Movies` (`id`,`title`,`director`,`genre`,`year`,`poster`,`accepted`,`createdAt`,`updatedAt`) 
+        // VALUES (DEFAULT,?,?,?,?,?,?,?,?);
         const movie = await Movie.create({
             title: title,
             director: director,
@@ -81,6 +83,7 @@ const movie_accept = async (req, res) => {
     const id = req.params.id;
     console.log(id);
 
+    // UPDATE `Movies` SET `accepted`=?,`updatedAt`=? WHERE `id` = ?
     await Movie.update({
         accepted: true
     },{
@@ -198,6 +201,8 @@ const add_review_post = async (req, res) => {
         let movieReview;
         if (editorId) {
             console.log("editor");
+            // INSERT INTO `MovieReviews` (`id`,`movieId`,`introduction`,`content`,`points`,`editorId`,`userId`,`accepted`,`createdAt`,`updatedAt`)
+            //  VALUES (DEFAULT,?,?,?,?,?,?,?,?,?);
             movieReview = await MovieReview.create({
                 movieId: movieId,
                 introduction: introduction,
@@ -210,6 +215,8 @@ const add_review_post = async (req, res) => {
         }
         else if (userId) {
             console.log("user");
+            // INSERT INTO `MovieReviews` (`id`,`movieId`,`introduction`,`content`,`points`,`editorId`,`userId`,`accepted`,`createdAt`,`updatedAt`)
+            //  VALUES (DEFAULT,?,?,?,?,?,?,?,?,?);
             movieReview = await MovieReview.create({
                 movieId: movieId,
                 introduction: introduction,

@@ -34,8 +34,10 @@ const Admin = sequelize.define("Admin", {
 
 // static method to login admin
 Admin.login = async (password) => {
-    const admins = await Admin.findAll();
-    let adminToReturn;
+    // SELECT `id`, `password` FROM `Admins` AS `Admin`;
+    const admins = await Admin.findAll({
+        attributes: [ "id", "password" ]
+    });
 
     for (let i = 0; i < admins.length; i++) {
         const auth = await bcrypt.compare(password, admins[i].password);

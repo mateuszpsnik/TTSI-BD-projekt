@@ -76,6 +76,8 @@ const signup_post = async (req, res) => {
     const { name, email, password } = req.body;
 
     try {
+        // INSERT INTO `Editors` (`id`,`name`,`email`,`password`,`createdAt`,`updatedAt`) 
+        // VALUES (DEFAULT,?,?,?,?,?);
         const editor = await Editor.create({ name, email, password });
         res.status(201).json({ editor: editor.id });
     }

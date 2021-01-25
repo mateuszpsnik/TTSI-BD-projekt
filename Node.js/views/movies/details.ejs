@@ -55,6 +55,13 @@
         const movieId = "<%= movie.id %>";
         console.log(movieId);   
 
+        function addToFavourites() {
+            fetch(`/movies/${movieId}/favourite`, {
+                method: "POST"
+            })
+            .catch(err => console.log(err));
+        }
+
         form.addEventListener("submit", e => {
             e.preventDefault();
 
@@ -62,6 +69,10 @@
                 rating: form.rating.value,
                 movieId: movieId
             };
+
+            if (data.rating >= 8) {
+                addToFavourites();
+            }
 
             fetch(`/movies/${movieId}/rate`, {
             method: "POST",
@@ -76,10 +87,7 @@
         favButton.addEventListener("click", e => {
             e.preventDefault();
 
-            fetch(`/movies/${movieId}/favourite`, {
-                method: "POST"
-            })
-            .catch(err => console.log(err));
+            addToFavourites()
         });
     </script>
 

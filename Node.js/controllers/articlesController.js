@@ -25,12 +25,13 @@ const article_details = (req, res) => {
 };
 
 const article_create = (req, res) => {
-    console.log(req.body);
     const { musicMovieRadio, title, introduction, content, editorId } = req.body;
     const imagePath = "/images/articles/" + req.file.filename;
     console.log(imagePath);
 
     try {
+        // INSERT INTO `Articles` (`id`,`category`,`title`,`introduction`,`content`,`image`,`editorId`,`createdAt`,`updatedAt`) 
+        // VALUES (DEFAULT,?,?,?,?,?,?,?,?);
         const article = Article.create({ category: musicMovieRadio,
             title: title, introduction: introduction, 
             content: content, image: imagePath, editorId: editorId

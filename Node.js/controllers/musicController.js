@@ -20,6 +20,8 @@ const add_album_post = async (req, res) => {
     console.log(coverPath);
 
     try {
+        // INSERT INTO `Albums` (`id`,`title`,`artist`,`genre`,`year`,`cover`,`accepted`,`createdAt`,`updatedAt`)
+        //  VALUES (DEFAULT,?,?,?,?,?,?,?,?);
         const album = await Album.create({
             title: title,
             artist: artist,
@@ -84,6 +86,7 @@ const album_accept = async (req, res) => {
     const id = req.params.id;
     console.log(id);
 
+    // UPDATE `Albums` SET `accepted`=?,`updatedAt`=? WHERE `id` = ?
     await Album.update({
         accepted: true
     },{
@@ -201,6 +204,8 @@ const add_review_post = async (req, res) => {
         let albumReview;
         if (editorId) {
             console.log("editor");
+            // INSERT INTO `AlbumReviews` (`id`,`albumId`,`introduction`,`content`,`points`,`editorId`,`userId`,`accepted`,`createdAt`,`updatedAt`)
+            //  VALUES (DEFAULT,?,?,?,?,?,?,?,?,?);
             albumReview = await AlbumReview.create({
                 albumId: albumId,
                 introduction: introduction,
@@ -213,6 +218,8 @@ const add_review_post = async (req, res) => {
         }
         else if (userId) {
             console.log("user");
+            // INSERT INTO `AlbumReviews` (`id`,`albumId`,`introduction`,`content`,`points`,`editorId`,`userId`,`accepted`,`createdAt`,`updatedAt`)
+            //  VALUES (DEFAULT,?,?,?,?,?,?,?,?,?);
             albumReview = await AlbumReview.create({
                 albumId: albumId,
                 introduction: introduction,

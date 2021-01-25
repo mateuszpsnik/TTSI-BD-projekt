@@ -53,6 +53,7 @@ const signup_post = async (req, res) => {
     console.log(imagePath);
     
     try {
+        // INSERT INTO `Users` (`id`,`username`,`email`,`password`,`image`,`createdAt`,`updatedAt`) VALUES (DEFAULT,?,?,?,?,?,?);
         const user = await User.create({ username, email, password, 
             image: imagePath });
         const token = createToken(user.id);
@@ -75,6 +76,7 @@ const login_post = async (req, res) => {
         res.status(200).json({ user: user.id });
     }
     catch (err) {
+        console.log(err);
         const errors = handleErrors(err);
         res.status(400).json({ errors });
     }

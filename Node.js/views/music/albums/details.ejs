@@ -55,6 +55,13 @@
         const albumId = "<%= album.id %>";
         console.log(albumId);   
 
+        function addToFavourites() {
+            fetch(`/music/albums/${albumId}/favourite`, {
+                method: "POST"
+            })
+            .catch(err => console.log(err));
+        }
+
         form.addEventListener("submit", e => {
             e.preventDefault();
 
@@ -63,10 +70,14 @@
                 albumId: albumId
             };
 
+            if (data.rating >= 8) {
+                addToFavourites();
+            }
+
             fetch(`/music/albums/${albumId}/rate`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
             })
             .then(response => response.json())
             .then(data => alert(data))
@@ -76,10 +87,7 @@
         favButton.addEventListener("click", e => {
             e.preventDefault();
 
-            fetch(`/music/albums/${albumId}/favourite`, {
-                method: "POST"
-            })
-            .catch(err => console.log(err));
+            addToFavourites();
         });
     </script>
 

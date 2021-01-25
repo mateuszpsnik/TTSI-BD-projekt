@@ -149,7 +149,7 @@ button {
 
 .box {
     float: left;
-    margin: 20px;
+    margin-left: 20px;
 }
 
 #edit-delete {

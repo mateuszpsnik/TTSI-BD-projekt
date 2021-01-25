@@ -158,6 +158,9 @@ const checkUser = (req, res, next) => {
             else {
                 console.log(decodedToken);
                 let user = await User.findAll({
+                    attributes: {
+                        exclude: [ "userId", "createdAt", "updatedAt" ]
+                    },
                     where: { id: decodedToken.id }
                 }); 
                 res.locals.user = user[0];

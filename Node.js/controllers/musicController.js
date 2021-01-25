@@ -8,6 +8,7 @@ const AlbumRating = require("../models/AlbumRating");
 const { getUserId } = require("./userController");
 const { getEditorId } = require("./editorController");
 const AlbumReview = require("../models/AlbumReview");
+const FavouriteAlbum = require("../models/FavouriteAlbum");
 
 const add_album_get = (req, res) => {
     res.render("music/albums/add", { title: "Dodaj album" });
@@ -175,6 +176,16 @@ const add_rating = async (req, res) => {
     }
 };
 
+const add_to_favourites = async (req, res) => {
+    const albumId = req.params.id;
+    const userId = getUserId(req);
+
+    await FavouriteAlbum.create({
+        albumId: albumId,
+        userId: userId
+    });
+};
+
 const add_review_get = (req, res) => {
     const albumId = req.params.id;
 
@@ -258,6 +269,7 @@ module.exports = {
     album_update,
     album_delete,
     add_rating,
+    add_to_favourites,
     add_review_get,
     add_review_post,
     accept_review,

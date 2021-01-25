@@ -29,6 +29,7 @@
                     <button>Wyślij</button>
                     <% } %>
                 </form>
+                <button id="add-to-fav">Dodaj do ulubionych</button>
             </div>
         </div>
         <div class="box">
@@ -49,6 +50,7 @@
     </div>
 
     <script>
+        const favButton = document.querySelector("#add-to-fav");
         const form = document.querySelector("form");
         const movieId = "<%= movie.id %>";
         console.log(movieId);   
@@ -68,6 +70,15 @@
             })
             .then(response => response.json())
             .then(data => alert(data))
+            .catch(err => console.log(err));
+        });
+
+        favButton.addEventListener("click", e => {
+            e.preventDefault();
+
+            fetch(`/movies/${movieId}/favourite`, {
+                method: "POST"
+            })
             .catch(err => console.log(err));
         });
     </script>

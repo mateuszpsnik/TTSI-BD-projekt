@@ -28,7 +28,12 @@ const getUserId = (req) => {
 
 const user_details = (req, res) => {
     const id = req.params.id;
-    User.findAll({ where: { id: id } })
+    User.findAll({
+        attributes: {
+            exclude: [ "createdAt", "updatedAt", "userId" ]
+        },
+        where: { id: id } 
+    })
     .then(result => {
         res.render("user/details", { title: result[0].title, user: result[0] });
     })

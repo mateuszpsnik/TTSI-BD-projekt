@@ -28,6 +28,7 @@ const getUserId = (req) => {
 
 const user_details = (req, res) => {
     const id = req.params.id;
+    // SELECT `id`, `username`, `email`, `password`, `image` FROM `Users` AS `User` WHERE `User`.`id` = '1';
     User.findAll({
         attributes: {
             exclude: [ "createdAt", "updatedAt", "userId" ]
@@ -47,16 +48,18 @@ const user_edit = (req, res) => {
 };
 
 const user_update = async (req, res) => {
-    const { id, username, email, password, checkboxPassword,
+    const { id, username, email, checkboxPassword,
          newPassword } = req.body;
 
-    const users = await User.findAll({ where: { id: id } });
+    //  SELECT `id`, `image` FROM `Users` AS `User` WHERE `User`.`id` = '1';
+    const users = await User.findAll({
+        attributes: [ "id", "image" ],
+        where: { id: id } });
     const userToBeUpdated = users[0];
 
-    console.log(req.file, userToBeUpdated);
-
-    const imagePath = "/images/users/" + req.file.filename;
+    let imagePath;
     if (req.file) {
+        imagePath = "/images/users/" + req.file.filename;
         console.log(imagePath);
         fs.unlinkSync("public" + userToBeUpdated.image, (err) => {
             if (err) {
@@ -66,13 +69,8 @@ const user_update = async (req, res) => {
     }
 
     try {
-        const auth = await bcrypt.compare(password, userToBeUpdated.password);
-
-        if (!auth) {
-            throw Error("incorrect password");
-        }
-
-        if (req.file && checkboxPassword) {
+        if (req.file) {
+            // UPDATE `Users` SET `username`=?,`email`=?,`password`=?,`image`=?,`updatedAt`=? WHERE `id` = ?
             await User.update({
                 username: username,
                 email: email,
@@ -82,16 +80,8 @@ const user_update = async (req, res) => {
                 where: { id: id }
             });
         }
-        else if (req.file && !checkboxPassword) {
-            await User.update({
-                username: username,
-                email: email,
-                image: imagePath
-            }, {
-                where: { id: id }
-            });
-        }
-        else if (!req.file && checkboxPassword) {
+        else {
+            // UPDATE `Users` SET `username`=?,`email`=?,`password`=?,`updatedAt`=? WHERE `id` = ?
             await User.update({
                 username: username,
                 email: email,
@@ -100,18 +90,11 @@ const user_update = async (req, res) => {
                 where: { id: id }
             });
         }
-        else {
-            await User.update({
-                username: username,
-                email: email
-            }, {
-                where: { id: id }
-            });
-        }
 
         res.status(200).json({ success: true });
     }
     catch (err) {
+        console.log(err);
         const errors = handleErrors(err);
         res.status(400).json({ errors });
     }
@@ -124,8 +107,11 @@ const user_get_delete = async (req, res) => {
 const user_delete = async (req, res) => {
     const { id } = req.params;
     const { admin, password } = req.body;
-
-    const users = await User.findAll({ where: { id: id } });
+    // SELECT `id`, `password` FROM `Users` AS `User` WHERE `User`.`id` = '2';
+    const users = await User.findAll({
+        attributes: [ "id", "password" ], 
+        where: { id: id } 
+    });
 
     try {
         if (!admin) {
@@ -135,7 +121,7 @@ const user_delete = async (req, res) => {
                 throw Error("incorrect password");
             }
         }
-        
+        // DELETE FROM `Users` WHERE `id` = '2'
         await User.destroy({
             where: { id: id }
         });
@@ -151,8 +137,6 @@ const user_delete = async (req, res) => {
         console.log(err);
         res.status(400).json({ err });
     }
-    
-
 
 };
 

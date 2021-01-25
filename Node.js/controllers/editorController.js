@@ -41,8 +41,9 @@ const editor_index = (req, res) => {
 
 const editor_articles = async (req, res) => {
     const editorId = getEditorId(req);
-
+        // SELECT `id`, `image`, `title`, `introduction` FROM `Articles` AS `Article` WHERE `Article`.`editorId` = 1;
     await Article.findAll({
+            attributes: [ "id", "image", "title", "introduction" ],
             where: { editorId: editorId }
         }
     )
@@ -56,7 +57,10 @@ const editor_articles = async (req, res) => {
 
 const edit_articles = async (req, res) => {
     const id = req.params.id;
-    await Article.findAll({ where: { id: id } })
+    // SELECT `id`, `title`, `introduction`, `content` FROM `Articles` AS `Article` WHERE `Article`.`id` = '2';
+    await Article.findAll({
+        attributes: [ "id", "title", "introduction", "content" ],
+        where: { id: id } })
     .then(result => {
         res.render("editor/editArticle", { title: "Edytuj artykuł", article: result[0] });
     })

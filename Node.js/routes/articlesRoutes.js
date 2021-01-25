@@ -19,8 +19,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.get("/", articlesController.articles_index);
-
 router.post("/create", requireEditorAuth, upload.single("image"), articlesController.article_create);
 
 router.get("/:id", articlesController.article_details);

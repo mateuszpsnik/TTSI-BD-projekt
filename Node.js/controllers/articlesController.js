@@ -3,19 +3,13 @@
 const Article = require("../models/Article");
 const fs = require("fs");
 
-const articles_index = (req, res) => {
-    Article.findAll()
-    .then((result) => {
-        res.render("index", { title: "Wszystkie artykuły", articles: result });
-    })
-    .catch((err) => {
-        console.log(err);
-    });
-};
-
 const article_details = (req, res) => {
     const id = req.params.id;
-    Article.findAll({ where: { id: id } })
+    // SELECT `title`, `introduction`, `content` FROM `Articles` AS `Article` WHERE `Article`.`id` = '1';
+    Article.findAll({
+        attributes: [ "title", "introduction", "content" ], 
+        where: { id: id } 
+    })
     .then(result => {
         res.render("article", { title: result[0].title, article: result[0] });
     })
@@ -45,10 +39,13 @@ const article_create = (req, res) => {
     }
 };
 
-article_update = async (req, res) => {
+const article_update = async (req, res) => {
     const { id, musicMovieRadio, title, introduction, content } = req.body;
-
-    const articles = await Article.findAll({ where: { id: id }});
+    // SELECT `id`, `image` FROM `Articles` AS `Article` WHERE `Article`.`id` = '1';
+    const articles = await Article.findAll({
+        attributes: [ "id", "image" ],
+        where: { id: id }
+    });
     const articleToBeUpdated = articles[0];
 
     console.log(req.file);
@@ -64,11 +61,11 @@ article_update = async (req, res) => {
         });
     }
     
-
     try {
         let article;
         if (req.file) {
             imagePath = "/images/articles/" + req.file.filename;
+            // UPDATE `Articles` SET `category`=?,`title`=?,`introduction`=?,`content`=?,`image`=?,`updatedAt`=? WHERE `id` = ?
             article = Article.update({ 
                 category: musicMovieRadio,
                 title: title,
@@ -79,6 +76,7 @@ article_update = async (req, res) => {
                 where: { id: id }
             });
         } else {
+            // UPDATE `Articles` SET `category`=?,`title`=?,`introduction`=?,`content`=?,`updatedAt`=? WHERE `id` = ?
             article = Article.update({ 
                 category: musicMovieRadio,
                 title: title,
@@ -99,7 +97,7 @@ article_update = async (req, res) => {
 
 const article_delete = (req, res) => {
     const id = req.params.id;
-
+    // DELETE FROM `Articles` WHERE `id` = '1'
     Article.destroy({ 
         where: { id: id }
     })
@@ -110,7 +108,6 @@ const article_delete = (req, res) => {
 };
 
 module.exports = {
-    articles_index,
     article_details,
     article_create,
     article_update,

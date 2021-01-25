@@ -42,8 +42,7 @@ const editor_index = (req, res) => {
 const editor_articles = async (req, res) => {
     const editorId = getEditorId(req);
 
-    await Article.findAll(
-        {
+    await Article.findAll({
             where: { editorId: editorId }
         }
     )
@@ -59,7 +58,7 @@ const edit_articles = async (req, res) => {
     const id = req.params.id;
     await Article.findAll({ where: { id: id } })
     .then(result => {
-        res.render("editor/editArticle", { title: "Edytuj album", article: result[0] });
+        res.render("editor/editArticle", { title: "Edytuj artykuł", article: result[0] });
     })
     .catch(err => console.log(err));
 };

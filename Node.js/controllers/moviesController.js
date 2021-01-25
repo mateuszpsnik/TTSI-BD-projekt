@@ -42,29 +42,43 @@ const movie_details = async (req, res) => {
     console.log(id);
 
     try {
-        const movies = await Movie.findAll({ where: 
-            { 
+        // SELECT `Movie`.`id`, `Movie`.`title`, `Movie`.`director`, `Movie`.`genre`, `Movie`.`year`, `Movie`.`poster`, `Movie`.`accepted`, 
+        // `MovieReviews`.`id` AS `MovieReviews.id`, `MovieReviews`.`movieId` AS `MovieReviews.movieId`, `MovieReviews`.`introduction` 
+        // AS `MovieReviews.introduction`, `MovieReviews`.`content` AS `MovieReviews.content`, `MovieReviews`.`points` AS `MovieReviews.points`, 
+        // `MovieReviews`.`editorId` AS `MovieReviews.editorId`, `MovieReviews`.`userId` AS `MovieReviews.userId`, `MovieReviews`.`accepted` 
+        // AS `MovieReviews.accepted` FROM `Movies` AS `Movie` INNER JOIN `MovieReviews` AS `MovieReviews` ON `Movie`.`id` = `MovieReviews`.`movieId` 
+        // AND `MovieReviews`.`movieId` = '1' WHERE `Movie`.`id` = '1' AND `Movie`.`accepted` = true;
+        const movies = await Movie.findAll({ 
+            attributes: {
+                exclude: [ "createdAt", "updatedAt" ]
+            },
+            where: { 
                 id: id,
                 accepted: true
-            } 
+            },
+            include: [{
+                model: MovieReview,
+                where: { movieId: id },
+                attributes: {
+                    exclude: [ "createdAt", "updatedAt" ]
+                }
+            }] 
         });
 
         const userId = getUserId(req);
         let ratings = [ false ];
-        let reviews = [ false ];
+        let reviews = movies[0].MovieReviews;
 
         if (userId) {
-            ratings = await MovieRating.findAll({ where:
-                {
+            // SELECT `id`, `points` FROM `MovieRatings` AS `MovieRating` WHERE `MovieRating`.`movieId` = '1' AND `MovieRating`.`userId` = 1;
+            ratings = await MovieRating.findAll({ 
+                attributes: [ "id", "points" ],
+                where: {
                     movieId: id,
                     userId: userId 
                 }
             });
         }
-
-        reviews = await MovieReview.findAll({ 
-            where: { movieId: id }
-        });
 
         if (movies) {
             res.render("movies/details", { title: movies[0].title, movie: movies[0],
@@ -97,8 +111,11 @@ const movie_accept = async (req, res) => {
 
 const movie_update = async (req, res) => {
     const { id, title, director, genre, year } = req.body;
-
-    const movies = await Movie.findAll({ where: { id: id }});
+    // SELECT `id`, `poster` FROM `Movies` AS `Movie` WHERE `Movie`.`id` = '1';
+    const movies = await Movie.findAll({
+        attributes: [ "id", "poster" ],
+        where: { id: id }
+    });
     const movieToBeUpdated = movies[0];
 
     console.log(req.file);
@@ -118,6 +135,7 @@ const movie_update = async (req, res) => {
         let movie;
         if (req.file) {
             posterPath = "/images/movies/" + req.file.filename;
+            // UPDATE `Movies` SET `title`=?,`director`=?,`genre`=?,`year`=?,`poster`=?,`updatedAt`=? WHERE `id` = ?
             movie = await Movie.update({
                 title: title,
                 director: director,
@@ -128,6 +146,7 @@ const movie_update = async (req, res) => {
                 where: { id: id }
             });
         } else {
+            // UPDATE `Movies` SET `title`=?,`director`=?,`genre`=?,`year`=?,`updatedAt`=? WHERE `id` = ?
             movie = await Movie.update({
                 title: title,
                 director: director,
@@ -149,7 +168,7 @@ const movie_update = async (req, res) => {
 const movie_delete = async (req, res) => {
     const id = req.params.id;
     console.log(id);
-
+    // DELETE FROM `Movies` WHERE `id` = '1'
     await Movie.destroy({
         where: { id: id }
     })
@@ -162,6 +181,7 @@ const add_rating = async (req, res) => {
     const userId = getUserId(req);
     
     try {
+        // INSERT INTO `MovieRatings` (`id`,`points`,`movieId`,`userId`,`createdAt`,`updatedAt`) VALUES (DEFAULT,?,?,?,?,?);
         const movieRating = await MovieRating.create({
             points: rating,
             movieId: movieId,
@@ -179,7 +199,7 @@ const add_rating = async (req, res) => {
 const add_to_favourites = async (req, res) => {
     const movieId = req.params.id;
     const userId = getUserId(req);
-
+    // INSERT INTO `FavouriteMovies` (`id`,`movieId`,`userId`,`createdAt`,`updatedAt`) VALUES (DEFAULT,?,?,?,?);
     await FavouriteMovie.create({
         movieId: movieId,
         userId: userId
@@ -242,7 +262,7 @@ const add_review_post = async (req, res) => {
 const accept_review = async (req, res) => {
     const id = req.params.id;
     console.log(id);
-
+    // UPDATE `MovieReviews` SET `accepted`=?,`updatedAt`=? WHERE `id` = ?
     await MovieReview.update({
         accepted: true
     },{
@@ -257,7 +277,7 @@ const accept_review = async (req, res) => {
 const delete_review = async (req, res) => {
     const id = req.params.id;
     console.log(id);
-
+    // DELETE FROM `MovieReviews` WHERE `id` = '1'
     await MovieReview.destroy({
         where: { id: id }
     })

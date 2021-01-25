@@ -42,32 +42,44 @@ const add_album_post = async (req, res) => {
 const album_details = async (req, res) => {
     const id = req.params.id;
     console.log(id);
-
+    // SELECT `Album`.`id`, `Album`.`title`, `Album`.`artist`, `Album`.`genre`, `Album`.`year`, `Album`.`cover`, `Album`.`accepted`, 
+    // `AlbumReviews`.`id` AS `AlbumReviews.id`, `AlbumReviews`.`albumId` AS `AlbumReviews.albumId`, `AlbumReviews`.`introduction` 
+    // AS `AlbumReviews.introduction`, `AlbumReviews`.`content` AS `AlbumReviews.content`, `AlbumReviews`.`points` AS `AlbumReviews.points`, 
+    // `AlbumReviews`.`editorId` AS `AlbumReviews.editorId`, `AlbumReviews`.`userId` AS `AlbumReviews.userId`, `AlbumReviews`.`accepted` 
+    // AS `AlbumReviews.accepted` FROM `Albums` AS `Album` INNER JOIN `AlbumReviews` AS `AlbumReviews` ON `Album`.`id` = `AlbumReviews`.`albumId` 
+    // AND `AlbumReviews`.`albumId` = '1' WHERE `Album`.`id` = '1' AND `Album`.`accepted` = true;
     try {
-        const albums = await Album.findAll({ where: 
-            { 
+        const albums = await Album.findAll({ 
+            attributes: { 
+                exclude: [ "createdAt", "updatedAt" ]
+            },
+            where: { 
                 id: id,
                 accepted: true
-            } 
+            },
+            include: [{
+                model: AlbumReview,
+                where: { albumId: id },
+                attributes: {
+                    exclude: [ "createdAt", "updatedAt" ]
+                }
+            }] 
         });
 
         const userId = getUserId(req);
         let ratings = [ false ];
-        let reviews = [ false ];
+        let reviews = albums[0].AlbumReviews;
 
         if (userId) {
-            ratings = await AlbumRating.findAll({ where:
-                {
+            // SELECT `id`, `points` FROM `AlbumRatings` AS `AlbumRating` WHERE `AlbumRating`.`albumId` = '1' AND `AlbumRating`.`userId` = 1;
+            ratings = await AlbumRating.findAll({ 
+                attributes: [ "id", "points" ],
+                where: {
                     albumId: id,
                     userId: userId 
                 }
             });
         }
-
-        reviews = await AlbumReview.findAll({
-            where: { albumId: id }
-        });
-
 
         if (albums) {
             res.render("music/albums/details", { title: albums[0].title, album: albums[0],
@@ -100,8 +112,11 @@ const album_accept = async (req, res) => {
 
 const album_update = async (req, res) => {
     const { id, title, artist, genre, year } = req.body;
-
-    const albums = await Album.findAll({ where: { id: id }});
+    // SELECT `id`, `cover` FROM `Albums` AS `Album` WHERE `Album`.`id` = '1';
+    const albums = await Album.findAll({
+        attributes: [ "id", "cover" ], 
+        where: { id: id }
+    });
     const albumToBeUpdated = albums[0];
 
     console.log(req.file);
@@ -121,6 +136,7 @@ const album_update = async (req, res) => {
         let album;
         if (req.file) {
             coverPath = "/images/albums/" + req.file.filename;
+            // UPDATE `Albums` SET `title`=?,`artist`=?,`genre`=?,`year`=?,`cover`=?,`updatedAt`=? WHERE `id` = ?
             album = await Album.update({
                 title: title,
                 artist: artist,
@@ -131,6 +147,7 @@ const album_update = async (req, res) => {
                 where: { id: id }
             });
         } else {
+            // UPDATE `Albums` SET `title`=?,`artist`=?,`genre`=?,`year`=?,updatedAt`=? WHERE `id` = ?
             album = await Album.update({
                 title: title,
                 artist: artist,
@@ -152,7 +169,7 @@ const album_update = async (req, res) => {
 const album_delete = async (req, res) => {
     const id = req.params.id;
     console.log(id);
-
+    // DELETE FROM `Albums` WHERE `id` = '1'
     await Album.destroy({
         where: { id: id }
     })
@@ -165,6 +182,7 @@ const add_rating = async (req, res) => {
     const userId = getUserId(req);
     
     try {
+        // INSERT INTO `AlbumRatings` (`id`,`points`,`albumId`,`userId`,`createdAt`,`updatedAt`) VALUES (DEFAULT,?,?,?,?,?);
         const albumRating = await AlbumRating.create({
             points: rating,
             albumId: albumId,
@@ -182,7 +200,7 @@ const add_rating = async (req, res) => {
 const add_to_favourites = async (req, res) => {
     const albumId = req.params.id;
     const userId = getUserId(req);
-
+    // INSERT INTO `FavouriteAlbums` (`id`,`albumId`,`userId`,`createdAt`,`updatedAt`) VALUES (DEFAULT,?,?,?,?);
     await FavouriteAlbum.create({
         albumId: albumId,
         userId: userId
@@ -245,7 +263,7 @@ const add_review_post = async (req, res) => {
 const accept_review = async (req, res) => {
     const id = req.params.id;
     console.log(id);
-
+    // UPDATE `Albums` SET `accepted`=?,`updatedAt`=? WHERE `id` = ?
     await AlbumReview.update({
         accepted: true
     },{
@@ -260,7 +278,7 @@ const accept_review = async (req, res) => {
 const delete_review = async (req, res) => {
     const id = req.params.id;
     console.log(id);
-
+    // DELETE FROM `AlbumReviews` WHERE `id` = '1'
     await AlbumReview.destroy({
         where: { id: id }
     })

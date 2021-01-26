@@ -5,6 +5,10 @@ const fs = require("fs");
 const { handleErrors } = require("./authController");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const Album = require("../models/Album");
+const Movie = require("../models/Movie");
+const AlbumRating = require("../models/AlbumRating");
+const MovieRating = require("../models/MovieRating");
 
 const getUserId = (req) => {
     const token = req.cookies.jwt;
@@ -43,11 +47,30 @@ const user_details = (req, res) => {
     });
 };
 
-const user_ratings = (req, res) => {
-    
+const user_album_ratings = async (req, res) => {
+    const id = req.params.id;
+
+    const ratings = await AlbumRating.findAll({
+        attributes: [ "id", "points", "userId" ],
+        where: { userId: id },
+        include: [{
+            model: Album,
+            attributes: [ "id", "title", "artist", "cover" ]
+        }]
+    });
+
+    console.log(ratings);
 };
 
-const user_reviews = (req, res) => {
+const user_movie_ratings = (req, res) => {
+
+};
+
+const user_album_reviews = (req, res) => {
+
+};
+
+const user_movie_reviews = (req, res) => {
 
 };
 
@@ -151,8 +174,10 @@ const user_delete = async (req, res) => {
 module.exports = {
     getUserId,
     user_details,
-    user_ratings,
-    user_reviews,
+    user_album_ratings,
+    user_movie_ratings,
+    user_album_reviews,
+    user_movie_reviews,
     user_edit,
     user_update,
     user_get_delete,

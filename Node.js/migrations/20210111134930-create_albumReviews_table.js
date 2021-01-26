@@ -11,15 +11,24 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true
       },
-      albumId: Sequelize.INTEGER(11),
+      // albumId: {
+      //   type: Sequelize.INTEGER(11),
+      //   onDelete: "CASCADE"
+      // },
       introduction: {
         type: Sequelize.TEXT,
         allowNull: false
       },
       content: Sequelize.TEXT,
       points: Sequelize.INTEGER,
-      editorId: Sequelize.INTEGER(11),
-      userId: Sequelize.INTEGER(11),
+      editorId: {
+        type: Sequelize.INTEGER(11),
+        onDelete: "CASCADE"
+      },
+      // userId: {
+      //   type: Sequelize.INTEGER(11),
+      //   onDelete: "CASCADE"
+      // },
       accepted: Sequelize.BOOLEAN,
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE

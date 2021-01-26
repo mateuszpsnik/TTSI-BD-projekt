@@ -26,10 +26,10 @@ const MovieReview = sequelize.define("MovieReview", {
 });
 
 Editor.hasMany(MovieReview, { foreignKey: "editorId" });
-MovieReview.belongsTo(Editor, { foreignKey: "editorId" });
+MovieReview.belongsTo(Editor, { onDelete: "CASCADE", foreignKey: "editorId", hooks: true });
 User.hasMany(MovieReview, { foreignKey: "userId" });
-MovieReview.belongsTo(User, { foreignKey: "userId" });
+MovieReview.belongsTo(User, { onDelete: "CASCADE", foreignKey: "userId", hooks: true });
 Movie.hasMany(MovieReview, { foreignKey: "movieId" });
-MovieReview.belongsTo(Movie, { foreignKey: "movieId" });
+MovieReview.belongsTo(Movie, { onDelete: "CASCADE", foreignKey: "movieId", hooks: true });
 
 module.exports = MovieReview;

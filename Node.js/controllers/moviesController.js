@@ -43,11 +43,11 @@ const movie_details = async (req, res) => {
 
     try {
         // SELECT `Movie`.`id`, `Movie`.`title`, `Movie`.`director`, `Movie`.`genre`, `Movie`.`year`, `Movie`.`poster`, `Movie`.`accepted`, 
-        // `MovieReviews`.`id` AS `MovieReviews.id`, `MovieReviews`.`movieId` AS `MovieReviews.movieId`, `MovieReviews`.`introduction` 
-        // AS `MovieReviews.introduction`, `MovieReviews`.`content` AS `MovieReviews.content`, `MovieReviews`.`points` AS `MovieReviews.points`, 
+        // `MovieReviews`.`id` AS `MovieReviews.id`, `MovieReviews`.`movieId` AS `MovieReviews.movieId`, `MovieReviews`.`introduction` AS 
+        // `MovieReviews.introduction`, `MovieReviews`.`content` AS `MovieReviews.content`, `MovieReviews`.`points` AS `MovieReviews.points`, 
         // `MovieReviews`.`editorId` AS `MovieReviews.editorId`, `MovieReviews`.`userId` AS `MovieReviews.userId`, `MovieReviews`.`accepted` 
-        // AS `MovieReviews.accepted` FROM `Movies` AS `Movie` INNER JOIN `MovieReviews` AS `MovieReviews` ON `Movie`.`id` = `MovieReviews`.`movieId` 
-        // AND `MovieReviews`.`movieId` = '1' WHERE `Movie`.`id` = '1' AND `Movie`.`accepted` = true;
+        // AS `MovieReviews.accepted` FROM `Movies` AS `Movie` LEFT OUTER JOIN `MovieReviews` AS `MovieReviews` ON 
+        // `Movie`.`id` = `MovieReviews`.`movieId` AND `MovieReviews`.`movieId` = '1' WHERE `Movie`.`id` = '1' AND `Movie`.`accepted` = true;
         const movies = await Movie.findAll({ 
             attributes: {
                 exclude: [ "createdAt", "updatedAt" ]
@@ -61,7 +61,8 @@ const movie_details = async (req, res) => {
                 where: { movieId: id },
                 attributes: {
                     exclude: [ "createdAt", "updatedAt" ]
-                }
+                },
+                required: false
             }] 
         });
 

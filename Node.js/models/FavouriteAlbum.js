@@ -17,8 +17,8 @@ const FavouriteAlbum = sequelize.define("FavouriteAlbum", {
 });
 
 Album.hasMany(FavouriteAlbum, { foreignKey: "albumId" });
-FavouriteAlbum.belongsTo(Album, { foreignKey: "albumId" });
+FavouriteAlbum.belongsTo(Album, { onDelete: "CASCADE", foreignKey: "albumId", hooks: true });
 User.hasMany(User, { foreignKey: "userId" });
-FavouriteAlbum.belongsTo(User, { foreignKey: "userId" });
+FavouriteAlbum.belongsTo(User, { onDelete: "CASCADE", foreignKey: "userId", hooks: true });
 
 module.exports = FavouriteAlbum;

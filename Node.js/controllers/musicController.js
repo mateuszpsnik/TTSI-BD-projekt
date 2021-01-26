@@ -46,7 +46,7 @@ const album_details = async (req, res) => {
     // `AlbumReviews`.`id` AS `AlbumReviews.id`, `AlbumReviews`.`albumId` AS `AlbumReviews.albumId`, `AlbumReviews`.`introduction` 
     // AS `AlbumReviews.introduction`, `AlbumReviews`.`content` AS `AlbumReviews.content`, `AlbumReviews`.`points` AS `AlbumReviews.points`, 
     // `AlbumReviews`.`editorId` AS `AlbumReviews.editorId`, `AlbumReviews`.`userId` AS `AlbumReviews.userId`, `AlbumReviews`.`accepted` 
-    // AS `AlbumReviews.accepted` FROM `Albums` AS `Album` INNER JOIN `AlbumReviews` AS `AlbumReviews` ON `Album`.`id` = `AlbumReviews`.`albumId` 
+    // AS `AlbumReviews.accepted` FROM `Albums` AS `Album` LEFT OUTER JOIN `AlbumReviews` AS `AlbumReviews` ON `Album`.`id` = `AlbumReviews`.`albumId` 
     // AND `AlbumReviews`.`albumId` = '1' WHERE `Album`.`id` = '1' AND `Album`.`accepted` = true;
     try {
         const albums = await Album.findAll({ 
@@ -62,13 +62,18 @@ const album_details = async (req, res) => {
                 where: { albumId: id },
                 attributes: {
                     exclude: [ "createdAt", "updatedAt" ]
-                }
+                },
+                required: false
             }] 
         });
 
         const userId = getUserId(req);
         let ratings = [ false ];
-        let reviews = albums[0].AlbumReviews;
+        let reviews = [ false ];
+
+        if (albums[0]) {
+            reviews = albums[0].AlbumReviews;
+        }
 
         if (userId) {
             // SELECT `id`, `points` FROM `AlbumRatings` AS `AlbumRating` WHERE `AlbumRating`.`albumId` = '1' AND `AlbumRating`.`userId` = 1;
@@ -81,7 +86,7 @@ const album_details = async (req, res) => {
             });
         }
 
-        if (albums) {
+        if (albums[0]) {
             res.render("music/albums/details", { title: albums[0].title, album: albums[0],
                 rating: ratings[0], review: reviews[0] });
         }

@@ -26,10 +26,10 @@ const AlbumReview = sequelize.define("AlbumReview", {
 });
 
 Editor.hasMany(AlbumReview, { foreignKey: "editorId" });
-AlbumReview.belongsTo(Editor, { foreignKey: "editorId" });
+AlbumReview.belongsTo(Editor, { onDelete: "CASCADE", foreignKey: "editorId", hooks: true });
 User.hasMany(AlbumReview, { foreignKey: "userId" });
-AlbumReview.belongsTo(User, { foreignKey: "userId" });
+AlbumReview.belongsTo(User, { onDelete: "CASCADE", foreignKey: "userId", hooks: true });
 Album.hasMany(AlbumReview, { foreignKey: "albumId" });
-AlbumReview.belongsTo(Album, { foreignKey: "albumId" });
+AlbumReview.belongsTo(Album, { onDelete: "CASCADE", foreignKey: "albumId", hooks: true });
 
 module.exports = AlbumReview;

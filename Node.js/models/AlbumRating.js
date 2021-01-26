@@ -21,8 +21,8 @@ const AlbumRating = sequelize.define("AlbumRating", {
 });
 
 Album.hasMany(AlbumRating, { foreignKey: "albumId" });
-AlbumRating.belongsTo(Album, { foreignKey: "albumId" });
+AlbumRating.belongsTo(Album, { onDelete: "CASCADE", foreignKey: "albumId", hooks: true });
 User.hasMany(AlbumRating, { foreignKey: "userId" });
-AlbumRating.belongsTo(User, { foreignKey: "userId" });
+AlbumRating.belongsTo(User, { onDelete: "CASCADE", foreignKey: "userId", hooks: true });
 
 module.exports = AlbumRating;

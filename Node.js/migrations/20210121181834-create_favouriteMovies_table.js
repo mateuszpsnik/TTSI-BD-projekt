@@ -11,8 +11,14 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true
       },
-      movieId: Sequelize.INTEGER(11),
-      userId: Sequelize.INTEGER(11),
+      // movieId: {
+      //   type: Sequelize.INTEGER(11),
+      //   onDelete: "CASCADE"
+      // },
+      // userId: {
+      //   type: Sequelize.INTEGER(11),
+      //   onDelete: "CASCADE"
+      // },
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE
     });

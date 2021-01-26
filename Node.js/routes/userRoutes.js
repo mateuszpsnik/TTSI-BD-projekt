@@ -25,8 +25,10 @@ router.get("/delete", requireUserAuth, userController.user_get_delete);
 
 
 router.get("/:id", userController.user_details);
-router.get("/:id/ratings", userController.user_ratings);
-router.get("/:id/reviews", userController.user_reviews);
+router.get("/:id/album-ratings", userController.user_album_ratings);
+router.get("/:id/movie-ratings", userController.user_movie_ratings);
+router.get("/:id/album-reviews", userController.user_album_reviews);
+router.get("/:id/movie-reviews", userController.user_movie_reviews);
 router.delete("/:id", requireUserAuth, userController.user_delete);
 
 module.exports = router;

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <%- include("../partials/head.ejs") %>
+    <body>
+        <%- include("../partials/topPanel.ejs") %>
+
+        <div id="main">
+            <% if(reviews.length > 0) { %>
+                <% reviews.forEach(review => { %>
+                    <div class="boxes">
+                        <a class="article-item" href="/movies/<%= review.Movie.id %>">
+                            <div class="box">
+                                <img src="<%= review.Movie.poster %>" alt="Plakat filmu" width="150px" height="150px">
+                            </div>
+                            <div class="box">
+                                <h3 class="title"><%= review.Movie.title %></h3>
+                                <h4>Zaakceptowana: 
+                                    <% if (review.accepted) { %>
+                                        tak
+                                    <% } else { %>
+                                        nie
+                                    <% } %>
+                                </h4>
+                            </div>
+                            <div class="box">                                
+                                <h2>Ocena: <%= review.points %></h2>                              
+                            </div>
+                        </a>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>Nie ma ocen</p>
+            <% } %>    
+    </body>
+</html>

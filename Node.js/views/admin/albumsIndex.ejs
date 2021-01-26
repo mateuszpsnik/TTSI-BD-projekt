@@ -8,6 +8,7 @@
             <% if(albums.length > 0) { %>
                 <% albums.forEach(album => { %>
                     <div class="boxes">
+                        <% if (!album.accepted) { %>
                             <div class="box">
                                 <a class="item" href="/music/albums/<%= album.id %>">
                                     <img src="<%= album.cover %>" alt="Okładka albumu" width="150px" height="150px">
@@ -16,12 +17,7 @@
                             <div class="box">
                                 <h2 class="title"><%= album.title %></h2>
                                 <h3><%= album.artist%></h3>
-                                <h4>zaakceptowany: 
-                                    <% if (album.accepted) { %>
-                                        tak
-                                    <% } else { %>
-                                        nie
-                                    <% } %>
+                                <h4>zaakceptowany: nie
                                 </h4>
                             </div>
                             <div class="box" id="edit-delete">
@@ -29,6 +25,7 @@
                                 <a href="albums/<%= album.id %>">Edytuj</a></li>                                        
                                 <a href="#" data-doc="<%= album.id %>" class="delete">Usuń</a></li>                               
                             </div>
+                        <% } %> 
                     </div>
                 <% }) %>
             <% } else { %>

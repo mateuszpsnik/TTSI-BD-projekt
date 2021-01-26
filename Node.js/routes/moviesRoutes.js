@@ -19,6 +19,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+router.get("/", moviesController.index);
 
 router.get("/add", moviesController.add_movie_get);
 router.post("/add", upload.single("poster"), moviesController.add_movie_post);
@@ -28,6 +29,7 @@ router.patch("/:id", requireAdminAuth, moviesController.movie_accept);
 router.put("/:id", requireAdminAuth, upload.single("poster"), moviesController.movie_update);
 router.delete("/:id", requireAdminAuth, moviesController.movie_delete);
 router.post("/:id/rate", requireAnyAuth, moviesController.add_rating);
+router.post("/:id/favourite", requireAnyAuth, moviesController.add_to_favourites);
 router.get("/:id/review", requireAnyAuth, moviesController.add_review_get);
 router.post("/:id/review", requireAnyAuth, moviesController.add_review_post);
 router.patch("/:id/accept-review", requireAdminAuth, moviesController.accept_review);

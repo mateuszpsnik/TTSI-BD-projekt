@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <%- include("../partials/head.ejs") %>
+    <body>
+        <%- include("../partials/topPanel.ejs") %>
+
+        <div id="main">
+            <% if(favourites.length > 0) { %>
+                <% favourites.forEach(favourite => { %>
+                    <div class="boxes">
+                        <a class="article-item" href="/music/albums/<%= favourite.Album.id %>">
+                            <div class="box">
+                                <img src="<%= favourite.Album.cover %>" alt="Okładka albumu" width="150px" height="150px">
+                            </div>
+                            <div class="box">
+                                <h3 class="title"><%= favourite.Album.title %></h3>
+                                <h4><%= favourite.Album.artist %> </h4>
+                            </div>
+                        </a>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>Nie ma ocen</p>
+            <% } %>    
+    </body>
+</html>

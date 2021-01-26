@@ -8,6 +8,7 @@
             <% if(movies.length > 0) { %>
                 <% movies.forEach(movie => { %>
                     <div class="boxes">
+                        <% if(!movie.accepted) { %>
                             <div class="box">
                                 <a class="item" href="/movies/<%= movie.id %>">
                                     <img src="<%= movie.poster %>" alt="Plakat filmu" width="150px" height="150px">
@@ -29,6 +30,7 @@
                                 <a href="movies/<%= movie.id %>">Edytuj</a></li>                                        
                                 <a href="#" data-doc="<%= movie.id %>" class="delete">Usuń</a></li>                               
                             </div>
+                        <% } %>
                     </div>
                 <% }) %>
             <% } else { %>

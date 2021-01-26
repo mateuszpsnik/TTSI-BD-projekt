@@ -30,6 +30,6 @@ const Article = sequelize.define("Article", {
 });
 
 Editor.hasMany(Article, { foreignKey: "editorId" });
-Article.belongsTo(Editor, { foreignKey: "editorId" });
+Article.belongsTo(Editor, { onDelete: "cascade", foreignKey: "editorId", hooks: true });
 
 module.exports = Article;

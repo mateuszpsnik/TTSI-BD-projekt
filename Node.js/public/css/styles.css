@@ -9,29 +9,39 @@ body {
     background-color: rgb(40, 40, 40);
 }
 
+.top-panel {
+    top: 0;
+    position: fixed;
+    width: 100%;
+    z-index: 5;
+}
+
 .side-panel {
     height: 100%;
+    top: 50px;
     width: 200px;
     position: fixed;
     display: block;
-    z-index: 2;
+    z-index: 10;
     text-align: center;
 }
 
 .side-panel-collapsed {
     width: 50px;
+    top: 50px;
     height: 50px;
     position: fixed;
     z-index: 1;
 }
 
 #main {
-    margin-left: 200px;
+    margin-left: 50px;
     margin-right: 200px;
+    padding-bottom: 100px;
     padding-left: 50px;
     padding-right: 50px;
-    padding-top: 50px;
-    position: absolute;
+    margin-top: 100px;
+    position: relative;
 }
 
 header {
@@ -70,6 +80,7 @@ header {
     float: right;
     right: 0;
     width: 250px;
+    margin-top: 10px;
 }
 
 a {
@@ -149,7 +160,7 @@ button {
 
 .box {
     float: left;
-    margin: 20px;
+    margin-left: 20px;
 }
 
 #edit-delete {
@@ -168,12 +179,13 @@ button {
 }
 
 .side-panel-element {
-    font-size: 20px;
-    margin-top: 10px;
+    font-size: 17px;
+    margin-top: 20px;
 }
 
 #user-logged-in-panel {
     float: right;
+    margin-top: -10px;
     width: 50px;
     height: 50px;
     right: 0;
@@ -192,7 +204,7 @@ button {
 .user-menu {
     float: right;
     width: 250px;
-    height: 300px;
+    height: 480px;
     background-color: rgb(20, 20, 20);
     position: relative;
     z-index: 100;
@@ -203,4 +215,37 @@ button {
     font-size: 20px;
     margin-top: 20px;
     margin-left: 20px;
+}
+
+hr {
+    border-style: solid;
+    background-color: white;
+}
+
+#log-in-panel {
+    margin-top: 30px;
+}
+
+.title {
+    margin-top: 50px;
+    margin-left: 50px;
+}
+
+.home-review {
+    margin-top: 100px;
+}
+
+.home-review h1 {
+    margin-top: 150px;
+}
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 40px;
+    padding-top: 10px;
+    width: 100%;
+    background-color: rgb(40, 40, 40);
+    text-align: center;
 }

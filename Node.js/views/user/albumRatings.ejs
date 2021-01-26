@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <%- include("../partials/head.ejs") %>
+    <body>
+        <%- include("../partials/topPanel.ejs") %>
+
+        <div id="main">
+            <% if(ratings.length > 0) { %>
+                <% ratings.forEach(rating => { %>
+                    <div class="boxes">
+                        <a class="article-item" href="/music/albums/<%= rating.Album.id %>">
+                            <div class="box">
+                                <img src="<%= rating.Album.cover %>" alt="Okładka albumu" width="150px" height="150px">
+                            </div>
+                            <div class="box">
+                                <h3 class="title"><%= rating.Album.title %></h3>
+                                <h4><%= rating.Album.artist %> </h4>
+                            </div>
+                            <div class="box">                                
+                                <h2>Ocena: <%= rating.points %></h2>                              
+                            </div>
+                        </a>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>Nie ma ocen</p>
+            <% } %>    
+    </body>
+</html>

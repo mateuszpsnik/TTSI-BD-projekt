@@ -8,6 +8,7 @@ const Album = require("../models/Album");
 const Movie = require("../models/Movie");
 const AlbumReview = require("../models/AlbumReview");
 const MovieReview = require("../models/MovieReview");
+const sequelize = require("../connection");
 
 const handleErrors = (err) => {
     if (err.message === "incorrect password") {
@@ -32,7 +33,11 @@ module.exports.admin_index = (req, res) => {
 };
 
 module.exports.admin_users = async (req, res) => {
-    await User.findAll()
+    // SELECT `id`, `image`, `username` FROM `Users` AS `User` LIMIT 20;
+    await User.findAll({
+        attributes: [ "id", "image", "username" ],
+        limit: 20
+    })
     .then((result) => {
         res.render("admin/usersIndex", { title: "Użytkownicy", users: result });
     })
@@ -42,7 +47,11 @@ module.exports.admin_users = async (req, res) => {
 };
 
 module.exports.albums_index = async (req, res) => {
-    await Album.findAll()
+    // SELECT `id`, `title`, `cover`, `artist`, `accepted` FROM `Albums` AS `Album` LIMIT 20;
+    await Album.findAll({
+        attributes: [ "id", "title", "cover", "artist", "accepted" ],
+        limit: 20
+    })
     .then((result) => {
         res.render("admin/albumsIndex", { title: "Albumy", albums: result });
     })
@@ -51,7 +60,10 @@ module.exports.albums_index = async (req, res) => {
 
 module.exports.album_edit = async (req, res) => {
     const id = req.params.id;
-    await Album.findAll({ where: { id: id } })
+    // SELECT `id`, `title`, `artist`, `genre`, `year` FROM `Albums` AS `Album` WHERE `Album`.`id` = '1';
+    await Album.findAll({
+        attributes: [ "id", "title", "artist", "genre", "year" ], 
+        where: { id: id } })
     .then(result => {
         res.render("admin/albumEdit", { title: "Edytuj album", album: result[0] });
     })
@@ -59,7 +71,11 @@ module.exports.album_edit = async (req, res) => {
 };
 
 module.exports.movies_index = async (req, res) => {
-    await Movie.findAll()
+    // SELECT `id`, `title`, `director`, `poster`, `accepted` FROM `Movies` AS `Movie` LIMIT 20;
+    await Movie.findAll({
+        attributes: [ "id", "title", "director", "poster", "accepted" ],
+        limit: 20
+    })
     .then((result) => {
         res.render("admin/moviesIndex", { title: "Filmy", movies: result });
     })
@@ -68,7 +84,11 @@ module.exports.movies_index = async (req, res) => {
 
 module.exports.movie_edit = async (req, res) => {
     const id = req.params.id;
-    await Movie.findAll({ where: { id: id } })
+    // SELECT `id`, `title`, `director`, `genre`, `year` FROM `Movies` AS `Movie` WHERE `Movie`.`id` = '1';
+    await Movie.findAll({
+        attributes: [ "id", "title", "director", "genre", "year" ],
+        where: { id: id } 
+    })
     .then(result => {
         res.render("admin/movieEdit", { title: "Edytuj film", movie: result[0] });
     })
@@ -76,7 +96,11 @@ module.exports.movie_edit = async (req, res) => {
 };
 
 module.exports.articles_index = async (req, res) => {
-    await Article.findAll()
+    // SELECT `id`, `image`, `title`, `introduction` FROM `Articles` AS `Article` LIMIT 20;
+    await Article.findAll({
+        attributes: [ "id", "image", "title", "introduction" ],
+        limit: 20
+    })
     .then((result) => {
         res.render("admin/articlesIndex", { title: "Wszystkie artykuły", articles: result });
     })
@@ -87,7 +111,11 @@ module.exports.articles_index = async (req, res) => {
 
 module.exports.articles_edit = async (req, res) => {
     const id = req.params.id;
-    await Article.findAll({ where: { id: id } })
+    // SELECT `id`, `title`, `introduction`, `content`, `category` FROM `Articles` AS `Article` WHERE `Article`.`id` = '1';
+    await Article.findAll({ 
+        attributes: [ "id", "title", "introduction", "content", "category" ],
+        where: { id: id } 
+    })
     .then(result => {
         res.render("admin/articlesEdit", { title: result[0].title, article: result[0] });
     })
@@ -100,8 +128,26 @@ module.exports.reviews_index = async(req, res) => {
     try {
         let albumReviews = false;
         let movieReviews = false;
-        albumReviews = await AlbumReview.findAll();
-        movieReviews = await MovieReview.findAll();
+        // SELECT `AlbumReview`.`id`, `AlbumReview`.`introduction`, `AlbumReview`.`accepted`, `Album`.`id` AS `Album.id`, 
+        // `Album`.`title` AS `Album.title` FROM `AlbumReviews` AS `AlbumReview` LEFT OUTER JOIN `Albums` AS `Album` 
+        // ON `AlbumReview`.`albumId` = `Album`.`id`;
+        albumReviews = await AlbumReview.findAll({
+            attributes: [ "id", "introduction", "accepted" ],
+            include: [{
+                model: Album,
+                attributes: [ "id", "title" ]
+            }]
+        });
+        // SELECT `MovieReview`.`id`, `MovieReview`.`introduction`, `MovieReview`.`accepted`, `Movie`.`id` AS `Movie.id`,
+        //  `Movie`.`title` AS `Movie.title` FROM `MovieReviews` AS `MovieReview` LEFT OUTER JOIN `Movies` AS `Movie` 
+        // ON `MovieReview`.`movieId` = `Movie`.`id`;
+        movieReviews = await MovieReview.findAll({
+            attributes: [ "id", "introduction", "accepted" ],
+            include: [{
+                model: Movie,
+                attributes: [ "id", "title" ]
+            }]
+        });
 
         res.render("admin/reviewsIndex", { title: "Recenzje", 
             albumReviews: albumReviews, movieReviews: movieReviews });
@@ -112,16 +158,17 @@ module.exports.reviews_index = async(req, res) => {
 };
 
 module.exports.accept_album_review = async (req, res) => {
-    // SELECT `AlbumReview`.`id`, `AlbumReview`.`albumId`, `AlbumReview`.`introduction`, `AlbumReview`.`content`, 
-    // `AlbumReview`.`points`, `AlbumReview`.`editorId`, `AlbumReview`.`userId`, `AlbumReview`.`accepted`, `AlbumReview`.`createdAt`,
-    // `AlbumReview`.`updatedAt`, `Album`.`id` AS `Album.id`, `Album`.`title` AS `Album.title`, `Album`.`artist` AS `Album.artist`,
-    // `Album`.`genre` AS `Album.genre`, `Album`.`year` AS `Album.year`, `Album`.`cover` AS `Album.cover`, `Album`.`accepted` AS `Album.accepted`, 
-    // `Album`.`createdAt` AS `Album.createdAt`, `Album`.`updatedAt` AS `Album.updatedAt` FROM `AlbumReviews` AS `AlbumReview` LEFT OUTER JOIN `Albums`
-    // AS `Album` ON `AlbumReview`.`albumId` = `Album`.`id` WHERE `AlbumReview`.`id` = '3';
     const id = req.params.id;
+    // SELECT `AlbumReview`.`id`, `AlbumReview`.`introduction`, `AlbumReview`.`content`, `AlbumReview`.`points`, 
+    // `Album`.`id` AS `Album.id`, `Album`.`title` AS `Album.title`, `Album`.`cover` AS `Album.cover` FROM `AlbumReviews` 
+    // AS `AlbumReview` LEFT OUTER JOIN `Albums` AS `Album` ON `AlbumReview`.`albumId` = `Album`.`id` WHERE `AlbumReview`.`id` = '1';
     await AlbumReview.findAll({
         where: { id: id },
-        include: [{ model: Album }]
+        attributes: [ "id", "introduction", "content", "points" ],
+        include: [{ 
+            model: Album,
+            attributes: [ "id", "title", "cover" ]
+        }]
     })
     .then(reviews => {
         res.render("admin/acceptAlbumReview", { title: "Zaakceptuj recenzję",
@@ -132,9 +179,16 @@ module.exports.accept_album_review = async (req, res) => {
 
 module.exports.accept_movie_review = async (req, res) => {
     const id = req.params.id;
+    // SELECT `MovieReview`.`id`, `MovieReview`.`introduction`, `MovieReview`.`content`, `MovieReview`.`points`, `Movie`.`id` 
+    // AS `Movie.id`, `Movie`.`title` AS `Movie.title`, `Movie`.`poster` AS `Movie.poster` FROM `MovieReviews` AS `MovieReview` 
+    // LEFT OUTER JOIN `Movies` AS `Movie` ON `MovieReview`.`movieId` = `Movie`.`id` WHERE `MovieReview`.`id` = '1';
     await MovieReview.findAll({
         where: { id: id },
-        include: [{ model: Movie }]
+        attributes: [ "id", "introduction", "content", "points" ],
+        include: [{ 
+            model: Movie,
+            attributes: [ "id", "title", "poster" ]
+        }]
     })
     .then(reviews => {
         res.render("admin/AcceptMovieReview", { title: "Zaakceptuj recenzję",
@@ -147,6 +201,7 @@ module.exports.signup_post = async (req, res) => {
     const { password } = req.body;
 
     try {
+        // INSERT INTO `Admins` (`id`,`password`,`createdAt`,`updatedAt`) VALUES (DEFAULT,?,?,?);
         const admin = await Admin.create({ password });
         const token = createToken(admin.id);
         res.cookie("jwtAdmin", token, { httpOnly: true, maxAge: maxExpirationTime * 1000 });

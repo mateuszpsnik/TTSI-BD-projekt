@@ -17,8 +17,8 @@ const FavouriteMovie = sequelize.define("FavouriteMovie", {
 });
 
 Movie.hasMany(FavouriteMovie, { foreignKey: "movieId" });
-FavouriteMovie.belongsTo(Movie, { foreignKey: "movieId" });
+FavouriteMovie.belongsTo(Movie, { onDelete: "CASCADE", foreignKey: "movieId", hooks: true });
 User.hasMany(User, { foreignKey: "userId" });
-FavouriteMovie.belongsTo(User, { foreignKey: "userId" });
+FavouriteMovie.belongsTo(User, { onDelete: "CASCADE", foreignKey: "userId", hooks: true });
 
 module.exports = FavouriteMovie;

@@ -29,6 +29,7 @@
                     <button>Wyślij</button>
                     <% } %>
                 </form>
+                <button id="add-to-fav">Dodaj do ulubionych</button>
             </div>
         </div>
         <div class="box">
@@ -49,9 +50,17 @@
     </div>
 
     <script>
+        const favButton = document.querySelector("#add-to-fav");
         const form = document.querySelector("form");
         const albumId = "<%= album.id %>";
         console.log(albumId);   
+
+        function addToFavourites() {
+            fetch(`/music/albums/${albumId}/favourite`, {
+                method: "POST"
+            })
+            .catch(err => console.log(err));
+        }
 
         form.addEventListener("submit", e => {
             e.preventDefault();
@@ -61,14 +70,24 @@
                 albumId: albumId
             };
 
+            if (data.rating >= 8) {
+                addToFavourites();
+            }
+
             fetch(`/music/albums/${albumId}/rate`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
             })
             .then(response => response.json())
             .then(data => alert(data))
             .catch(err => console.log(err));
+        });
+
+        favButton.addEventListener("click", e => {
+            e.preventDefault();
+
+            addToFavourites();
         });
     </script>
 

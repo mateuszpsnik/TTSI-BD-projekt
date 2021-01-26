@@ -1,6 +1,41 @@
 <div class="panel side-panel" id="right-panel">
     <div class="side-panel-close-button" id="right-close-button">&#8594;</div>
 
+    <div class="side-panel-element">Spawdź ten album</div>
+    <a href="/music/albums/<%= randomAlbum.id %>">
+        <div class="side-panel-element">
+            <img src="<%= randomAlbum.cover %>" alt="Okładka albumu" width="70px">
+        </div>
+        <div class="side-panel-element"><%= randomAlbum.title %></div>
+    </a>
+
+    <hr>
+
+    <div class="side-panel-element">Sprawdź ten film</div>
+    <a href="/movies/<%= randomMovie.id %>">
+        <div class="side-panel-element">
+            <img src="<%= randomMovie.poster %>" alt="Plakat filmu" width="70px">
+        </div>
+        <div class="side-panel-element"><%= randomMovie.title %></div>
+    </a>
+
+    <hr>
+
+    <div class="side-panel-element">Ostatnio dodane</div>
+    <a href="/music/albums/<%= lastAlbum.id %> ">
+        <div class="side-panel-element">
+            <span><img src="<%= lastAlbum.cover %> " alt="Okładka albumu" width="20px"></span>
+            <span><%= lastAlbum.title %> </span>
+        </div>
+    </a>
+    
+    <a href="/movies/<%= lastMovie.id %>">
+        <div class="side-panel-element">
+            <span><img src="<%= lastMovie.poster %>" alt="Plakat filmu" width="20px"></span>
+            <span><%= lastMovie.title %> </span>
+        </div>
+    </a>
+
     <div class="side-panel-element"><a href="/music/albums/add">Dodaj album</a></div>
     <div class="side-panel-element"><a href="/movies/add">Dodaj film</a></div>
 </div>

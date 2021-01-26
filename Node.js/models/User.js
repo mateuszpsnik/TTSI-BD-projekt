@@ -54,7 +54,9 @@ const User = sequelize.define("User", {
 
 // static method to login user
 User.login = async (email, password) => {
-    const user = await User.findAll({ 
+    // SELECT `id`, `email`, `password` FROM `Users` AS `User` WHERE `User`.`email` = 'mateuszpsnik@gmail.com';
+    const user = await User.findAll({
+        attributes: [ "id", "email", "password" ],
         where: {
             email: email
         }

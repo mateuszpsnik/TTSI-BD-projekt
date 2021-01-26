@@ -35,8 +35,8 @@ router.get("/reviews", requireAdminAuth, adminController.reviews_index);
 router.get("/reviews/albums/:id", requireAdminAuth, adminController.accept_album_review);
 router.get("/reviews/movies/:id", requireAdminAuth, adminController.accept_movie_review);
 
-router.get("/signup", adminController.signup_get);
-router.post("/signup", adminController.signup_post);
+// router.get("/signup", adminController.signup_get);
+// router.post("/signup", adminController.signup_post);
 router.get("/login", adminController.login_get);
 router.post("/login", adminController.login_post);
 router.get("/logout", adminController.logout_get);

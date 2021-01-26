@@ -41,9 +41,9 @@ const editor_index = (req, res) => {
 
 const editor_articles = async (req, res) => {
     const editorId = getEditorId(req);
-
-    await Article.findAll(
-        {
+    // SELECT `id`, `image`, `title`, `introduction` FROM `Articles` AS `Article` WHERE `Article`.`editorId` = 1;
+    await Article.findAll({
+            attributes: [ "id", "image", "title", "introduction" ],
             where: { editorId: editorId }
         }
     )
@@ -57,25 +57,22 @@ const editor_articles = async (req, res) => {
 
 const edit_articles = async (req, res) => {
     const id = req.params.id;
-    await Article.findAll({ where: { id: id } })
+    // SELECT `id`, `title`, `introduction`, `content` FROM `Articles` AS `Article` WHERE `Article`.`id` = '2';
+    await Article.findAll({
+        attributes: [ "id", "title", "introduction", "content" ],
+        where: { id: id } })
     .then(result => {
-        res.render("editor/editArticle", { title: "Edytuj album", article: result[0] });
+        res.render("editor/editArticle", { title: "Edytuj artykuł", article: result[0] });
     })
     .catch(err => console.log(err));
-};
-
-const editor_reviews = (req, res) => {
-    
-};
-
-const edit_reviews = async (req, res) => {
-
 };
 
 const signup_post = async (req, res) => {
     const { name, email, password } = req.body;
 
     try {
+        // INSERT INTO `Editors` (`id`,`name`,`email`,`password`,`createdAt`,`updatedAt`) 
+        // VALUES (DEFAULT,?,?,?,?,?);
         const editor = await Editor.create({ name, email, password });
         res.status(201).json({ editor: editor.id });
     }
@@ -117,8 +114,6 @@ module.exports = {
     editor_index,
     editor_articles,
     edit_articles,
-    editor_reviews,
-    edit_reviews,
     signup_post,
     login_get,
     login_post,

@@ -157,7 +157,11 @@ const checkUser = (req, res, next) => {
             }
             else {
                 console.log(decodedToken);
+                // SELECT `id`, `username`, `email`, `password`, `image` FROM `Users` AS `User` WHERE `User`.`id` = 1;
                 let user = await User.findAll({
+                    attributes: {
+                        exclude: [ "userId", "createdAt", "updatedAt" ]
+                    },
                     where: { id: decodedToken.id }
                 }); 
                 res.locals.user = user[0];
@@ -183,7 +187,11 @@ const checkEditor = (req, res, next) => {
             }
             else {
                 console.log(decodedToken);
+                // SELECT `id`, `name`, `email`, `password`, `image` FROM `Editors` AS `Editor` WHERE `Editor`.`id` = 1;
                 let editor = await Editor.findAll({ 
+                    attributes: {
+                        exclude: [ "editorId", "createdAt", "updatedAt" ]
+                    },
                     where: { id: decodedToken.id } 
                 });
                 res.locals.editor = editor[0];
@@ -209,7 +217,9 @@ const checkAdmin = (req, res, next) => {
             }
             else {
                 console.log(decodedToken);
+                // SELECT `id`, `password` FROM `Admins` AS `Admin` WHERE `Admin`.`id` = 1;
                 let admin = await Admin.findAll({
+                    attributes: [ "id", "password" ],
                     where: { id: decodedToken.id }
                 });
                 res.locals.admin = admin[0];

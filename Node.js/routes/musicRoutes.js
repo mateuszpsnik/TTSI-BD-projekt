@@ -19,6 +19,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+router.get("/", musicController.index);
 
 router.get("/albums/add", musicController.add_album_get);
 router.post("/albums/add", upload.single("cover"), musicController.add_album_post);
@@ -28,6 +29,7 @@ router.patch("/albums/:id", requireAdminAuth, musicController.album_accept);
 router.put("/albums/:id", requireAdminAuth, upload.single("cover"), musicController.album_update);
 router.delete("/albums/:id", requireAdminAuth, musicController.album_delete);
 router.post("/albums/:id/rate", requireAnyAuth, musicController.add_rating);
+router.post("/albums/:id/favourite", requireAnyAuth, musicController.add_to_favourites);
 router.get("/albums/:id/review", requireAnyAuth, musicController.add_review_get);
 router.post("/albums/:id/review", requireAnyAuth, musicController.add_review_post);
 router.patch("/albums/:id/accept-review", requireAdminAuth, musicController.accept_review);

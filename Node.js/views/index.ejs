@@ -6,7 +6,6 @@
 
 <body>
     <%- include("./partials/topPanel.ejs") %> 
-    <%- include("./partials/leftPanel.ejs") %> 
     <%- include("./partials/rightPanel.ejs") %> 
 
     <div id="main">
@@ -28,12 +27,34 @@
             <p>Nie ma artykułów</p>
         <% } %>
 
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam turpis odio, tempor sed ligula rhoncus, vehicula rhoncus nulla. Ut eu gravida libero. Praesent volutpat semper nisi, in vehicula nulla. Praesent id malesuada erat, sit amet fringilla libero. Nulla congue bibendum arcu ut maximus. Sed dapibus accumsan ante eu consequat. In vel dignissim urna. Donec euismod varius justo, id fringilla ligula vulputate nec. Aenean non ultrices dolor. Maecenas sed vehicula ligula. Nunc tempor libero lacus. Maecenas magna lectus, tristique ac dui at, dapibus feugiat libero. Quisque lobortis nisl sem, eget tincidunt lectus dapibus et. Nullam magna sem, cursus eget lorem in, luctus semper elit. Donec at elementum orci. In bibendum ullamcorper massa vitae cursus.
+        <div class="home-review">
+            <div class="boxes">
+                <div class="box"><img src="<%= lastAlbumReview.Album.cover %>" alt="Okładka albumu"></div>
+                <div class="box">
+                    <a href="/music/albums/<%= lastAlbumReview.Album.id %>">
+                        <h1 class="title"><%= lastAlbumReview.Album.title %></h1>
+                    </a>
+                </div>
+                <div class="box"><p><%= lastAlbumReview.introduction %></p></div>
+                <div class="box"><p><%= lastAlbumReview.content %></p></div>
+                <div class="box"><h2>Ocena: <%= lastAlbumReview.points %></h2></div>
+            </div>
+        </div>
 
-Donec ornare lobortis tempus. Nullam ullamcorper leo at mi molestie, a tincidunt purus posuere. Sed rutrum laoreet sapien sit amet elementum. Donec mattis, diam in luctus commodo, elit orci porta turpis, eget imperdiet tortor arcu eget quam. Donec quis aliquet justo. Nunc purus mauris, commodo vitae dolor at, tincidunt accumsan purus. Mauris vitae lorem sed ante sollicitudin efficitur. Donec porta, urna ac suscipit mollis, metus purus consequat ligula, nec faucibus quam nisl a elit. Aliquam tincidunt, ex accumsan euismod scelerisque, nisl mi mattis elit, ac rhoncus elit velit eu mi. Fusce pellentesque finibus sodales. Aliquam erat volutpat. Duis dictum, augue in ullamcorper malesuada, sapien urna tempus elit, tincidunt faucibus massa mi sed nunc.
-
-Praesent orci lorem, semper eu tincidunt euismod, laoreet aliquam mauris. S
-
+        <div class="home-review">
+            <div class="boxes">
+                <div class="box"><img src="<%= lastMovieReview.Movie.poster %>" alt="Plakat filmu"></div>
+                <div class="box">
+                    <a href="/movies/<%= lastMovieReview.Movie.id %>">
+                        <h1 class="title"><%= lastMovieReview.Movie.title %></h1>
+                    </a>
+                </div>
+                <div class="box"><p><%= lastMovieReview.introduction %></p></div>
+                <div class="box"><p><%= lastMovieReview.content %></p></div>
+                <div class="box"><h2>Ocena: <%= lastMovieReview.points %> </h2></div>
+            </div>
+        </div>
+        
     </div>
 
     <%- include("./partials/footer.ejs") %> 

@@ -9,7 +9,7 @@ const MovieReview = require("../models/MovieReview");
 const FavouriteMovie = require("../models/FavouriteMovie");
 
 const add_movie_get = (req, res) => {
-    res.render("movies/add", { title: "Dodaj Movies" });
+    res.render("movies/add", { title: "Dodaj film" });
 };
 
 const add_movie_post = async (req, res) => {

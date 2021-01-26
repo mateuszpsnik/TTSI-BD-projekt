@@ -71,9 +71,6 @@ const editor_reviews = (req, res) => {
     
 };
 
-const edit_reviews = async (req, res) => {
-
-};
 
 const signup_post = async (req, res) => {
     const { name, email, password } = req.body;
@@ -123,7 +120,6 @@ module.exports = {
     editor_articles,
     edit_articles,
     editor_reviews,
-    edit_reviews,
     signup_post,
     login_get,
     login_post,

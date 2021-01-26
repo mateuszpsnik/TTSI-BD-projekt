@@ -9,6 +9,74 @@ const { getUserId } = require("./userController");
 const { getEditorId } = require("./editorController");
 const AlbumReview = require("../models/AlbumReview");
 const FavouriteAlbum = require("../models/FavouriteAlbum");
+const { Sequelize } = require("../connection");
+const Article = require("../models/Article");
+const Movie = require("../models/Movie");
+
+const index = async (req, res) => {
+    // SELECT `id`, `image`, `title`, `introduction`, `category` FROM `Articles` AS `Article` WHERE `Article`.`category` = 'music' 
+    // ORDER BY `Article`.`id` DESC LIMIT 3;
+    const articles = await Article.findAll({
+        attributes: [ "id", "image", "title", "introduction", "category" ],
+        where: { category: "music" },
+        order: [ 
+            [ "id", "DESC" ]
+        ],
+        limit: 3
+    });
+    // SELECT `AlbumReview`.`id`, `AlbumReview`.`albumId`, `AlbumReview`.`introduction`, `AlbumReview`.`content`, `AlbumReview`.`points`, 
+    // `AlbumReview`.`accepted`, `Album`.`id` AS `Album.id`, `Album`.`title` AS `Album.title`, `Album`.`cover` AS `Album.cover` 
+    // FROM `AlbumReviews` AS `AlbumReview` LEFT OUTER JOIN `Albums` AS `Album` ON `AlbumReview`.`albumId` = `Album`.`id` 
+    // WHERE `AlbumReview`.`accepted` = true ORDER BY `AlbumReview`.`id` DESC LIMIT 3;
+    const lastAlbumReviews = await AlbumReview.findAll({
+        attributes: [ "id", "albumId", "introduction", "content", "points", "accepted" ],
+        include: [{
+            model: Album,
+            attributes: [ "id", "title", "cover" ]
+        }],
+        where: { accepted: true },
+        order: [ 
+            [ "id", "DESC" ]
+        ],
+        limit: 3 
+    });
+    // SELECT `id`, `title`, `artist`, `cover` FROM `Albums` AS `Album` WHERE `Album`.`accepted` = true ORDER BY `Album`.`id` DESC LIMIT 1;
+    const lastAlbum = await Album.findAll({
+        attributes: [ "id", "title", "artist", "cover" ],
+        where: { accepted: true },
+        order: [
+            [ "id", "DESC" ]
+        ],
+        limit: 1
+    });
+    // SELECT `id`, `title`, `director`, `poster` FROM `Movies` AS `Movie` WHERE `Movie`.`accepted` = true ORDER BY `Movie`.`id` DESC LIMIT 1;
+    const lastMovie = await Movie.findAll({
+        attributes: [ "id", "title", "director", "poster" ],
+        where: { accepted: true },
+        order: [
+            [ "id", "DESC" ]
+        ],
+        limit: 1
+    });
+    // SELECT `id`, `title`, `artist`, `cover` FROM `Albums` AS `Album` WHERE `Album`.`accepted` = true ORDER BY RAND() LIMIT 1;
+    const randomAlbum = await Album.findAll({
+        attributes: [ "id", "title", "artist", "cover" ],
+        where: { accepted: true },
+        order: Sequelize.literal("RAND()"),
+        limit: 1
+    });
+    // SELECT `id`, `title`, `director`, `poster` FROM `Movies` AS `Movie` WHERE `Movie`.`accepted` = true ORDER BY RAND() LIMIT 1;
+    const randomMovie = await Movie.findAll({
+        attributes: [ "id", "title", "director", "poster" ],
+        where: { accepted: true },
+        order: Sequelize.literal("RAND()"),
+        limit: 1
+    });
+
+    res.render("music/index", { title: "Muzyka i film - Strona główna", articles: articles,
+            lastAlbumReviews: lastAlbumReviews, lastAlbum: lastAlbum[0], lastMovie: lastMovie[0], 
+            randomAlbum: randomAlbum[0], randomMovie: randomMovie[0] });
+};
 
 const add_album_get = (req, res) => {
     res.render("music/albums/add", { title: "Dodaj album" });
@@ -292,6 +360,7 @@ const delete_review = async (req, res) => {
 };
 
 module.exports = {
+    index,
     add_album_get,
     add_album_post,
     album_details,

@@ -33,8 +33,8 @@ module.exports.admin_index = (req, res) => {
 };
 
 module.exports.admin_users = async (req, res) => {
+    // SELECT `id`, `image`, `username` FROM `Users` AS `User` LIMIT 20;
     await User.findAll({
-        // SELECT `id`, `image`, `username` FROM `Users` AS `User` LIMIT 20;
         attributes: [ "id", "image", "username" ],
         limit: 20
     })
@@ -47,8 +47,8 @@ module.exports.admin_users = async (req, res) => {
 };
 
 module.exports.albums_index = async (req, res) => {
+    // SELECT `id`, `title`, `cover`, `artist`, `accepted` FROM `Albums` AS `Album` LIMIT 20;
     await Album.findAll({
-        // SELECT `id`, `title`, `cover`, `artist`, `accepted` FROM `Albums` AS `Album` LIMIT 20;
         attributes: [ "id", "title", "cover", "artist", "accepted" ],
         limit: 20
     })

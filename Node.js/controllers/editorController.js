@@ -41,7 +41,7 @@ const editor_index = (req, res) => {
 
 const editor_articles = async (req, res) => {
     const editorId = getEditorId(req);
-        // SELECT `id`, `image`, `title`, `introduction` FROM `Articles` AS `Article` WHERE `Article`.`editorId` = 1;
+    // SELECT `id`, `image`, `title`, `introduction` FROM `Articles` AS `Article` WHERE `Article`.`editorId` = 1;
     await Article.findAll({
             attributes: [ "id", "image", "title", "introduction" ],
             where: { editorId: editorId }
@@ -66,11 +66,6 @@ const edit_articles = async (req, res) => {
     })
     .catch(err => console.log(err));
 };
-
-const editor_reviews = (req, res) => {
-    
-};
-
 
 const signup_post = async (req, res) => {
     const { name, email, password } = req.body;
@@ -119,7 +114,6 @@ module.exports = {
     editor_index,
     editor_articles,
     edit_articles,
-    editor_reviews,
     signup_post,
     login_get,
     login_post,

@@ -19,6 +19,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+router.get("/", musicController.index);
 
 router.get("/albums/add", musicController.add_album_get);
 router.post("/albums/add", upload.single("cover"), musicController.add_album_post);

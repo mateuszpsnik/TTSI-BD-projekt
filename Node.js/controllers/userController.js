@@ -198,8 +198,7 @@ const user_edit = (req, res) => {
 const user_update = async (req, res) => {
     const { id, username, email, checkboxPassword,
          newPassword } = req.body;
-
-    //  SELECT `id`, `image` FROM `Users` AS `User` WHERE `User`.`id` = '1';
+    // SELECT `id`, `image` FROM `Users` AS `User` WHERE `User`.`id` = '1';
     const users = await User.findAll({
         attributes: [ "id", "image" ],
         where: { id: id } });

@@ -27,33 +27,33 @@
             <p>Nie ma artykułów</p>
         <% } %>
 
-        <div class="home-review">
-            <div class="boxes">
-                <div class="box"><img src="<%= lastAlbumReview.Album.cover %>" alt="Okładka albumu"></div>
-                <div class="box">
+        <% if (lastAlbumReview) { %> 
+            <div class="home-review">
+                <div class="boxes">
                     <a href="/music/albums/<%= lastAlbumReview.Album.id %>">
-                        <h1 class="title"><%= lastAlbumReview.Album.title %></h1>
+                        <div class="box"><img src="<%= lastAlbumReview.Album.cover %>" alt="Okładka albumu"></div>
+                        <div class="box"><h1 class="title"><%= lastAlbumReview.Album.title %></h1></div>
                     </a>
+                    <div class="box"><p><%= lastAlbumReview.introduction %></p></div>
+                    <div class="box"><p><%= lastAlbumReview.content %></p></div>
+                    <div class="box"><h2>Ocena: <%= lastAlbumReview.points %></h2></div>
                 </div>
-                <div class="box"><p><%= lastAlbumReview.introduction %></p></div>
-                <div class="box"><p><%= lastAlbumReview.content %></p></div>
-                <div class="box"><h2>Ocena: <%= lastAlbumReview.points %></h2></div>
             </div>
-        </div>
+        <% } %> 
 
-        <div class="home-review">
-            <div class="boxes">
-                <div class="box"><img src="<%= lastMovieReview.Movie.poster %>" alt="Plakat filmu"></div>
-                <div class="box">
+        <% if (lastMovieReview) { %>
+            <div class="home-review">
+                <div class="boxes">
                     <a href="/movies/<%= lastMovieReview.Movie.id %>">
-                        <h1 class="title"><%= lastMovieReview.Movie.title %></h1>
+                        <div class="box"><img src="<%= lastMovieReview.Movie.poster %>" alt="Plakat filmu"></div>
+                        <div class="box"><h1 class="title"><%= lastMovieReview.Movie.title %></h1></div>
                     </a>
+                    <div class="box"><p><%= lastMovieReview.introduction %></p></div>
+                    <div class="box"><p><%= lastMovieReview.content %></p></div>
+                    <div class="box"><h2>Ocena: <%= lastMovieReview.points %> </h2></div>
                 </div>
-                <div class="box"><p><%= lastMovieReview.introduction %></p></div>
-                <div class="box"><p><%= lastMovieReview.content %></p></div>
-                <div class="box"><h2>Ocena: <%= lastMovieReview.points %> </h2></div>
             </div>
-        </div>
+        <% } %> 
         
     </div>
 

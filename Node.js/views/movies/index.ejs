@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html>
+
+<%- include("../partials/head.ejs") %>
+
+<body>
+    <%- include("../partials/topPanel.ejs") %> 
+    <%- include("../partials/rightPanel.ejs") %> 
+
+    <div id="main">
+        <% if(articles.length > 0) { %>
+            <% articles.forEach(article => { %>
+                <div class="boxes">
+                    <a class="article-item" href="/articles/<%= article.id %>">
+                        <div class="box">
+                            <img src="<%= article.image %>" alt="Zdjęcie artykułu" width="150px" height="150px">
+                        </div>
+                        <div class="box">
+                            <h1 class="title"><%= article.title %></h1>
+                        </div>
+                        <div class="box"><p class="introduction"><%= article.introduction %></p></div>
+                    </a>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>Nie ma artykułów</p>
+        <% } %>
+
+        <% if (lastMovieReviews.length > 0) { %>
+            <% lastMovieReviews.forEach(review => { %> 
+                <div class="home-review">
+                    <div class="boxes">
+                        <a href="/movies/<%= review.Movie.id %>">
+                            <div class="box"><img src="<%= review.Movie.poster %>" alt="Plakat filmu"></div>
+                            <div class="box"><h1 class="title"><%= review.Movie.title %></h1></div>
+                        </a>
+                        <div class="box"><p><%= review.introduction %></p></div>
+                        <div class="box"><p><%= review.content %></p></div>
+                        <div class="box"><h2>Ocena: <%= review.points %></h2></div>
+                    </div>
+                </div>
+            <% })} %> 
+        
+    </div>
+
+    <%- include("../partials/footer.ejs") %> 
+    
+    <script>
+        
+    </script>
+    <script src="/scripts/sidePanels.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <%- include("../partials/head.ejs") %>
+    <body>
+        <%- include("../partials/topPanel.ejs") %>
+
+        <div id="main">
+            <% if(favourites.length > 0) { %>
+                <% favourites.forEach(favourite => { %>
+                    <div class="boxes">
+                        <a class="article-item" href="/movies/<%= favourite.Movie.id %>">
+                            <div class="box">
+                                <img src="<%= favourite.Movie.poster %>" alt="Plakat filmu" width="150px" height="150px">
+                            </div>
+                            <div class="box">
+                                <h3 class="title"><%= favourite.Movie.title %></h3>
+                                <h4><%= favourite.Movie.director %> </h4>
+                            </div>
+                        </a>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>Nie ma ocen</p>
+            <% } %>    
+    </body>
+</html>

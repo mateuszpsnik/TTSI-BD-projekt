@@ -68,7 +68,11 @@ const movie_details = async (req, res) => {
 
         const userId = getUserId(req);
         let ratings = [ false ];
-        let reviews = movies[0].MovieReviews;
+        let reviews = [ false ];
+
+        if (movies[0]) {
+            reviews = movies[0].MovieReviews;
+        }
 
         if (userId) {
             // SELECT `id`, `points` FROM `MovieRatings` AS `MovieRating` WHERE `MovieRating`.`movieId` = '1' AND `MovieRating`.`userId` = 1;
@@ -81,7 +85,7 @@ const movie_details = async (req, res) => {
             });
         }
 
-        if (movies) {
+        if (movies[0]) {
             res.render("movies/details", { title: movies[0].title, movie: movies[0],
                 rating: ratings[0], review: reviews[0] });
         }

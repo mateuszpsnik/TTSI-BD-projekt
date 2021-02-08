@@ -22,9 +22,10 @@ rightCloseButton.addEventListener("click", e => {
         else {
             position += 2;
             rightPanel.style.left = position + "px";
-            mainContent.style.marginRight = initialPosition + 200 - position + "px";
         }
     }, 1);
+
+    mainContent.style.marginRight = initialPosition - 1300  + "px";
 });
 
 
@@ -39,7 +40,8 @@ rightOpenButton.addEventListener("click", e => {
         else {
             position -= 2;
             rightPanel.style.left = position + "px";
-            mainContent.style.marginRight = initialPosition - position + "px";
         }
     }, 1);
+
+    mainContent.style.marginRight = initialPosition - 1300 + "px";
 });

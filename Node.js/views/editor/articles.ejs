@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
     <%- include("../partials/head.ejs") %>
     <body>
         <%- include("../partials/editorTopPanel.ejs") %> 
@@ -12,7 +12,7 @@
                     <div class="article-boxes">
                         <a class="article-item" href="/articles/<%= article.id %>">
                             <div class="article-box">
-                                <img src="<%= article.image %>" alt="Zdjęcie artykułu" width="150px" height="150px">
+                                <img src="<%= article.image %>" alt="Zdjęcie artykułu" width="150" height="150">
                             </div>
                             <div class="article-box">
                                 <h3 class="title"><%= article.title %></h3>

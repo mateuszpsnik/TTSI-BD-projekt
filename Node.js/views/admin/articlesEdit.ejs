@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
     <%- include("../partials/head.ejs") %>
     <body>
         <%- include("../partials/adminTopPanel.ejs") %> 
 
         Nie zapomnij wczytać odpowiedniego obrazka.
 
-        <form id="myForm" name="myForm" enctype="multipart/form-data">
+        <form id="myForm" name="myForm" enctype="multipart/form-data" class="article-form">
             <label for="title">Tytuł</label>
             <input type="text" name="title" id="title" required>
-            <label for="introduction">Wstęp</label>
-            <input type="text" name="introduction" id="introduction" required>
+            <textarea id="introduction" required></textarea>
             <label for="content">Treść</label>
-            <input type="text" name="content" id="content" required>
+            <textarea id="content" required></textarea>
             <label for="radioMusic">Muzyka</label>
             <input type="radio" name="musicMovieRadio" id="radioMusic" value="music">
             <label for="radioMovies">Filmy</label>
@@ -49,6 +48,8 @@
                 e.preventDefault();
 
                 const formData = new FormData(myForm);
+                formData.append("introduction", introduction.value);
+                formData.append("content", content.value);
                 formData.append("id", "<%= article.id %>");
 
                 for (let [key, value] of formData.entries()) {

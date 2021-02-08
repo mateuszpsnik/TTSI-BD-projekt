@@ -4,7 +4,7 @@
     <div class="side-panel-element">Spawdź ten album</div>
     <a href="/music/albums/<%= randomAlbum.id %>">
         <div class="side-panel-element">
-            <img src="<%= randomAlbum.cover %>" alt="Okładka albumu" width="70px">
+            <img src="<%= randomAlbum.cover %>" alt="Okładka albumu" width="70">
         </div>
         <div class="side-panel-element"><%= randomAlbum.title %></div>
     </a>
@@ -14,7 +14,7 @@
     <div class="side-panel-element">Sprawdź ten film</div>
     <a href="/movies/<%= randomMovie.id %>">
         <div class="side-panel-element">
-            <img src="<%= randomMovie.poster %>" alt="Plakat filmu" width="70px">
+            <img src="<%= randomMovie.poster %>" alt="Plakat filmu" width="70">
         </div>
         <div class="side-panel-element"><%= randomMovie.title %></div>
     </a>
@@ -24,14 +24,14 @@
     <div class="side-panel-element">Ostatnio dodane</div>
     <a href="/music/albums/<%= lastAlbum.id %> ">
         <div class="side-panel-element">
-            <span><img src="<%= lastAlbum.cover %> " alt="Okładka albumu" width="20px"></span>
+            <span><img src="<%= lastAlbum.cover %> " alt="Okładka albumu" width="20"></span>
             <span><%= lastAlbum.title %> </span>
         </div>
     </a>
     
     <a href="/movies/<%= lastMovie.id %>">
         <div class="side-panel-element">
-            <span><img src="<%= lastMovie.poster %>" alt="Plakat filmu" width="20px"></span>
+            <span><img src="<%= lastMovie.poster %>" alt="Plakat filmu" width="20"></span>
             <span><%= lastMovie.title %> </span>
         </div>
     </a>

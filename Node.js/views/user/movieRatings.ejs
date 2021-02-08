@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
     <%- include("../partials/head.ejs") %>
     <body>
         <%- include("../partials/topPanel.ejs") %>
@@ -10,7 +10,7 @@
                     <div class="boxes">
                         <a class="article-item" href="/movies/<%= rating.Movie.id %>">
                             <div class="box">
-                                <img src="<%= rating.Movie.poster %>" alt="Plakat filmu" width="150px" height="150px">
+                                <img src="<%= rating.Movie.poster %>" alt="Plakat filmu" width="150" height="150">
                             </div>
                             <div class="box">
                                 <h3 class="title"><%= rating.Movie.title %></h3>

@@ -1,24 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
     <%- include("../partials/head.ejs") %>
     <body>
         <%- include("../partials/adminTopPanel.ejs") %> 
 
-        Nie zapomnij wczytać odpowiedniego obrazka.
-
-        <form id="myForm" name="myForm" enctype="multipart/form-data">
-            <label for="title">Tytuł</label>
-            <input type="text" name="title" id="title" required>
-            <label for="artist">Artysta/zespół</label>
-            <input type="text" name="artist" id="artist" required>
-            <label for="genre">Gatunek</label>
-            <input type="text" name="genre" id="genre" required>
-            <label for="year">Rok wydania</label>
-            <input type="number" name="year" id="year" required>
-            <label for="cover">Okładka</label>
-            <input type="file" accept="image/*" name="cover" id="cover">
-            <input type="submit" value="Wyślij" class="submit">
-        </form>
+        <div id="name">
+            <form id="myForm" name="myForm" enctype="multipart/form-data">
+                <label for="title">Tytuł</label>
+                <input type="text" name="title" id="title" required>
+                <label for="artist">Artysta/zespół</label>
+                <input type="text" name="artist" id="artist" required>
+                <label for="genre">Gatunek</label>
+                <input type="text" name="genre" id="genre" required>
+                <label for="year">Rok wydania</label>
+                <input type="number" name="year" id="year" required>
+                <label for="cover">Okładka</label>
+                <input type="file" accept="image/*" name="cover" id="cover">
+                <input type="submit" value="Wyślij" class="submit">
+            </form>
+        </div>
+        
 
         <script>
             const myForm = document.querySelector("#myForm");

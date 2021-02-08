@@ -8,7 +8,7 @@
             <% if(ratings.length > 0) { %>
                 <% ratings.forEach(rating => { %>
                     <div class="boxes">
-                        <a class="article-item" href="/music/albums/<%= rating.Album.id %>">
+                        <a class="article-item" href="/music/albums/<%= rating.Album.id %>" title="Przejdź do tego albumu">
                             <div class="box">
                                 <img src="<%= rating.Album.cover %>" alt="Okładka albumu" width="150" height="150">
                             </div>

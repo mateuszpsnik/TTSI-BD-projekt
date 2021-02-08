@@ -7,7 +7,9 @@
 <body>
     <%- include("../../partials/topPanel.ejs") %> 
 
+
     <form id="myForm" name="myForm" enctype="multipart/form-data">
+        <legend>Dodaj album</legend>
         <label for="title">Tytuł</label>
         <input type="text" name="title" id="title" required>
         <label for="artist">Artysta/zespół</label>
@@ -20,6 +22,7 @@
         <input type="file" accept="image/*" name="cover" required>
         <input type="submit" value="Wyślij" class="submit">
     </form>
+
 
     <script>
         const myForm = document.querySelector("#myForm");

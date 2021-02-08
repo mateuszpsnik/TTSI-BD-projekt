@@ -8,7 +8,7 @@
             <% if(reviews.length > 0) { %>
                 <% reviews.forEach(review => { %>
                     <div class="boxes">
-                        <a class="article-item" href="/movies/<%= review.Movie.id %>">
+                        <a class="article-item" href="/movies/<%= review.Movie.id %>" title="Przejdź do tego filmu">
                             <div class="box">
                                 <img src="<%= review.Movie.poster %>" alt="Plakat filmu" width="150" height="150">
                             </div>

@@ -25,7 +25,7 @@ rightCloseButton.addEventListener("click", e => {
         }
     }, 1);
 
-    mainContent.style.marginRight = initialPosition - 1300  + "px";
+    mainContent.style.marginRight = 0;
 });
 
 
@@ -43,5 +43,5 @@ rightOpenButton.addEventListener("click", e => {
         }
     }, 1);
 
-    mainContent.style.marginRight = initialPosition - 1300 + "px";
+    mainContent.style.marginRight = initialPosition - 0.87 * initialPosition + "px";
 });

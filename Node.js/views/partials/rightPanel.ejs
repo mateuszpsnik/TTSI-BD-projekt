@@ -1,8 +1,15 @@
 <div class="panel side-panel" id="right-panel">
-    <div class="side-panel-close-button" id="right-close-button">&#8594;</div>
+    <div class="side-panel-close-button" id="right-close-button" title="Zamknij panel">&#8594;</div>
 
-    <div class="side-panel-element">Spawdź ten album</div>
-    <a href="/music/albums/<%= randomAlbum.id %>">
+    <hr>
+
+    <div class="side-panel-element"><a href="/music/albums/add">Dodaj album</a></div>
+    <div class="side-panel-element"><a href="/movies/add">Dodaj film</a></div>
+
+    <hr>
+
+    <div class="side-panel-element">Sprawdź ten album</div>
+    <a href="/music/albums/<%= randomAlbum.id %>" title="Przejdź do tego albumu">
         <div class="side-panel-element">
             <img src="<%= randomAlbum.cover %>" alt="Okładka albumu" width="70">
         </div>
@@ -12,7 +19,7 @@
     <hr>
 
     <div class="side-panel-element">Sprawdź ten film</div>
-    <a href="/movies/<%= randomMovie.id %>">
+    <a href="/movies/<%= randomMovie.id %>" title="Przejdź do tego filmu">
         <div class="side-panel-element">
             <img src="<%= randomMovie.poster %>" alt="Plakat filmu" width="70">
         </div>
@@ -22,23 +29,22 @@
     <hr>
 
     <div class="side-panel-element">Ostatnio dodane</div>
-    <a href="/music/albums/<%= lastAlbum.id %> ">
+    <a href="/music/albums/<%= lastAlbum.id %> " title="Przejdź do tego albumu">
         <div class="side-panel-element">
             <span><img src="<%= lastAlbum.cover %> " alt="Okładka albumu" width="20"></span>
             <span><%= lastAlbum.title %> </span>
         </div>
     </a>
     
-    <a href="/movies/<%= lastMovie.id %>">
+    <a href="/movies/<%= lastMovie.id %>" title="Przejdź do tego filmu">
         <div class="side-panel-element">
             <span><img src="<%= lastMovie.poster %>" alt="Plakat filmu" width="20"></span>
             <span><%= lastMovie.title %> </span>
         </div>
     </a>
 
-    <div class="side-panel-element"><a href="/music/albums/add">Dodaj album</a></div>
-    <div class="side-panel-element"><a href="/movies/add">Dodaj film</a></div>
+    
 </div>
 <div class="panel side-panel-collapsed" id="right-panel-collapsed">
-    <div class='side-panel-open-button' id='right-open-button'>&#8592;</div>
+    <div class='side-panel-open-button' id='right-open-button' title="Otwórz panel">&#8592;</div>
 </div>

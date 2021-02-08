@@ -8,7 +8,7 @@
             <% if(favourites.length > 0) { %>
                 <% favourites.forEach(favourite => { %>
                     <div class="boxes">
-                        <a class="article-item" href="/movies/<%= favourite.Movie.id %>">
+                        <a class="article-item" href="/movies/<%= favourite.Movie.id %>" title="Przejdź do tego filmu">
                             <div class="box">
                                 <img src="<%= favourite.Movie.poster %>" alt="Plakat filmu" width="150" height="150">
                             </div>

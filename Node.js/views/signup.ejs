@@ -8,7 +8,7 @@
     <%- include("./partials/topPanel.ejs") %> 
     
     <form>
-        <h2>Zarejestruj się</h2>
+        <legend>Zarejestruj się</legend>
         <label for="username">Nazwa użytkownika</label>
         <input type="text" name="username" required>
         <div class="username error"></div>
@@ -22,6 +22,7 @@
         <input type="file" accept="image/*" name="image" id="image" required>
         <button>Zarejestruj się</button>
     </form>
+
 
     <script>
         const form = document.querySelector("form");

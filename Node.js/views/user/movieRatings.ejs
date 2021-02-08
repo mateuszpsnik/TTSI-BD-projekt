@@ -8,7 +8,7 @@
             <% if(ratings.length > 0) { %>
                 <% ratings.forEach(rating => { %>
                     <div class="boxes">
-                        <a class="article-item" href="/movies/<%= rating.Movie.id %>">
+                        <a class="article-item" href="/movies/<%= rating.Movie.id %>" title="Przejdź do tego filmu">
                             <div class="box">
                                 <img src="<%= rating.Movie.poster %>" alt="Plakat filmu" width="150" height="150">
                             </div>

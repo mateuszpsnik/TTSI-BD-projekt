@@ -8,7 +8,7 @@
             <% if(favourites.length > 0) { %>
                 <% favourites.forEach(favourite => { %>
                     <div class="boxes">
-                        <a class="article-item" href="/music/albums/<%= favourite.Album.id %>">
+                        <a class="article-item" href="/music/albums/<%= favourite.Album.id %>" title="Przejdź do tego albumu">
                             <div class="box">
                                 <img src="<%= favourite.Album.cover %>" alt="Okładka albumu" width="150" height="150">
                             </div>

@@ -22,7 +22,7 @@ body {
     width: 200px;
     position: fixed;
     display: block;
-    z-index: 10;
+    z-index: 2;
     text-align: center;
 }
 
@@ -134,7 +134,7 @@ label {
     margin: 20px 0 10px;
 }
 
-button {
+button, input.submit {
     margin: 20px;
     margin-left: 0;
     background-color: white;
@@ -146,6 +146,10 @@ button {
 form.article-form {
     width: 1000px;
     text-align: center;
+}
+
+legend {
+    font-size: 20px;
 }
 
 textarea {
@@ -160,15 +164,6 @@ textarea#introduction {
 
 textarea#content {
     height: 300px;
-}
-
-.submit {
-    margin: 20px;
-    margin-left: 0;
-    background-color: white;
-    color: black;
-    border: 0;
-    font-size: 1.5em;
 }
 
 .boxes {
@@ -188,7 +183,7 @@ textarea#content {
 
 .side-panel-close-button {
     cursor: pointer;
-    font-size: 70px;
+    font-size: 40px;
 }
 
 .side-panel-open-button {
@@ -200,6 +195,7 @@ textarea#content {
 .side-panel-element {
     font-size: 17px;
     margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 #user-logged-in-panel {
@@ -226,7 +222,7 @@ textarea#content {
     height: 480px;
     background-color: rgb(20, 20, 20);
     position: relative;
-    z-index: 100;
+    z-index: 200;
     opacity: 0.9;
 }
 
@@ -268,4 +264,8 @@ footer {
     width: 100%;
     background-color: rgb(40, 40, 40);
     text-align: center;
+}
+
+noscript {
+    color: red;
 }

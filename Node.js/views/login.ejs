@@ -8,7 +8,7 @@
     <%- include("./partials/topPanel.ejs") %> 
     
     <form>
-        <h2>Zaloguj się</h2>
+        <legend>Zaloguj się</legend>
         <label for="email">Email</label>
         <input type="text" name="email" required>
         <div class="email error"></div>
@@ -17,6 +17,7 @@
         <div class="password error"></div>
         <button>Zaloguj się</button>
     </form>
+
 
     <script>
         const form = document.querySelector("form");

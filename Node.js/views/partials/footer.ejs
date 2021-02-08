@@ -1,4 +1,13 @@
 <footer>
     Mateusz Pśnik<br>
+    <noscript>Prosimy włączyć JavaScript.</noscript>
     Jeśli strona działa niepoprawnie, prosimy o zainstalowanie najnowszej wersji przeglądarki.
+
+    <script>
+        let body = document.querySelector("body");
+
+        body.onresize = () => {
+            window.location.reload();
+        }
+    </script>
 </footer> 

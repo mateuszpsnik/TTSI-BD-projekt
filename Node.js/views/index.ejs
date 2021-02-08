@@ -7,12 +7,11 @@
 <body>
     <%- include("./partials/topPanel.ejs") %> 
     <%- include("./partials/rightPanel.ejs") %> 
-
     <div id="main">
         <% if(articles.length > 0) { %>
             <% articles.forEach(article => { %>
                 <div class="boxes">
-                    <a class="article-item" href="/articles/<%= article.id %>">
+                    <a class="article-item" href="/articles/<%= article.id %>" title="Przejdź do tego artykułu">
                         <div class="box">
                             <img src="<%= article.image %>" alt="Zdjęcie artykułu" width="150" height="150">
                         </div>
@@ -30,7 +29,7 @@
         <% if (lastAlbumReview) { %> 
             <div class="home-review">
                 <div class="boxes">
-                    <a href="/music/albums/<%= lastAlbumReview.Album.id %>">
+                    <a href="/music/albums/<%= lastAlbumReview.Album.id %>" title="Przejdź do tego albumu">
                         <div class="box"><img src="<%= lastAlbumReview.Album.cover %>" alt="Okładka albumu"></div>
                         <div class="box"><h1 class="title"><%= lastAlbumReview.Album.title %></h1></div>
                     </a>
@@ -44,7 +43,7 @@
         <% if (lastMovieReview) { %>
             <div class="home-review">
                 <div class="boxes">
-                    <a href="/movies/<%= lastMovieReview.Movie.id %>">
+                    <a href="/movies/<%= lastMovieReview.Movie.id %>" title="Przejdź do tego filmu">
                         <div class="box"><img src="<%= lastMovieReview.Movie.poster %>" alt="Plakat filmu"></div>
                         <div class="box"><h1 class="title"><%= lastMovieReview.Movie.title %></h1></div>
                     </a>
@@ -59,9 +58,6 @@
 
     <%- include("./partials/footer.ejs") %> 
     
-    <script>
-        
-    </script>
     <script src="/scripts/sidePanels.js"></script>
 
 </body>
